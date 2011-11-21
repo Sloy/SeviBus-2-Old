@@ -45,7 +45,7 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		mOverlays = mapView.getOverlays();
 
 		mapView.setTraffic(true);
-		mapView.setBuiltInZoomControls(true);
+		mapView.setBuiltInZoomControls(false);
 
 		// Coloca el centro y zoom
 		myMapController.setCenter(new GeoPoint((int)(37.3808828009948 * 1E6), (int)(-5.986958742141724 * 1E6)));
@@ -177,6 +177,12 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
+			case R.id.menu_zoom_in:
+				myMapController.zoomIn();
+				return true;
+			case R.id.menu_zoom_out:
+				myMapController.zoomOut();
+				return true;
 			case R.id.menu_reportar:
 				reportar();
 				return true;
