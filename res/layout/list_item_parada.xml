@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:padding="10dip"
+>
+
+	<TextView
+		android:id="@+id/item_parada_numero_staticText"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textSize="19dip"
+		android:text="Parada nº"
+		android:textColor="#990000" />
+	<TextView
+		android:id="@+id/item_parada_numero"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/item_parada_numero_staticText"
+		android:layout_marginLeft="6dip"
+		android:textSize="19sp"
+		android:text="###"
+		android:textColor="#990000"
+		android:textStyle="bold" />
+
+	<TextView
+		android:id="@+id/item_parada_nombre"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/item_parada_numero_staticText"
+		android:textSize="16sp"
+		android:text="Av. Cruz Roja"
+		android:layout_marginTop="5dip" />
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentTop="true"
+		android:src="@drawable/ic_dialog_map"
+		android:layout_height="wrap_content"
+		android:id="@+id/item_parada_mapa"
+		android:visibility="invisible" />
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:gravity="right"
+		android:visibility="gone"
+	>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Líneas: "
+			android:textSize="15dip"
+			android:textColor="#666" />
+		<TextView
+			android:id="@+id/item_parada_lineas"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="01, 02, 03"
+			android:textSize="15dip"
+			android:textColor="#666" />
+	</LinearLayout>
+</RelativeLayout>

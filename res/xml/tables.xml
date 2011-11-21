@@ -1,0 +1,27 @@
+<database name="sevibus.db" version="1">
+	<table name="paradas" to-string="%numero%: %nombre%">
+		<field name="numero" type="integer" obligatory="true"/>
+		<field name="nombre" type="text" obligatory="true"/>
+		<field name="direccion" type="text" obligatory="false"/>
+		<field name="latitud" type="double" obligatory="false"/>
+		<field name="longitud" type="double" obligatory="false"/>
+	</table>
+	
+	<table name="lineas" to-string="%nombre%">
+		<field name="nombre" type="text" obligatory="true"/>
+		<field name="trayecto" type="text" obligatory="true"/>
+		<field name="color" type="integer" obligatory="false"/>
+		<field name="circular" type="integer" obligatory="false"/>
+	</table>
+	
+	<table name="relaciones" to-string="%parada_id%:%linea_id%" >
+		<field name="parada_id" type="foreign-key" foreign-table="paradas" obgligatory="true"/>
+		<field name="linea_id" type="foreign-key" foreign-table="lineas" obgligatory="true"/>
+	</table>
+	
+	<table name="favoritas" >
+		<field name="parada_id" type="foreign-key" foreign-table="paradas" obligatory="true"/>
+		<field name="descripcion" type="text" obligatory="false"/>
+	</table>
+
+</database>

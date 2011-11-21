@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.SeviBus" parent="@style/Theme.Sherlock.Light">
+        <item name="abBackground">@drawable/ab_solid_light_holo</item>
+        <item name="android:windowBackground">@drawable/background_noise</item>
+        <item name="abLogo">@drawable/ic_action_ic_ab_home</item>
+        <item name="abIcon">@drawable/logo</item>
+    </style>
+
+    <style name="paradaListView">
+        <item name="android:listSelector">@drawable/item_parada_selector</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:dividerHeight">2px</item>
+        <item name="android:divider">@drawable/divider_horizontal</item>
+        <item name="android:cacheColorHint">#00000000</item>
+        <item name="android:smoothScrollbar">false</item>
+    </style>
+
+</resources>
