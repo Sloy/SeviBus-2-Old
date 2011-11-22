@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="novedades">Pues mucho. Ésta es la versión 2.0, construída totalmente desde cero.
+<string name="novedades1">Pues mucho. Ésta es la versión 2.0, construída totalmente desde cero.
 \n
 \nLa principal novedad es el obvio rediseño de la interfaz, más al estilo Android y espero que fácil de usar. 
 \nTambién el almacenamiento de información en local, agilizando mucho cualquier acción y reduciendo el consumo de datos y batería.
@@ -15,6 +15,18 @@
 \nMi intención era sacar la nueva versión con muchas más novedades, pero por falta de tiempo he decidido sacarla así sustituyendo la antigua e ir actualizando poco a poco. Ya están en mi lista algunas mejoras como paradas cercanas, o un buscador de paradas.
 \n
 \nEsta versión no trae publicidad, pero debo avisar que en las próximas actualiazciones la pondré. Lo he hecho así para que tengáis la nueva versión cuanto antes, pero yo sigo siendo un estudiante sin trabajo que le ha echado muchas horas a esto, y que ya que ofrezco la aplicación gratuita espero que comprendáis que quiera intentar sacar algo, aunque poco.
+    </string>
+    
+    <string name="novedades2">
+He recibido mogollón de comentarios con esta nueva versión, veo que los botones de enviar reportes han tenido éxito. Comento las novedades por encima, aún hay más cosas en camino, pero actualizo ya y váis aprovechando.
+
+\n\n- He corregido la ordenación de las líneas, ahora aparecen en orden natural.
+\n\n- He puesto la opción de editar y eliminar favoritos. Simplemente dejando pulsado sobre el elemento de la lista despliega el menú. Y permite asignar el nombre por defecto.
+\n\n- He colocado los botones de Zoom del mapa en el Action Bar. Personalmente me resultan muy incómodos en el propio mapa.
+\n\n- He vuelto a poner una opción para ver los 2 próximos buses en llegar. Se mira pulsando sobre la línea de la lista que queramos ver en la pantalla de parada.
+\n\n- He activado una animación sobre el botón de refrescar los tiempos en la parada, por si el indicador de carga del ActionBar no queda suficientemente claro.
+\n
+\n Tengo que arreglar aún algunas cosas, sobre todo las líneas que me habéis comentado que están mal. Comprended que tengo poco tiempo y es un trabajo pesado ya que Tussam no facilita la tarea, hago lo que puedo.
     </string>
     
 </resources>

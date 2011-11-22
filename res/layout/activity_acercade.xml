@@ -15,15 +15,31 @@
             android:orientation="vertical"
             android:padding="10dip" >
 
-            <TextView
-                android:id="@+id/TextView02"
+            <LinearLayout
+                android:id="@+id/textversion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:text="Versión 2.0"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#990000"
-                android:textSize="19sp" />
+                android:layout_marginLeft="10dip" >
+
+                <TextView
+                    android:id="@+id/TextView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dip"
+                    android:text="Versión"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#990000"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/TextView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_version"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#990000"
+                    android:textSize="19sp" />
+            </LinearLayout>
 
             <View
                 android:id="@+id/View01"
@@ -37,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
                 android:gravity="right"
-                android:text="21 de noviembre de 2011"
+                android:text="@string/app_date"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
@@ -69,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
-                android:text="@string/novedades"
+                android:text="@string/novedades2"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
@@ -103,6 +119,30 @@
                 android:layout_marginLeft="20dip"
                 android:text="@string/aviso"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <View
+                android:id="@+id/View03"
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:layout_marginBottom="10dip"
+                android:background="#8d545c" />
+
+            <TextView
+                android:id="@+id/TextView05"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:text="@string/dedicatoria"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </LinearLayout>
 
