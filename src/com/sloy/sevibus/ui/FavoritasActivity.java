@@ -20,8 +20,6 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
-import com.sloy.sevibus.utils.Datos;
-import com.sloy.sevibus.utils.Datos.OnDialogListener;
 
 import java.util.List;
 
@@ -29,7 +27,6 @@ public class FavoritasActivity extends FragmentActivity {
 
 	private ListView mList;
 	private FavoritasAdapter mAdapter;
-	private boolean editMode = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,24 +37,17 @@ public class FavoritasActivity extends FragmentActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				if(!editMode){
-					Intent i = new Intent(FavoritasActivity.this, ParadaInfoActivity.class);
-					i.putExtra("parada", mAdapter.getItem(pos).getId());
-					startActivity(i);
-				}else{
-					OnDialogListener listener = new OnDialogListener() {
-						@Override
-						public void onDialog() {
-							recargarLista();
-						}
-					};
-					Datos.createAlertDialog(FavoritasActivity.this, mAdapter.getItem(pos), listener).show();
-				}
+				Intent i = new Intent(FavoritasActivity.this, ParadaInfoActivity.class);
+				i.putExtra("parada", mAdapter.getItem(pos).getId());
+				startActivity(i);
+
 			}
 		});
+		registerForContextMenu(mList);
 		recargarLista();
 
 	}
+	
 
 	private void recargarLista() {
 		DataFramework db = null;
@@ -151,9 +141,6 @@ public class FavoritasActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
-			case R.id.menu_editar:
-				setEditMode(!editMode);
-				return true;
 			case R.id.menu_reportar:
 				reportar();
 				return true;
@@ -172,10 +159,6 @@ public class FavoritasActivity extends FragmentActivity {
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_favoritas));
 		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
-	}
-
-	private void setEditMode(boolean flag) {
-		editMode = flag;
 	}
 
 }
