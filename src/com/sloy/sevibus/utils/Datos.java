@@ -96,7 +96,34 @@ public class Datos {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						dialog.dismiss();
 					}
-				}).create();
+				}).setNeutralButton("Por defecto", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						DataFramework db = null;
+						try{
+							db = DataFramework.getInstance();
+							db.open(context, context.getPackageName());
+							Entity f = db.getTopEntity("favoritas", "parada_id=" + parada.getId(), null);
+							if(f == null){
+								f = new Entity("favoritas");
+								f.setValue("parada_id", parada.getId());
+							}
+							f.setValue("descripcion", "");
+							f.save();
+							if(listener!=null){
+								listener.onDialog();
+							}else{
+								Toast.makeText(context, "Guardada", Toast.LENGTH_SHORT).show();
+							}
+						}catch(Exception e){
+							Log.e("sevibus", e.toString(), e);
+							Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+						}finally{
+							db.close();
+						}
+					}
+				})
+				.create();
 	}
 	
 	public interface OnDialogListener{
