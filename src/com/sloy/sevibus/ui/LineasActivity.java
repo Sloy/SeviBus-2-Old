@@ -46,7 +46,7 @@ public class LineasActivity extends FragmentActivity {
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
-			mAdapter = new LineasAdapter(this, db.getEntityList("lineas"));
+			mAdapter = new LineasAdapter(this, db.getEntityList("lineas",null,"nombre"));
 		}catch(Exception e){
 			Log.e("sevibus",e.toString(),e);
 		}finally{

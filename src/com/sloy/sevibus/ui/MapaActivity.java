@@ -60,7 +60,7 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
-			mLineas = db.getEntityList("lineas");
+			mLineas = db.getEntityList("lineas",null,"nombre");
 			//parada unica
 			long unicaId = getIntent().getLongExtra("parada", 0);
 			mParadaUnica = db.getTopEntity("paradas", "_id="+unicaId, null);
