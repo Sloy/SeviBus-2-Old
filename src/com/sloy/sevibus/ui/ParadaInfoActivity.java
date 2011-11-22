@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -44,6 +46,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private View mContainerDireccion;
 	private boolean isFavorita;
 
+	private Animation mAnimBlink;
 	private TiemposLoader mLoader;
 
 	@Override
@@ -54,6 +57,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_parada);
 
+		mAnimBlink = AnimationUtils.loadAnimation(this, R.anim.blink);
 		mTxtNumero = (TextView)findViewById(R.id.parada_nombre_numero);
 		mTxtNombre = (TextView)findViewById(R.id.parada_nombre_nombre);
 		mTxtDireccion = (TextView)findViewById(R.id.parada_direccion_direccion);
@@ -68,8 +72,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 				Integer[][] t = mTiempos.get(pos);
 				String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
 						getTextoDisplay(t[1][0], t[1][1]));
-				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea "+mLineas.get(pos)).setMessage(display).setNeutralButton("Cerrar", null)
-						.create().show();
+				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + mLineas.get(pos)).setMessage(display)
+						.setNeutralButton("Cerrar", null).create().show();
 			}
 		});
 
@@ -239,12 +243,15 @@ public class ParadaInfoActivity extends FragmentActivity {
 		protected void onPostExecute(List<String> result) {
 			mAdapter.setTiempos(result);
 			setProgressBarIndeterminateVisibility(Boolean.FALSE);
+			mAnimBlink.cancel();
+			mAnimBlink.reset();
 			super.onPostExecute(result);
 		}
 
 		@Override
 		protected void onPreExecute() {
 			setProgressBarIndeterminateVisibility(Boolean.TRUE);
+			mBtActualizar.startAnimation(mAnimBlink);
 			super.onPreExecute();
 		}
 
