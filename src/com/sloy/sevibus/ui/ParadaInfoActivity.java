@@ -1,9 +1,6 @@
 package com.sloy.sevibus.ui;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,13 +9,11 @@ import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
 import android.support.v4.view.Window;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +23,7 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.Utils;
 
 import java.util.List;
@@ -199,7 +195,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 			case R.id.menu_parada_fav:
-				createAlertDialog().show();
+				Datos.createAlertDialog(this,mEntity,null).show();
 				return true;
 			case R.id.menu_reportar:
 				reportar();
@@ -212,42 +208,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}
 	}
 
-	private AlertDialog createAlertDialog() {
-		LayoutInflater factory = LayoutInflater.from(this);
-		final View textEntryView = factory.inflate(R.layout.alert_dialog_text_entry, null);
-
-		AlertDialog.Builder constructor = new AlertDialog.Builder(this);
-
-		return constructor
-		// .setIcon(R.drawable.alert_dialog_icon)
-				.setTitle("Guardar favorito").setView(textEntryView).setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int whichButton) {
-						DataFramework db = null;
-						try{
-							db = DataFramework.getInstance();
-							db.open(ParadaInfoActivity.this, getPackageName());
-							Entity f = new Entity("favoritas");
-							f.setValue("parada_id", mEntity.getId());
-							Dialog curDialog = (Dialog)dialog;
-							String nombre = ((EditText)curDialog.findViewById(R.id.txtNombreFavorito)).getText().toString();
-							f.setValue("descripcion", nombre);
-							f.save();
-							Toast.makeText(ParadaInfoActivity.this, "Guardada", Toast.LENGTH_SHORT).show();
-						}catch(Exception e){
-							Log.e("sevibus", e.toString(), e);
-							Toast.makeText(ParadaInfoActivity.this, "Error", Toast.LENGTH_SHORT).show();
-						}finally{
-							db.close();
-						}
-					}
-				}).setNegativeButton("Descartar", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int whichButton) {
-						dialog.dismiss();
-					}
-				}).create();
-	}
+	
 
 	private class TiemposLoader extends AsyncTask<Void, Void, List<String>> {
 
