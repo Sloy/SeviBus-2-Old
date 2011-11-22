@@ -9,6 +9,7 @@ import android.support.v4.view.MenuItem;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -20,6 +21,10 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
+
+import quickactions.ActionItem;
+import quickactions.QuickAction;
 
 import java.util.List;
 
@@ -41,6 +46,44 @@ public class FavoritasActivity extends FragmentActivity {
 				i.putExtra("parada", mAdapter.getItem(pos).getId());
 				startActivity(i);
 
+			}
+		});
+		mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View v, final int pos, long arg3) {
+				final QuickAction qa = new QuickAction(v);
+				qa.addActionItem(new ActionItem().setTitle("Cambiar nombre").setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						qa.dismiss();
+						Datos.createAlertDialog(FavoritasActivity.this, mAdapter.getItem(pos), new Datos.OnDialogListener() {
+							@Override
+							public void onDialog() {
+								recargarLista();
+							}
+						}).show();
+					}
+				}));
+				qa.addActionItem(new ActionItem().setTitle("Eliminar").setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						qa.dismiss();
+						DataFramework db = null;
+						try{
+							db = DataFramework.getInstance();
+							db.open(FavoritasActivity.this, getPackageName());
+							db.getTopEntity("favoritas", "parada_id="+mAdapter.getItemId(pos), null).delete();
+						}catch(Exception e){
+							Log.e("sevibus","Error al eliminar la favorita", e);
+						}finally{
+							db.close();
+						}
+						recargarLista();
+					}
+				}));
+				qa.show();
+				return true;
 			}
 		});
 		registerForContextMenu(mList);
