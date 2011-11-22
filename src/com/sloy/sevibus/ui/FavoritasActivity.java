@@ -20,6 +20,8 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
+import com.sloy.sevibus.utils.Datos.OnDialogListener;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class FavoritasActivity extends FragmentActivity {
 
 	private ListView mList;
 	private FavoritasAdapter mAdapter;
+	private boolean editMode = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,26 @@ public class FavoritasActivity extends FragmentActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Intent i = new Intent(FavoritasActivity.this, ParadaInfoActivity.class);
-				i.putExtra("parada", mAdapter.getItem(pos).getId());
-				startActivity(i);
+				if(!editMode){
+					Intent i = new Intent(FavoritasActivity.this, ParadaInfoActivity.class);
+					i.putExtra("parada", mAdapter.getItem(pos).getId());
+					startActivity(i);
+				}else{
+					OnDialogListener listener = new OnDialogListener() {
+						@Override
+						public void onDialog() {
+							recargarLista();
+						}
+					};
+					Datos.createAlertDialog(FavoritasActivity.this, mAdapter.getItem(pos), listener).show();
+				}
 			}
 		});
+		recargarLista();
+
+	}
+
+	private void recargarLista() {
 		DataFramework db = null;
 		try{
 			db = DataFramework.getInstance();
@@ -57,7 +75,7 @@ public class FavoritasActivity extends FragmentActivity {
 				paradas.add(parada);
 				descs.add(e.getString("descripcion"));
 			}
-			mAdapter = new FavoritasAdapter(this, paradas,descs);
+			mAdapter = new FavoritasAdapter(this, paradas, descs);
 		}catch(Exception e){
 			Log.e("sevibus", e.toString(), e);
 		}finally{
@@ -70,7 +88,7 @@ public class FavoritasActivity extends FragmentActivity {
 	}
 
 	private class FavoritasAdapter extends BaseAdapter {
-		
+
 		List<Entity> mItems;
 		List<String> mDescripciones;
 		private Context mContext;
@@ -110,10 +128,10 @@ public class FavoritasActivity extends FragmentActivity {
 			if(!desc.equals("")){
 				TextView estatico = (TextView)convertView.findViewById(R.id.item_parada_numero_staticText);
 				estatico.setText(desc);
-				numero.setText("("+item.getString("numero")+")");
+				numero.setText("(" + item.getString("numero") + ")");
 			}else{
 				numero.setText(item.getString("numero"));
-				
+
 			}
 			nombre.setText(item.getString("nombre"));
 			if(item.getDouble("latitud") != 0.0 && item.getDouble("longitud") != 0.0){
@@ -133,6 +151,9 @@ public class FavoritasActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
+			case R.id.menu_editar:
+				setEditMode(!editMode);
+				return true;
 			case R.id.menu_reportar:
 				reportar();
 				return true;
@@ -143,14 +164,18 @@ public class FavoritasActivity extends FragmentActivity {
 				return false;
 		}
 	}
-	
-	private void reportar(){
+
+	private void reportar() {
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_favoritas));
 		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
+	}
+
+	private void setEditMode(boolean flag) {
+		editMode = flag;
 	}
 
 }
