@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="novedades">Pues mucho. Ésta es la versión 2.0, construída totalmente desde cero.
+\n
+\nLa principal novedad es el obvio rediseño de la interfaz, más al estilo Android y espero que fácil de usar. 
+\nTambién el almacenamiento de información en local, agilizando mucho cualquier acción y reduciendo el consumo de datos y batería.
+\n
+\nHe incluído un botón en el Action Bar de cada pantalla. Podéis usarlo para enviar un reporte de error, comentario o sugerenci relativo a esa pantalla concreta. Lo hago así para dejar claro que vuestra participación es muy importante. No os cortéis, de verdad.
+\n
+\nHe tenido en cuenta algunas de las sugerencias que me habéis estado mandando todo este tiempo, como las mejoras en el mapa o en los tiempos de llegada de una parada. Aún quedan muchas cosas por hacer, y me volveré a leer todos los mails para asegurarme de que no me dejo nada. 
+\nSobre la exactitud de los datos, debo decir que no los he revisado. Están sacados de Tubus.es (muchas gracias) y seguramente haya información antigua o no válida. Espero corregir esto con vuestra ayuda, ya que no uso tanto el bus como antes, y poder tener la aplicación lo más actualizada y correcta posible.
+\n
+\nSeguid enviando vuestros comentarios y sugerencias sobre cualquier cosa (funcionamiento, interfaz, opciones...), los tengo en cuenta todos y aprecio mucho el interés.
+\n
+\nMi intención era sacar la nueva versión con muchas más novedades, pero por falta de tiempo he decidido sacarla así sustituyendo la antigua e ir actualizando poco a poco. Ya están en mi lista algunas mejoras como paradas cercanas, o un buscador de paradas.
+\n
+\nEsta versión no trae publicidad, pero debo avisar que en las próximas actualiazciones la pondré. Lo he hecho así para que tengáis la nueva versión cuanto antes, pero yo sigo siendo un estudiante sin trabajo que le ha echado muchas horas a esto, y que ya que ofrezco la aplicación gratuita espero que comprendáis que quiera intentar sacar algo, aunque poco.
+    </string>
+    
+</resources>
