@@ -1,5 +1,6 @@
 package com.sloy.sevibus.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,6 +34,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 
 	private Entity mEntity;
 	private List<String> mLineas;
+	private List<Integer[][]> mTiempos;
 	private LlegadasAdapter mAdapter;
 
 	private ListView mList;
@@ -51,8 +54,6 @@ public class ParadaInfoActivity extends FragmentActivity {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_parada);
 
-		
-
 		mTxtNumero = (TextView)findViewById(R.id.parada_nombre_numero);
 		mTxtNombre = (TextView)findViewById(R.id.parada_nombre_nombre);
 		mTxtDireccion = (TextView)findViewById(R.id.parada_direccion_direccion);
@@ -60,16 +61,27 @@ public class ParadaInfoActivity extends FragmentActivity {
 		mContainerDireccion = findViewById(R.id.parada_seccion_direccion);
 		mList = (ListView)findViewById(android.R.id.list);
 		mBtActualizar = (ImageButton)findViewById(R.id.parada_llegadas_actualizar);
-		
+
+		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+				Integer[][] t = mTiempos.get(pos);
+				String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
+						getTextoDisplay(t[1][0], t[1][1]));
+				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea "+mLineas.get(pos)).setMessage(display).setNeutralButton("Cerrar", null)
+						.create().show();
+			}
+		});
+
 		mBtMapa.setOnClickListener(new View.OnClickListener() {
-			@Override 
+			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(ParadaInfoActivity.this, MapaActivity.class);
 				i.putExtra("parada", mEntity.getId());
 				startActivity(i);
 			}
 		});
-		
+
 		mBtActualizar.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -94,14 +106,14 @@ public class ParadaInfoActivity extends FragmentActivity {
 			mEntity = db.getTopEntity("paradas", "_id = " + parada, null);
 			// saca la lista de líneas que pasan por esta parada
 			List<Entity> rel = db.getEntityList("relaciones", "parada_id=" + parada);
-//			List<Entity> lineas = Lists.newArrayList();
+			// List<Entity> lineas = Lists.newArrayList();
 			mLineas = Lists.newArrayList();
 			for(Entity e : rel){
 				Entity l = db.getTopEntity("lineas", "_id=" + e.getString("linea_id"), null);
-//				lineas.add(l);
+				// lineas.add(l);
 				mLineas.add(l.getString("nombre"));
 			}
-			mAdapter = new LlegadasAdapter(this, mLineas,null);
+			mAdapter = new LlegadasAdapter(this, mLineas, null);
 		}catch(Exception e){
 			Log.e("sevibus", e.toString(), e);
 		}finally{
@@ -124,12 +136,12 @@ public class ParadaInfoActivity extends FragmentActivity {
 
 		// pone los tiempos de llegada
 		mList.setAdapter(mAdapter);
-		
+
 		refresh();
 
 	}
 
-	//TODO esto es una mierda que hay que cambiar por completo
+	// TODO esto es una mierda que hay que cambiar por completo
 	private class LlegadasAdapter extends BaseAdapter {
 
 		Context mContext;
@@ -141,8 +153,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 			mTiempos = tiempos;
 			mContext = context;
 		}
-		
-		public void setTiempos(List<String> tiempos){
+
+		public void setTiempos(List<String> tiempos) {
 			mTiempos = tiempos;
 			this.notifyDataSetChanged();
 		}
@@ -159,21 +171,21 @@ public class ParadaInfoActivity extends FragmentActivity {
 
 		@Override
 		public long getItemId(int position) {
-//			return getItem(position).getId();
+			// return getItem(position).getId();
 			return position;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-//			Entity item = getItem(position);
+			// Entity item = getItem(position);
 			if(convertView == null){
 				convertView = View.inflate(mContext, R.layout.item_list_llegada, null);
 			}
 			TextView linea = (TextView)convertView.findViewById(R.id.item_llegada_linea);
 			TextView text = (TextView)convertView.findViewById(R.id.item_llegada_texto);
-//			linea.setText(item.getString("nombre"));
+			// linea.setText(item.getString("nombre"));
 			linea.setText(getItem(position));
-			if(mTiempos==null){
+			if(mTiempos == null){
 				text.setText("Cargando...");
 			}else{
 				text.setText(mTiempos.get(position));
@@ -195,7 +207,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 			case R.id.menu_parada_fav:
-				Datos.createAlertDialog(this,mEntity,null).show();
+				Datos.createAlertDialog(this, mEntity, null).show();
 				return true;
 			case R.id.menu_reportar:
 				reportar();
@@ -208,25 +220,17 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}
 	}
 
-	
-
 	private class TiemposLoader extends AsyncTask<Void, Void, List<String>> {
 
 		@Override
 		protected List<String> doInBackground(Void... params) {
-			int parada = mEntity.getInt("numero");
 			List<String> tiempos = Lists.newArrayList();
+			mTiempos = Lists.newArrayList();
+			int parada = mEntity.getInt("numero");
 			for(String lin : mLineas){
 				Integer[][] tiempo = Utils.getTiempos(lin, parada);
-				String texto = null;
-				if(tiempo[0][0] > 0){
-					texto = tiempo[0][0] + " minutos (" + tiempo[0][1] + " metros)";
-				}else if(tiempo[0][0] == 0){
-					texto = "Llegada inminente";
-				}else{
-					texto = "Sin estimaciones";
-				}
-				tiempos.add(texto);
+				mTiempos.add(tiempo);
+				tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
 			}
 			return tiempos;
 		}
@@ -245,17 +249,30 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}
 
 	}
-	private void reportar(){
+
+	private void reportar() {
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, String.format(getString(R.string.email_text_parada),mEntity.getString("numero")));
+		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, String.format(getString(R.string.email_text_parada), mEntity.getString("numero")));
 		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
-	
-	public void refresh(){
-		if(mLoader!=null){
+
+	private String getTextoDisplay(int tiempo, int distancia) {
+		String texto = null;
+		if(tiempo > 0){
+			texto = tiempo + " minutos (" + distancia + " metros)";
+		}else if(tiempo == 0){
+			texto = "Llegada inminente";
+		}else{
+			texto = "Sin estimaciones";
+		}
+		return texto;
+	}
+
+	public void refresh() {
+		if(mLoader != null){
 			mLoader.cancel(true);
 		}
 		mLoader = new TiemposLoader();
