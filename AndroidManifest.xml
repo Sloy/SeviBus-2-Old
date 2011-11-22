@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="preferExternal"
     package="com.sloy.sevibus"
-    android:versionCode="11"
+    android:versionCode="12"
     android:versionName="@string/app_version" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="4"
         android:targetSdkVersion="13" />
 
     <uses-permission android:name="android.permission.INTERNET" />
