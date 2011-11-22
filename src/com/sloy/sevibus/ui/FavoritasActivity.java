@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -32,11 +34,13 @@ public class FavoritasActivity extends FragmentActivity {
 
 	private ListView mList;
 	private FavoritasAdapter mAdapter;
+	private Animation mAnimShake;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_activity);
+		mAnimShake = AnimationUtils.loadAnimation(this, R.anim.shake); 
 
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,12 +58,13 @@ public class FavoritasActivity extends FragmentActivity {
 				final QuickAction qa = new QuickAction(v);
 				qa.addActionItem(new ActionItem().setTitle("Cambiar nombre").setOnClickListener(new OnClickListener() {
 					@Override
-					public void onClick(View v) {
+					public void onClick(final View v) {
 						qa.dismiss();
 						Datos.createAlertDialog(FavoritasActivity.this, mAdapter.getItem(pos), new Datos.OnDialogListener() {
 							@Override
 							public void onDialog() {
 								recargarLista();
+								shake(mList);
 							}
 						}).show();
 					}
@@ -80,6 +85,7 @@ public class FavoritasActivity extends FragmentActivity {
 							db.close();
 						}
 						recargarLista();
+						shake(mList);
 					}
 				}));
 				qa.show();
@@ -150,7 +156,7 @@ public class FavoritasActivity extends FragmentActivity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			Entity item = getItem(position);
-			if(convertView == null){
+			if(true || convertView == null){
 				convertView = View.inflate(mContext, R.layout.list_item_parada, null);
 			}
 			TextView numero = (TextView)convertView.findViewById(R.id.item_parada_numero);
@@ -164,7 +170,6 @@ public class FavoritasActivity extends FragmentActivity {
 				numero.setText("(" + item.getString("numero") + ")");
 			}else{
 				numero.setText(item.getString("numero"));
-
 			}
 			nombre.setText(item.getString("nombre"));
 			if(item.getDouble("latitud") != 0.0 && item.getDouble("longitud") != 0.0){
@@ -202,6 +207,10 @@ public class FavoritasActivity extends FragmentActivity {
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_favoritas));
 		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
+	}
+	
+	private void shake(View v){
+		v.startAnimation(mAnimShake);
 	}
 
 }
