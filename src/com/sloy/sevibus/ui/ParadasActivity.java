@@ -36,7 +36,7 @@ public class ParadasActivity extends FragmentActivity {
 		setContentView(R.layout.list_activity);
 		
 		// coge la línea que se le ha pasado
-		long linea = getIntent().getLongExtra("linea", 0);
+		final long linea = getIntent().getLongExtra("linea", 0);
 		mLinea = getIntent().getStringExtra("nombre");
 		if(linea==0){
 			//TODO comprobar otra cosa?
@@ -52,6 +52,7 @@ public class ParadasActivity extends FragmentActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 				Intent i = new Intent(ParadasActivity.this, ParadaInfoActivity.class);
 				i.putExtra("parada", mAdapter.getItem(pos).getId());
+				i.putExtra("linea", linea);
 				startActivity(i);
 			}
 		});
