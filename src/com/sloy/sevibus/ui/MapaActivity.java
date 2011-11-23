@@ -119,7 +119,7 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
-			mLineas = db.getEntityList("lineas");
+//			mLineas = db.getEntityList("lineas");
 			List<Entity> rel = db.getEntityList("relaciones", "linea_id=" + linea);
 			for(Entity e : rel){
 				Entity parada = db.getTopEntity("paradas", "_id=" + e.getInt("parada_id"), null);
