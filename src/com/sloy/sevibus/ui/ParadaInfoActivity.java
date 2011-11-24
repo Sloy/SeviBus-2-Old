@@ -38,7 +38,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private List<String> mLineas;
 	private List<Integer[][]> mTiempos;
 	private LlegadasAdapter mAdapter;
-	private Entity mLineaProcedente; 
+	private Entity mLineaProcedente;
 
 	private ListView mList;
 	private TextView mTxtNombre, mTxtNumero, mTxtDireccion;
@@ -70,10 +70,16 @@ public class ParadaInfoActivity extends FragmentActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+				String lin = null;
+				if(mLineaProcedente==null){
+					lin = mLineas.get(pos);
+				}else{
+					lin = mLineaProcedente.getString("nombre");
+				}
 				Integer[][] t = mTiempos.get(pos);
 				String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
 						getTextoDisplay(t[1][0], t[1][1]));
-				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + mLineas.get(pos)).setMessage(display)
+				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + lin).setMessage(display)
 						.setNeutralButton("Cerrar", null).create().show();
 			}
 		});
@@ -100,7 +106,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			Toast.makeText(this, "No se pasó ninguna parada", Toast.LENGTH_SHORT).show();
 			finish();
 		}
-		long linea = getIntent().getLongExtra("linea",0);
+		long linea = getIntent().getLongExtra("linea", 0);
 
 		DataFramework db = null;
 		try{
@@ -111,7 +117,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			// Saca la entity de la base de datos
 			mEntity = db.getTopEntity("paradas", "_id = " + parada, null);
 			// Saca la línea, si se le ha pasado
-			mLineaProcedente = db.getTopEntity("lineas", "_id="+linea, null);
+			mLineaProcedente = db.getTopEntity("lineas", "_id=" + linea, null);
 			// saca la lista de líneas que pasan por esta parada
 			List<Entity> rel = db.getEntityList("relaciones", "parada_id=" + parada);
 			// List<Entity> lineas = Lists.newArrayList();
@@ -121,7 +127,6 @@ public class ParadaInfoActivity extends FragmentActivity {
 				// lineas.add(l);
 				mLineas.add(l.getString("nombre"));
 			}
-			mAdapter = new LlegadasAdapter(this, mLineas, null);
 		}catch(Exception e){
 			Log.e("sevibus", e.toString(), e);
 		}finally{
@@ -143,7 +148,12 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}
 
 		// pone los tiempos de llegada
-		mList.setAdapter(mAdapter);
+		if(mLineaProcedente == null){
+			mAdapter = new LlegadasAdapter(this, mLineas, null);
+		}else{
+			mAdapter = new LlegadasAdapter(this, mLineaProcedente.getString("nombre"), null);
+		}
+		mList.setAdapter(mAdapter); // cargando, provisional
 
 		refresh();
 
@@ -159,6 +169,18 @@ public class ParadaInfoActivity extends FragmentActivity {
 		public LlegadasAdapter(Context context, List<String> lineas, List<String> tiempos) {
 			mItems = lineas;
 			mTiempos = tiempos;
+			mContext = context;
+		}
+
+		public LlegadasAdapter(Context context, String linea, String tiempo) {
+			mItems = Lists.newArrayList();
+			mItems.add(linea);
+			if(tiempo == null){
+				mTiempos = null;
+			}else{
+				mTiempos = Lists.newArrayList();
+				mTiempos.add(tiempo);
+			}
 			mContext = context;
 		}
 
@@ -235,8 +257,14 @@ public class ParadaInfoActivity extends FragmentActivity {
 			List<String> tiempos = Lists.newArrayList();
 			mTiempos = Lists.newArrayList();
 			int parada = mEntity.getInt("numero");
-			for(String lin : mLineas){
-				Integer[][] tiempo = Utils.getTiempos(lin, parada);
+			if(mLineaProcedente == null){
+				for(String lin : mLineas){
+					Integer[][] tiempo = Utils.getTiempos(lin, parada);
+					mTiempos.add(tiempo);
+					tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
+				}
+			}else{
+				Integer[][] tiempo = Utils.getTiempos(mLineaProcedente.getString("nombre"), parada);
 				mTiempos.add(tiempo);
 				tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
 			}
