@@ -38,6 +38,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private List<String> mLineas;
 	private List<Integer[][]> mTiempos;
 	private LlegadasAdapter mAdapter;
+	private Entity mLineaProcedente; 
 
 	private ListView mList;
 	private TextView mTxtNombre, mTxtNumero, mTxtDireccion;
@@ -99,6 +100,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			Toast.makeText(this, "No se pasó ninguna parada", Toast.LENGTH_SHORT).show();
 			finish();
 		}
+		long linea = getIntent().getLongExtra("linea",0);
 
 		DataFramework db = null;
 		try{
@@ -108,6 +110,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 			isFavorita = db.getEntityListCount("favoritas", "parada_id=" + parada) > 0;
 			// Saca la entity de la base de datos
 			mEntity = db.getTopEntity("paradas", "_id = " + parada, null);
+			// Saca la línea, si se le ha pasado
+			mLineaProcedente = db.getTopEntity("lineas", "_id="+linea, null);
 			// saca la lista de líneas que pasan por esta parada
 			List<Entity> rel = db.getEntityList("relaciones", "parada_id=" + parada);
 			// List<Entity> lineas = Lists.newArrayList();
