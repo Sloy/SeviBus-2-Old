@@ -43,9 +43,10 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private ListView mList;
 	private TextView mTxtNombre, mTxtNumero, mTxtDireccion;
 	private Button mBtMapa;
-	private ImageButton mBtActualizar;
+	private ImageButton mBtActualizar,mBtMostrarTodas;
 	private View mContainerDireccion;
 	private boolean isFavorita;
+	private boolean mostrarTodas = false;
 
 	private Animation mAnimBlink;
 	private TiemposLoader mLoader;
@@ -66,12 +67,21 @@ public class ParadaInfoActivity extends FragmentActivity {
 		mContainerDireccion = findViewById(R.id.parada_seccion_direccion);
 		mList = (ListView)findViewById(android.R.id.list);
 		mBtActualizar = (ImageButton)findViewById(R.id.parada_llegadas_actualizar);
+		mBtMostrarTodas = (ImageButton)findViewById(R.id.parada_llegadas_todas_button);
+
+		mBtMostrarTodas.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mostrarTodas = !mostrarTodas;
+				refresh();
+			}
+		});
 
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 				String lin = null;
-				if(mLineaProcedente==null){
+				if(mostrarTodas || mLineaProcedente == null){
 					lin = mLineas.get(pos);
 				}else{
 					lin = mLineaProcedente.getString("nombre");
@@ -79,8 +89,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 				Integer[][] t = mTiempos.get(pos);
 				String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
 						getTextoDisplay(t[1][0], t[1][1]));
-				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + lin).setMessage(display)
-						.setNeutralButton("Cerrar", null).create().show();
+				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + lin).setMessage(display).setNeutralButton("Cerrar", null)
+						.create().show();
 			}
 		});
 
@@ -147,14 +157,9 @@ public class ParadaInfoActivity extends FragmentActivity {
 			mTxtDireccion.setText(direccion);
 		}
 
-		// pone los tiempos de llegada
-		if(mLineaProcedente == null){
-			mAdapter = new LlegadasAdapter(this, mLineas, null);
-		}else{
-			mAdapter = new LlegadasAdapter(this, mLineaProcedente.getString("nombre"), null);
+		if(mLineaProcedente==null){
+			mBtMostrarTodas.setVisibility(View.GONE);
 		}
-		mList.setAdapter(mAdapter); // cargando, provisional
-
 		refresh();
 
 	}
@@ -221,6 +226,11 @@ public class ParadaInfoActivity extends FragmentActivity {
 				text.setText(mTiempos.get(position));
 			}
 
+			if(mLineaProcedente!=null && mostrarTodas && mLineaProcedente.getString("nombre").equals(mItems.get(position))){
+				convertView.setBackgroundResource(R.drawable.button_trans_pressed);
+			}else{
+				convertView.setBackgroundResource(R.drawable.button_trans_normal);
+			}
 			return convertView;
 		}
 
@@ -257,13 +267,15 @@ public class ParadaInfoActivity extends FragmentActivity {
 			List<String> tiempos = Lists.newArrayList();
 			mTiempos = Lists.newArrayList();
 			int parada = mEntity.getInt("numero");
-			if(mLineaProcedente == null){
+			if(mostrarTodas || mLineaProcedente == null){
+				// muestra todas
 				for(String lin : mLineas){
 					Integer[][] tiempo = Utils.getTiempos(lin, parada);
 					mTiempos.add(tiempo);
 					tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
 				}
 			}else{
+				// muestra una
 				Integer[][] tiempo = Utils.getTiempos(mLineaProcedente.getString("nombre"), parada);
 				mTiempos.add(tiempo);
 				tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
@@ -311,6 +323,21 @@ public class ParadaInfoActivity extends FragmentActivity {
 	}
 
 	public void refresh() {
+		if(mostrarTodas){
+			mBtMostrarTodas.setImageResource(R.drawable.expander_close_holo_light);
+		}else{
+			mBtMostrarTodas.setImageResource(R.drawable.expander_open_holo_light);
+		}
+		
+		// pone los tiempos de llegada
+		if(mostrarTodas || mLineaProcedente == null){
+			mAdapter = new LlegadasAdapter(this, mLineas, null);
+		}else{
+			mAdapter = new LlegadasAdapter(this, mLineaProcedente.getString("nombre"), null);
+		}
+		mList.setAdapter(mAdapter); // cargando, provisional
+		
+		
 		if(mLoader != null){
 			mLoader.cancel(true);
 		}
