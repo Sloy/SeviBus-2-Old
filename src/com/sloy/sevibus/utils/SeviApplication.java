@@ -39,7 +39,7 @@ public class SeviApplication extends Application {
 				db = DataFramework.getInstance();
 				db.open(this, getPackageName());
 				// antes de la versión 13 las favoritas tenían menos columnas, cuidado
-				if(Datos.getAppVersion()<=13){
+				if(Datos.getPrefs().getInt(Datos.DB_VERSION, 0)<14){
 					db.getDB().execSQL("ALTER TABLE favoritas ADD linea_id INTEGER");
 					db.getDB().execSQL("ALTER TABLE favoritas ADD orden INTEGER");
 					db.getDB().execSQL("ALTER TABLE favoritas ADD usada INTEGER");
