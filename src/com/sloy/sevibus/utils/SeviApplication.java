@@ -72,6 +72,10 @@ public class SeviApplication extends Application {
 				
 				// Guardamos los favoritos en la nueva base de datos
 				for(FavoritosHelper fav:favoritos){
+					//Comprueba que exista
+					if(db.getTopEntity("paradas", "_id="+fav.getParadaID(),null)==null){
+						continue;
+					}
 					Entity f = new Entity("favoritas");
 					f.setValue("parada_id", fav.getParadaID());
 					f.setValue("linea_id", fav.getLineaID());
