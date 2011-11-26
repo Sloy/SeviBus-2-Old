@@ -21,6 +21,8 @@ public class Datos {
 	private static SharedPreferences preferencias;
 	private static Context mContext;
 
+	public static final String DB_VERSION = "dbversion";
+
 	public static final String packageName = "com.sloy.sevibus2"; // TODO final
 
 	public static void initialize(Context ctx) {
@@ -50,9 +52,13 @@ public class Datos {
 	 * }
 	 */
 
-	public static String getCiudad() {
-		// return getPrefs().getString("ciudad", null);
-		return "se";
+	public static int getAppVersion() {
+		try{
+			return mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
+		}catch(Exception e){
+			Log.e("sevibus", "Error obteniendo la versión de la app :S", e);
+			return 0;
+		}
 	}
 
 	public static AlertDialog createAlertDialog(final Context context, final Entity parada, final OnDialogListener listener) {
@@ -79,7 +85,7 @@ public class Datos {
 							String nombre = ((EditText)curDialog.findViewById(R.id.txtNombreFavorito)).getText().toString();
 							f.setValue("descripcion", nombre);
 							f.save();
-							if(listener!=null){
+							if(listener != null){
 								listener.onDialog();
 							}else{
 								Toast.makeText(context, "Guardada", Toast.LENGTH_SHORT).show();
@@ -110,7 +116,7 @@ public class Datos {
 							}
 							f.setValue("descripcion", "");
 							f.save();
-							if(listener!=null){
+							if(listener != null){
 								listener.onDialog();
 							}else{
 								Toast.makeText(context, "Guardada", Toast.LENGTH_SHORT).show();
@@ -122,12 +128,10 @@ public class Datos {
 							db.close();
 						}
 					}
-				})
-				.create();
+				}).create();
 	}
-	
-	public interface OnDialogListener{
+
+	public interface OnDialogListener {
 		public void onDialog();
 	}
 }
-

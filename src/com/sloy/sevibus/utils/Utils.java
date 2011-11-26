@@ -200,6 +200,7 @@ public class Utils {
 			try{
 				copyDataBase(context);
 				Log.i("sevibus", "Regenerada la base de datos");
+				Datos.getPrefs().edit().putInt(Datos.DB_VERSION, Datos.getAppVersion()).commit();
 			}catch(IOException e){
 				throw new Error("Error copying database: " + e.getMessage());
 			}

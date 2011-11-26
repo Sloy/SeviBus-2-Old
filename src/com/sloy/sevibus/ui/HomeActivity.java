@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 
 import com.sloy.sevibus.R;
-import com.sloy.sevibus.utils.Utils;
-
-import java.io.IOException;
 
 public class HomeActivity extends FragmentActivity {
 
@@ -26,12 +22,6 @@ public class HomeActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		/* DB stuff */
-		try{
-			Utils.createDataBase(this);
-		}catch(IOException e1){
-			Log.e("sevibus", "Error creando la base de datos", e1);
-		}
 		setContentView(R.layout.home_activity);
 
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
