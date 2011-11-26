@@ -28,7 +28,7 @@ public class SeviApplication extends Application {
 		}
 
 		// Comprueba si la tiene que actualizar
-		if(true | Datos.getPrefs().getInt(Datos.DB_VERSION, Integer.MAX_VALUE) < Datos.getAppVersion()){
+		if(Datos.getPrefs().getInt(Datos.DB_VERSION, 0) < Datos.getAppVersion()){
 			// si la versión guardada es menor que esta versión
 			// -> la actualiza
 
