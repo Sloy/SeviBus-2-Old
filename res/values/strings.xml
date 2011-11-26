@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">SeviBus2.0</string>
-    <string name="app_version">2.0.2</string>
-    <string name="app_date">23 de noviembre de 2011</string>
+    <string name="app_version">2.0.3</string>
+    <string name="app_date">26 de noviembre de 2011</string>
     <string name="dedicatoria">Aplicación dedicada a esa persona que deseo tanto que se pase a visitarnos por Sevilla ;) </string>
     <string name="email_address">rafa.vazsan+sevibus@gmail.com</string>
     <string name="email_subject">Reporte de SeviBus</string>

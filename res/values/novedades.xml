@@ -17,6 +17,9 @@
 \nEsta versión no trae publicidad, pero debo avisar que en las próximas actualiazciones la pondré. Lo he hecho así para que tengáis la nueva versión cuanto antes, pero yo sigo siendo un estudiante sin trabajo que le ha echado muchas horas a esto, y que ya que ofrezco la aplicación gratuita espero que comprendáis que quiera intentar sacar algo, aunque poco.
     </string>
     
+    <string name="novedades3">Esta versión sólo incluye la actualización de la base de datos, corrigiendo las líneas 27, 32, 38, 41, 58, B5, T1, eliminada la línea CC y algunas paradas sueltas.
+\n\nGracias a todos por vuestros reportes, seguid enviándolos si véis datos incorrectos en la aplicación, sólo así los puedo corregir.</string>
+    
     <string name="novedades2">
 He recibido mogollón de comentarios con esta nueva versión, veo que los botones de enviar reportes han tenido éxito. Comento las novedades por encima, aún hay más cosas en camino, pero actualizo ya y váis aprovechando.
 
