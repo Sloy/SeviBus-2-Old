@@ -132,7 +132,8 @@
             style="@style/paradaListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:choiceMode="none" >
+            android:choiceMode="none" 
+            android:fadingEdge="none">
 
             <!-- Preview: listitem=@layout/item_list_llegada -->
         </ListView>
