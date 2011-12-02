@@ -48,7 +48,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private boolean isFavorita;
 	private boolean mostrarTodas = false;
 
-	private Animation mAnimBlink;
+	private Animation mAnimBlink,mAnimExpand;
 	private TiemposLoader mLoader;
 
 	@Override
@@ -60,6 +60,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 		setContentView(R.layout.activity_parada);
 
 		mAnimBlink = AnimationUtils.loadAnimation(this, R.anim.blink);
+		mAnimExpand = AnimationUtils.loadAnimation(this, R.anim.expand_contract);
+		
 		mTxtNumero = (TextView)findViewById(R.id.parada_nombre_numero);
 		mTxtNombre = (TextView)findViewById(R.id.parada_nombre_nombre);
 		mTxtDireccion = (TextView)findViewById(R.id.parada_direccion_direccion);
@@ -167,6 +169,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 
 		if(mLineaProcedente == null){
 			mBtMostrarTodas.setVisibility(View.GONE);
+		}else{
+			mBtMostrarTodas.startAnimation(mAnimExpand);
 		}
 		refresh();
 
