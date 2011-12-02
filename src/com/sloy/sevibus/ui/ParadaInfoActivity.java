@@ -43,7 +43,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private ListView mList;
 	private TextView mTxtNombre, mTxtNumero, mTxtDireccion;
 	private Button mBtMapa;
-	private ImageButton mBtActualizar,mBtMostrarTodas;
+	private ImageButton mBtActualizar, mBtMostrarTodas;
 	private View mContainerDireccion;
 	private boolean isFavorita;
 	private boolean mostrarTodas = false;
@@ -73,6 +73,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				mostrarTodas = !mostrarTodas;
+				mTiempos = null;
 				refresh();
 			}
 		});
@@ -80,17 +81,23 @@ public class ParadaInfoActivity extends FragmentActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				String lin = null;
-				if(mostrarTodas || mLineaProcedente == null){
-					lin = mLineas.get(pos);
+				if(mTiempos == null || mTiempos.size() == 0){
+					// Aún no ha cargado los tiempos, avisa para que espere
+					Toast.makeText(ParadaInfoActivity.this, "Espera a que terminen de cargar los tiempos", Toast.LENGTH_SHORT).show();
 				}else{
-					lin = mLineaProcedente.getString("nombre");
+					String lin = null;
+					if(mostrarTodas || mLineaProcedente == null){
+						lin = mLineas.get(pos);
+					}else{
+						lin = mLineaProcedente.getString("nombre");
+					}
+
+					Integer[][] t = mTiempos.get(pos);
+					String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
+							getTextoDisplay(t[1][0], t[1][1]));
+					new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + lin).setMessage(display).setNeutralButton("Cerrar", null)
+							.create().show();
 				}
-				Integer[][] t = mTiempos.get(pos);
-				String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
-						getTextoDisplay(t[1][0], t[1][1]));
-				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + lin).setMessage(display).setNeutralButton("Cerrar", null)
-						.create().show();
 			}
 		});
 
@@ -157,7 +164,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			mTxtDireccion.setText(direccion);
 		}
 
-		if(mLineaProcedente==null){
+		if(mLineaProcedente == null){
 			mBtMostrarTodas.setVisibility(View.GONE);
 		}
 		refresh();
@@ -226,7 +233,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 				text.setText(mTiempos.get(position));
 			}
 
-			if(mLineaProcedente!=null && mostrarTodas && mLineaProcedente.getString("nombre").equals(mItems.get(position))){
+			if(mLineaProcedente != null && mostrarTodas && mLineaProcedente.getString("nombre").equals(mItems.get(position))){
 				convertView.setBackgroundResource(R.drawable.button_trans_pressed);
 			}else{
 				convertView.setBackgroundResource(R.drawable.button_trans_normal);
@@ -328,16 +335,17 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}else{
 			mBtMostrarTodas.setImageResource(R.drawable.expander_open_holo_light);
 		}
-		
+
 		// pone los tiempos de llegada
 		if(mostrarTodas || mLineaProcedente == null){
+			// Todas
 			mAdapter = new LlegadasAdapter(this, mLineas, null);
 		}else{
+			// Sólo una
 			mAdapter = new LlegadasAdapter(this, mLineaProcedente.getString("nombre"), null);
 		}
 		mList.setAdapter(mAdapter); // cargando, provisional
-		
-		
+
 		if(mLoader != null){
 			mLoader.cancel(true);
 		}
