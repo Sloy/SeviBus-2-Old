@@ -22,6 +22,8 @@ import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ParadasActivity extends FragmentActivity {
@@ -67,6 +69,12 @@ public class ParadasActivity extends FragmentActivity {
 				Entity parada = db.getTopEntity("paradas", "_id="+e.getInt("parada_id"), null);
 				paradas.add(parada);
 			}
+			Collections.sort(paradas, new Comparator<Entity>() {
+				@Override
+				public int compare(Entity lhs, Entity rhs) {
+					return new Integer(lhs.getString("numero")).compareTo(new Integer(rhs.getString("numero")));
+				}
+			});
 			mAdapter = new ParadasAdapter(this, paradas);
 		}catch(Exception e){
 			Log.e("sevibus", e.toString(), e);
