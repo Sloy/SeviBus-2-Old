@@ -72,9 +72,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		mBtMostrarTodas.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mostrarTodas = !mostrarTodas;
-				mTiempos = null;
-				refresh();
+				toggleMostrar();
 			}
 		});
 
@@ -116,6 +114,9 @@ public class ParadaInfoActivity extends FragmentActivity {
 				refresh();
 			}
 		});
+		
+		// Obtiene la opción de mostrar todas
+		mostrarTodas = Datos.getPrefs().getBoolean("mostrar_todas", true);
 
 		// obtiene el id de la parada pasada por el intent
 		long parada = getIntent().getLongExtra("parada", 0);
@@ -169,6 +170,17 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}
 		refresh();
 
+	}
+
+	protected void toggleMostrar() {
+		// Cambia el estado de mostrar
+		mostrarTodas = !mostrarTodas;
+		// Vacía los tiempos para evitar error
+		mTiempos = null;
+		// Refresca los tiempos
+		refresh();
+		// Guarda el nuevo estado de mostrar en sharedPreferences para recordarlo
+		Datos.getPrefs().edit().putBoolean("mostrar_todas", mostrarTodas).commit();
 	}
 
 	// TODO esto es una mierda que hay que cambiar por completo
