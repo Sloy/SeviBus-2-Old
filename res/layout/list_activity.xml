@@ -7,8 +7,8 @@
     <ListView
         android:id="@android:id/list"
         style="@style/paradaListView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:fastScrollEnabled="true" >
 
         <!-- Preview: listitem=@layout/list_item_parada -->
@@ -16,6 +16,9 @@
 
     <TextView
         android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:text="Lista vacía"
         android:visibility="gone" />
 
