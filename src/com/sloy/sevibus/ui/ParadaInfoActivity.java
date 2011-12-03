@@ -47,7 +47,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private View mContainerDireccion;
 	private boolean isFavorita;
 	private boolean mostrarTodas = false;
-
+	private boolean mLoading = true;
 	private Animation mAnimBlink,mAnimExpand;
 	private TiemposLoader mLoader;
 
@@ -81,7 +81,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				if(mTiempos == null || mTiempos.size() == 0){
+				if(mLoading){
 					// Aún no ha cargado los tiempos, avisa para que espere
 					Toast.makeText(ParadaInfoActivity.this, "Espera a que terminen de cargar los tiempos", Toast.LENGTH_SHORT).show();
 				}else{
@@ -180,7 +180,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		// Cambia el estado de mostrar
 		mostrarTodas = !mostrarTodas;
 		// Vacía los tiempos para evitar error
-		mTiempos = null;
+//		mTiempos = null;
 		// Refresca los tiempos
 		refresh();
 		// Guarda el nuevo estado de mostrar en sharedPreferences para recordarlo
@@ -312,6 +312,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			setProgressBarIndeterminateVisibility(Boolean.FALSE);
 			mAnimBlink.cancel();
 			mAnimBlink.reset();
+			mLoading = false;
 			super.onPostExecute(result);
 		}
 
@@ -319,6 +320,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		protected void onPreExecute() {
 			setProgressBarIndeterminateVisibility(Boolean.TRUE);
 			mBtActualizar.startAnimation(mAnimBlink);
+			mLoading = true;
 			super.onPreExecute();
 		}
 
@@ -353,6 +355,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}
 
 		// pone los tiempos de llegada
+//		mTiempos = null;
 		if(mostrarTodas || mLineaProcedente == null){
 			// Todas
 			mAdapter = new LlegadasAdapter(this, mLineas, null);
