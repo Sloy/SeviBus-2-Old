@@ -28,6 +28,7 @@ import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
+import com.sloy.sevibus.utils.IntentMapa;
 import com.sloy.sevibus.utils.Utils;
 
 import java.util.List;
@@ -105,8 +106,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(ParadaInfoActivity.this, MapaActivity.class);
-				i.putExtra("parada", mEntity.getId());
-				startActivity(i);
+				startActivity(new IntentMapa(ParadaInfoActivity.this).setParada(mEntity.getId()));
 			}
 		});
 

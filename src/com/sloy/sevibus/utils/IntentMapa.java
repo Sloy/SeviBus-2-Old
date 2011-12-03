@@ -11,15 +11,15 @@ public class IntentMapa extends Intent {
 		super(context,MapaActivity.class);
 	}
 	
-	public IntentMapa setLinea(int lineaID){
+	public IntentMapa setLinea(long lineaID){
 		limpiarExtras();
 		this.putExtra("linea", lineaID);
 		return this;
 	}
 	
-	public IntentMapa setParada(int paradaID){
+	public IntentMapa setParada(long l){
 		limpiarExtras();
-		this.putExtra("parada", paradaID);
+		this.putExtra("parada", l);
 		return this;
 	}
 	

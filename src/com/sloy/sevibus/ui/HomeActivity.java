@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.IntentMapa;
 
 public class HomeActivity extends FragmentActivity {
 
@@ -68,7 +69,7 @@ public class HomeActivity extends FragmentActivity {
 		mBtMapa.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(mContext, MapaActivity.class));
+				startActivity(new IntentMapa(mContext));
 			}
 		});
 		mBtOpciones.setOnClickListener(new View.OnClickListener() {
