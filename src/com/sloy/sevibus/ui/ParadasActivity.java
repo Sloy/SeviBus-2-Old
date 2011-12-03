@@ -21,6 +21,7 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.IntentParada;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,37 +37,36 @@ public class ParadasActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_activity);
-		
+
 		// coge la línea que se le ha pasado
 		final long linea = getIntent().getLongExtra("linea", 0);
 		mLinea = getIntent().getStringExtra("nombre");
-		if(linea==0){
-			//TODO comprobar otra cosa?
+		if(linea == 0){
+			// TODO comprobar otra cosa?
 			Toast.makeText(this, "No se pasó nunguna línea", Toast.LENGTH_SHORT).show();
 			finish();
 		}
-		
-		setTitle("Paradas de la línea "+mLinea);
+
+		setTitle("Paradas de la línea " + mLinea);
 
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Intent i = new Intent(ParadasActivity.this, ParadaInfoActivity.class);
-				i.putExtra("parada", mAdapter.getItem(pos).getId());
-				i.putExtra("linea", linea);
-				startActivity(i);
+				startActivity(new IntentParada(ParadasActivity.this, mAdapter.getItem(pos).getId()).setLinea(linea));
 			}
 		});
 		DataFramework db = null;
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
-//			ArrayList<Entity> lista = db.getEntityListWithFrom("paradas", "paradas AS p JOIN relaciones AS r ON p._id=r.parada_id JOIN lineas AS l ON r.linea_id=l._id",  "r.linea_id=1", null, null);
+			// ArrayList<Entity> lista = db.getEntityListWithFrom("paradas",
+			// "paradas AS p JOIN relaciones AS r ON p._id=r.parada_id JOIN lineas AS l ON r.linea_id=l._id",
+			// "r.linea_id=1", null, null);
 			List<Entity> paradas = Lists.newArrayList();
-			List<Entity> rel = db.getEntityList("relaciones", "linea_id="+linea);
-			for(Entity e:rel){
-				Entity parada = db.getTopEntity("paradas", "_id="+e.getInt("parada_id"), null);
+			List<Entity> rel = db.getEntityList("relaciones", "linea_id=" + linea);
+			for(Entity e : rel){
+				Entity parada = db.getTopEntity("paradas", "_id=" + e.getInt("parada_id"), null);
 				paradas.add(parada);
 			}
 			Collections.sort(paradas, new Comparator<Entity>() {
@@ -87,7 +87,7 @@ public class ParadasActivity extends FragmentActivity {
 		}
 	}
 
-	private class ParadasAdapter extends BaseAdapter{
+	private class ParadasAdapter extends BaseAdapter {
 		List<Entity> mItems;
 		private Context mContext;
 
@@ -120,16 +120,16 @@ public class ParadasActivity extends FragmentActivity {
 			TextView numero = (TextView)convertView.findViewById(R.id.item_parada_numero);
 			TextView nombre = (TextView)convertView.findViewById(R.id.item_parada_nombre);
 			ImageView mapa = (ImageView)convertView.findViewById(R.id.item_parada_mapa);
-			
+
 			numero.setText(item.getString("numero"));
 			nombre.setText(item.getString("nombre"));
-			if(item.getDouble("latitud")!=0.0 && item.getDouble("longitud")!=0.0){
+			if(item.getDouble("latitud") != 0.0 && item.getDouble("longitud") != 0.0){
 				mapa.setVisibility(View.VISIBLE);
 			}
 			return convertView;
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -150,8 +150,8 @@ public class ParadasActivity extends FragmentActivity {
 				return false;
 		}
 	}
-	
-	private void reportar(){
+
+	private void reportar() {
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});

@@ -7,13 +7,13 @@ import com.sloy.sevibus.ui.ParadaInfoActivity;
 
 public class IntentParada extends Intent {
 	
-	public IntentParada(Context context, int paradaID){
+	public IntentParada(Context context, long l){
 		super(context, ParadaInfoActivity.class);
-		this.putExtra("parada", paradaID);
+		this.putExtra("parada", l);
 	}
 	
-	public IntentParada setLinea(int lineaID){
-		this.putExtra("linea", lineaID);
+	public IntentParada setLinea(long linea){
+		this.putExtra("linea", linea);
 		return this;
 	}
 

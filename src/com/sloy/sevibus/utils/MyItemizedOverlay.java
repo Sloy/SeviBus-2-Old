@@ -1,7 +1,6 @@
 package com.sloy.sevibus.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
 import com.android.dataframework.Entity;
@@ -10,7 +9,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.google.common.collect.Lists;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
-import com.sloy.sevibus.ui.ParadaInfoActivity;
 
 import java.util.List;
 
@@ -21,7 +19,7 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	private boolean enabled = true;
 	private Context mContext;
 
-	public MyItemizedOverlay(Drawable defaultMarker, MapView mapView,Context context) {
+	public MyItemizedOverlay(Drawable defaultMarker, MapView mapView, Context context) {
 		super(boundCenter(defaultMarker), mapView);
 		mParadas = Lists.newArrayList();
 		mOverlays = Lists.newArrayList();
@@ -39,13 +37,13 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		GeoPoint point = new GeoPoint(lat, lon);
 		String numero = parada.getString("numero");
 		String nombre = parada.getString("nombre");
-		OverlayItem overlayitem = new OverlayItem(point, "Parada nº "+numero, nombre);
+		OverlayItem overlayitem = new OverlayItem(point, "Parada nº " + numero, nombre);
 		mParadas.add(parada);
 		addOverlay(overlayitem);
 	}
-	
-	public void addAllParadas(List<Entity> paradas){
-		for(Entity e:paradas){
+
+	public void addAllParadas(List<Entity> paradas) {
+		for(Entity e : paradas){
 			addParada(e);
 		}
 	}
@@ -79,9 +77,7 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 	@Override
 	protected boolean onBalloonTap(int index, OverlayItem item) {
-		Intent i = new Intent(mContext, ParadaInfoActivity.class);
-		i.putExtra("parada", mParadas.get(index).getId());
-		mContext.startActivity(i);
+		mContext.startActivity(new IntentParada(mContext, mParadas.get(index).getId()));
 		return true;
 	}
 

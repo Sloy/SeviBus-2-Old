@@ -24,6 +24,7 @@ import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
+import com.sloy.sevibus.utils.IntentParada;
 
 import quickactions.ActionItem;
 import quickactions.QuickAction;
@@ -48,10 +49,7 @@ public class FavoritasActivity extends FragmentActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Intent i = new Intent(FavoritasActivity.this, ParadaInfoActivity.class);
-				i.putExtra("parada", mAdapter.getItem(pos).getId());
-				startActivity(i);
-
+				startActivity(new IntentParada(FavoritasActivity.this, mAdapter.getItem(pos).getId()));
 			}
 		});
 		mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
