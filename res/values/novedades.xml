@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="novedades1">Pues mucho. Ésta es la versión 2.0, construída totalmente desde cero.
+
+    <string name="novedades1">Pues mucho. Ésta es la versión 2.0, construída totalmente desde cero.
 \n
 \nLa principal novedad es el obvio rediseño de la interfaz, más al estilo Android y espero que fácil de usar. 
 \nTambién el almacenamiento de información en local, agilizando mucho cualquier acción y reduciendo el consumo de datos y batería.
@@ -16,7 +17,6 @@
 \n
 \nEsta versión no trae publicidad, pero debo avisar que en las próximas actualiazciones la pondré. Lo he hecho así para que tengáis la nueva versión cuanto antes, pero yo sigo siendo un estudiante sin trabajo que le ha echado muchas horas a esto, y que ya que ofrezco la aplicación gratuita espero que comprendáis que quiera intentar sacar algo, aunque poco.
     </string>
-    
     <string name="novedades2">
 He recibido mogollón de comentarios con esta nueva versión, veo que los botones de enviar reportes han tenido éxito. Comento las novedades por encima, aún hay más cosas en camino, pero actualizo ya y váis aprovechando.
 
@@ -29,4 +29,14 @@ He recibido mogollón de comentarios con esta nueva versión, veo que los botone
 \n Tengo que arreglar aún algunas cosas, sobre todo las líneas que me habéis comentado que están mal. Comprended que tengo poco tiempo y es un trabajo pesado ya que Tussam no facilita la tarea, hago lo que puedo.
     </string>
     
+    <string name="novedades4">
+        En esta versión he incorporado algunas cosas, pero aún tengo más bajo la manga para futuras actualizaciones. Lo que trae:
+\n\n- He dado la posibilidad de ver sólo el tiempo de la línea que se seleccionó, tardando menos en cargar la llegada. Si se llega a una parada a través de una línea concreta dará la opción de mostrar todas o sólo esa mediante un botón, y si se muestran todas se destaca la línea procedente. En caso contrario aparecerá como hasta ahora. Se quedará por defecto la última decisión que hicimos.
+\n  Con los favoritos aún no funciona, eso vendrá en la próxima versión que tengo que modificar el funcionamiento de éstos.
+\n\n- He corregido el error que se producía cuando pulsabas sobre un tiempo cuando aún no se había cargado, y que muchos me habíais reportado. Espero que no vuelva a dar problemas.
+\n\n- He corregido la ordenación de las paradas en las listas, que hacía que las nuevas paradas aparecieran al final desordenadas, ahora ya salen siempre ordenadas por número.
+\n\n- He incorporado en la pantalla principal un botón de donación vía PayPal. Al pulsarlo aparece un menú con algunas explicaciones, no voy a repetirlas aquí. Que cada uno vea si lo ignora o no.
+\n\n- Más correciones menores, espero que mejore la calidad general de la aplicación. 
+    </string>
+
 </resources>

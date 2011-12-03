@@ -1,4 +1,4 @@
-<database name="sevibus.db" version="1">
+<database name="sevibus.db" version="2">
 	<table name="paradas" to-string="%numero%: %nombre%">
 		<field name="numero" type="integer" obligatory="true"/>
 		<field name="nombre" type="text" obligatory="true"/>
