@@ -33,8 +33,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class Utils {
 
-	public static final String TAG = "TuBus";
-	private static String authStringEnc = "YW5kcm9pZDp0dWJ1c19hbmRyb2lk";
 	public static String URL_XML = "http://www.infobustussam.com:9005/tussamGO/Resultados?op=ep&ls=%s&st=%d"; // 1.linea
 																												// 2.parada
 
