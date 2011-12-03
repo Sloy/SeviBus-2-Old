@@ -35,13 +35,15 @@ public class FavoritasActivity extends FragmentActivity {
 	private ListView mList;
 	private FavoritasAdapter mAdapter;
 	private Animation mAnimShake;
+	private TextView mEmpty;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_activity);
-		mAnimShake = AnimationUtils.loadAnimation(this, R.anim.shake); 
+		mAnimShake = AnimationUtils.loadAnimation(this, R.anim.shake);
 
+		mEmpty = (TextView)findViewById(android.R.id.empty);
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -70,7 +72,7 @@ public class FavoritasActivity extends FragmentActivity {
 					}
 				}));
 				qa.addActionItem(new ActionItem().setTitle("Eliminar").setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View v) {
 						qa.dismiss();
@@ -78,9 +80,9 @@ public class FavoritasActivity extends FragmentActivity {
 						try{
 							db = DataFramework.getInstance();
 							db.open(FavoritasActivity.this, getPackageName());
-							db.getTopEntity("favoritas", "parada_id="+mAdapter.getItemId(pos), null).delete();
+							db.getTopEntity("favoritas", "parada_id=" + mAdapter.getItemId(pos), null).delete();
 						}catch(Exception e){
-							Log.e("sevibus","Error al eliminar la favorita", e);
+							Log.e("sevibus", "Error al eliminar la favorita", e);
 						}finally{
 							db.close();
 						}
@@ -96,7 +98,6 @@ public class FavoritasActivity extends FragmentActivity {
 		recargarLista();
 
 	}
-	
 
 	private void recargarLista() {
 		DataFramework db = null;
@@ -123,6 +124,13 @@ public class FavoritasActivity extends FragmentActivity {
 
 		if(mAdapter != null){
 			mList.setAdapter(mAdapter);
+			if(mAdapter.getCount() == 0){
+				// No hay elementos
+				mEmpty.setText("No tienes ningún favorito. Guárdalos desde la pantalla de parada pulsando el icono de estrella del ActionBar");
+				mEmpty.setVisibility(View.VISIBLE);
+			}else{
+				mEmpty.setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -208,8 +216,8 @@ public class FavoritasActivity extends FragmentActivity {
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_favoritas));
 		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
-	
-	private void shake(View v){
+
+	private void shake(View v) {
 		v.startAnimation(mAnimShake);
 	}
 

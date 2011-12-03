@@ -22,6 +22,8 @@ import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ParadasActivity extends FragmentActivity {
@@ -36,7 +38,7 @@ public class ParadasActivity extends FragmentActivity {
 		setContentView(R.layout.list_activity);
 		
 		// coge la línea que se le ha pasado
-		long linea = getIntent().getLongExtra("linea", 0);
+		final long linea = getIntent().getLongExtra("linea", 0);
 		mLinea = getIntent().getStringExtra("nombre");
 		if(linea==0){
 			//TODO comprobar otra cosa?
@@ -52,6 +54,7 @@ public class ParadasActivity extends FragmentActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 				Intent i = new Intent(ParadasActivity.this, ParadaInfoActivity.class);
 				i.putExtra("parada", mAdapter.getItem(pos).getId());
+				i.putExtra("linea", linea);
 				startActivity(i);
 			}
 		});
@@ -66,6 +69,12 @@ public class ParadasActivity extends FragmentActivity {
 				Entity parada = db.getTopEntity("paradas", "_id="+e.getInt("parada_id"), null);
 				paradas.add(parada);
 			}
+			Collections.sort(paradas, new Comparator<Entity>() {
+				@Override
+				public int compare(Entity lhs, Entity rhs) {
+					return new Integer(lhs.getString("numero")).compareTo(new Integer(rhs.getString("numero")));
+				}
+			});
 			mAdapter = new ParadasAdapter(this, paradas);
 		}catch(Exception e){
 			Log.e("sevibus", e.toString(), e);

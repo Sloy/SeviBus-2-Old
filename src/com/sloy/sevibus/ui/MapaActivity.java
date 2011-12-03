@@ -60,10 +60,10 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
-			mLineas = db.getEntityList("lineas",null,"nombre");
-			//parada unica
+			mLineas = db.getEntityList("lineas", null, "nombre");
+			// parada unica
 			long unicaId = getIntent().getLongExtra("parada", 0);
-			mParadaUnica = db.getTopEntity("paradas", "_id="+unicaId, null);
+			mParadaUnica = db.getTopEntity("paradas", "_id=" + unicaId, null);
 		}catch(Exception e){
 			Log.e("sevibus", e.toString(), e);
 		}finally{
@@ -71,10 +71,10 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		}
 
 		List<String> nombres = Lists.newArrayList();
-		if(mParadaUnica==null){
+		if(mParadaUnica == null){
 			nombres.add("- Selecciona -");
 		}else{
-			nombres.add("Parada "+mParadaUnica.getString("numero"));
+			nombres.add("Parada " + mParadaUnica.getString("numero"));
 		}
 		for(Entity e : mLineas){
 			nombres.add("Línea " + e.getString("nombre"));
@@ -87,8 +87,8 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		mapView.postInvalidate();
 
 	}
-	
-	private void loadMap(Entity paradaUnica){
+
+	private void loadMap(Entity paradaUnica) {
 		MyItemizedOverlay marker = new MyItemizedOverlay(getResources().getDrawable(R.drawable.marker), mapView, this);
 		marker.addParada(paradaUnica);
 		loadMap(marker);
@@ -99,15 +99,15 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		markers.addAllParadas(paradas);
 		loadMap(markers);
 	}
-	
-	private void loadMap(MyItemizedOverlay markers){
+
+	private void loadMap(MyItemizedOverlay markers) {
 		mOverlays.clear();
 		mOverlays.add(markers);
 		mOverlays.add(mOverlayLocation);
 		mapView.postInvalidate();
 	}
-	
-	private void clearMap(){
+
+	private void clearMap() {
 		mOverlays.clear();
 		mOverlays.add(mOverlayLocation);
 		mapView.postInvalidate();
@@ -119,7 +119,7 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
-//			mLineas = db.getEntityList("lineas");
+			// mLineas = db.getEntityList("lineas");
 			List<Entity> rel = db.getEntityList("relaciones", "linea_id=" + linea);
 			for(Entity e : rel){
 				Entity parada = db.getTopEntity("paradas", "_id=" + e.getInt("parada_id"), null);
@@ -140,19 +140,28 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// Oculta si hay algún globo abierto
+		for(Overlay o : mOverlays){
+			if(o instanceof MyItemizedOverlay){
+				// Es uno de los nuestros
+				MyItemizedOverlay io = (MyItemizedOverlay)o;
+				io.hideBalloon();
+			}
+		}
+		// Hace lo que tenga que hacer
 		if(itemPosition == 0){
-			if(mParadaUnica==null){
+			if(mParadaUnica == null){
 				clearMap();
 				return true;
 			}else{
 				loadMap(mParadaUnica);
 			}
 		}else{
-			loadMap(getParadas(mLineas.get(itemPosition-1).getId()));
+			loadMap(getParadas(mLineas.get(itemPosition - 1).getId()));
 		}
 		return true;
 	}
-	
+
 	@Override
 	protected void onPause() {
 		mOverlayLocation.disableMyLocation();
@@ -166,7 +175,7 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		mOverlayLocation.enableCompass();
 		super.onResume();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -193,8 +202,8 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 				return false;
 		}
 	}
-	
-	private void reportar(){
+
+	private void reportar() {
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("plain/text");
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});

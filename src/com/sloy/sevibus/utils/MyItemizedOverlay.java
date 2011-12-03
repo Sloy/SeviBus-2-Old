@@ -84,4 +84,9 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		mContext.startActivity(i);
 		return true;
 	}
+
+	@Override
+	public void hideBalloon() {
+		super.hideBalloon();
+	}
 }

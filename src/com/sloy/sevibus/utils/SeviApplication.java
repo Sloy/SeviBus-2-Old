@@ -16,6 +16,7 @@ public class SeviApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
+
 		Datos.initialize(this);
 
 		/* DB stuff */
@@ -94,6 +95,7 @@ public class SeviApplication extends Application {
 				db.close();
 			}
 		}
+
 	}
 
 }

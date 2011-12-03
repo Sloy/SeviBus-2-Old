@@ -72,7 +72,7 @@ public class TiemposHandler {
 			
 			return true; 
 		}catch(Exception e){
-			Log.e("sevibus", "No se pudo obtener el tiempo de la línea "+linea,e);
+			Log.d("sevibus", "No se pudo obtener el tiempo de la línea "+linea);
 			status = ST_ERROR;
 			tiempos = new int[]{-1,-1};
 			distancias = new int[]{-1,-1};

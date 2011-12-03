@@ -1,7 +1,10 @@
 package com.sloy.sevibus.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.Menu;
@@ -92,11 +95,14 @@ public class HomeActivity extends FragmentActivity {
 				break;
 			case R.id.menu_reportar:
 				reportar();
-				return true;
+				break;
+			case R.id.menu_donar:
+				donar();
+				break;
 			default:
 				break;
 		}
-		return super.onOptionsItemSelected(item);
+		return true;
 	}
 
 	private void reportar() {
@@ -108,4 +114,18 @@ public class HomeActivity extends FragmentActivity {
 		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
 
+	private void donar() {
+		new AlertDialog.Builder(this)
+				.setTitle("Invítame a un café")
+				.setMessage(
+						"Este botón es para donar (dinero). Pulsando donar te mandará a una págian de PayPal a través de la cual puedes donar la cantidad que quieras. \n\n¿Por qué? Porque hacer esta aplicación requiere mucho trabajo, porque soy un único desarrollador trabajando en ella, estudiante, desempleado, que no cobra por la aplicación que puede facilitar a muchos el día a día. \n\nNo tienes que hacerlo si no quieres, la aplicación sigue siendo gratuita y por donar no se obtiene ninguna función extra. Pero si quieres apoyar el desarrollo y mejora de la aplicación, o simplemente quieres agradecerme mi trabajo, aquí tienes una buena oportunidad. \n\nGracias.")
+				.setPositiveButton("Donar", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri
+								.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=TA2XH2L4B7MAW&lc=ES&item_name=SeviBus&item_number=sevibus&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted")));
+					}
+				}).setNegativeButton("No quiero", null).create().show();
+	}
 }

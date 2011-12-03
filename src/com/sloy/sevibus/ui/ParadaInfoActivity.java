@@ -38,15 +38,17 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private List<String> mLineas;
 	private List<Integer[][]> mTiempos;
 	private LlegadasAdapter mAdapter;
+	private Entity mLineaProcedente;
 
 	private ListView mList;
 	private TextView mTxtNombre, mTxtNumero, mTxtDireccion;
 	private Button mBtMapa;
-	private ImageButton mBtActualizar;
+	private ImageButton mBtActualizar, mBtMostrarTodas;
 	private View mContainerDireccion;
 	private boolean isFavorita;
-
-	private Animation mAnimBlink;
+	private boolean mostrarTodas = false;
+	private boolean mLoading = true;
+	private Animation mAnimBlink,mAnimExpand;
 	private TiemposLoader mLoader;
 
 	@Override
@@ -58,6 +60,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 		setContentView(R.layout.activity_parada);
 
 		mAnimBlink = AnimationUtils.loadAnimation(this, R.anim.blink);
+		mAnimExpand = AnimationUtils.loadAnimation(this, R.anim.expand_contract);
+		
 		mTxtNumero = (TextView)findViewById(R.id.parada_nombre_numero);
 		mTxtNombre = (TextView)findViewById(R.id.parada_nombre_nombre);
 		mTxtDireccion = (TextView)findViewById(R.id.parada_direccion_direccion);
@@ -65,15 +69,35 @@ public class ParadaInfoActivity extends FragmentActivity {
 		mContainerDireccion = findViewById(R.id.parada_seccion_direccion);
 		mList = (ListView)findViewById(android.R.id.list);
 		mBtActualizar = (ImageButton)findViewById(R.id.parada_llegadas_actualizar);
+		mBtMostrarTodas = (ImageButton)findViewById(R.id.parada_llegadas_todas_button);
+
+		mBtMostrarTodas.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				toggleMostrar();
+			}
+		});
 
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Integer[][] t = mTiempos.get(pos);
-				String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
-						getTextoDisplay(t[1][0], t[1][1]));
-				new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + mLineas.get(pos)).setMessage(display)
-						.setNeutralButton("Cerrar", null).create().show();
+				if(mLoading){
+					// Aún no ha cargado los tiempos, avisa para que espere
+					Toast.makeText(ParadaInfoActivity.this, "Espera a que terminen de cargar los tiempos", Toast.LENGTH_SHORT).show();
+				}else{
+					String lin = null;
+					if(mostrarTodas || mLineaProcedente == null){
+						lin = mLineas.get(pos);
+					}else{
+						lin = mLineaProcedente.getString("nombre");
+					}
+
+					Integer[][] t = mTiempos.get(pos);
+					String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
+							getTextoDisplay(t[1][0], t[1][1]));
+					new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + lin).setMessage(display).setNeutralButton("Cerrar", null)
+							.create().show();
+				}
 			}
 		});
 
@@ -92,6 +116,9 @@ public class ParadaInfoActivity extends FragmentActivity {
 				refresh();
 			}
 		});
+		
+		// Obtiene la opción de mostrar todas
+		mostrarTodas = Datos.getPrefs().getBoolean("mostrar_todas", true);
 
 		// obtiene el id de la parada pasada por el intent
 		long parada = getIntent().getLongExtra("parada", 0);
@@ -99,6 +126,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			Toast.makeText(this, "No se pasó ninguna parada", Toast.LENGTH_SHORT).show();
 			finish();
 		}
+		long linea = getIntent().getLongExtra("linea", 0);
 
 		DataFramework db = null;
 		try{
@@ -108,6 +136,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 			isFavorita = db.getEntityListCount("favoritas", "parada_id=" + parada) > 0;
 			// Saca la entity de la base de datos
 			mEntity = db.getTopEntity("paradas", "_id = " + parada, null);
+			// Saca la línea, si se le ha pasado
+			mLineaProcedente = db.getTopEntity("lineas", "_id=" + linea, null);
 			// saca la lista de líneas que pasan por esta parada
 			List<Entity> rel = db.getEntityList("relaciones", "parada_id=" + parada);
 			// List<Entity> lineas = Lists.newArrayList();
@@ -117,7 +147,6 @@ public class ParadaInfoActivity extends FragmentActivity {
 				// lineas.add(l);
 				mLineas.add(l.getString("nombre"));
 			}
-			mAdapter = new LlegadasAdapter(this, mLineas, null);
 		}catch(Exception e){
 			Log.e("sevibus", e.toString(), e);
 		}finally{
@@ -138,11 +167,24 @@ public class ParadaInfoActivity extends FragmentActivity {
 			mTxtDireccion.setText(direccion);
 		}
 
-		// pone los tiempos de llegada
-		mList.setAdapter(mAdapter);
-
+		if(mLineaProcedente == null){
+			mBtMostrarTodas.setVisibility(View.GONE);
+		}else{
+			mBtMostrarTodas.startAnimation(mAnimExpand);
+		}
 		refresh();
 
+	}
+
+	protected void toggleMostrar() {
+		// Cambia el estado de mostrar
+		mostrarTodas = !mostrarTodas;
+		// Vacía los tiempos para evitar error
+//		mTiempos = null;
+		// Refresca los tiempos
+		refresh();
+		// Guarda el nuevo estado de mostrar en sharedPreferences para recordarlo
+		Datos.getPrefs().edit().putBoolean("mostrar_todas", mostrarTodas).commit();
 	}
 
 	// TODO esto es una mierda que hay que cambiar por completo
@@ -155,6 +197,18 @@ public class ParadaInfoActivity extends FragmentActivity {
 		public LlegadasAdapter(Context context, List<String> lineas, List<String> tiempos) {
 			mItems = lineas;
 			mTiempos = tiempos;
+			mContext = context;
+		}
+
+		public LlegadasAdapter(Context context, String linea, String tiempo) {
+			mItems = Lists.newArrayList();
+			mItems.add(linea);
+			if(tiempo == null){
+				mTiempos = null;
+			}else{
+				mTiempos = Lists.newArrayList();
+				mTiempos.add(tiempo);
+			}
 			mContext = context;
 		}
 
@@ -195,6 +249,11 @@ public class ParadaInfoActivity extends FragmentActivity {
 				text.setText(mTiempos.get(position));
 			}
 
+			if(mLineaProcedente != null && mostrarTodas && mLineaProcedente.getString("nombre").equals(mItems.get(position))){
+				convertView.setBackgroundResource(R.drawable.button_trans_pressed);
+			}else{
+				convertView.setBackgroundResource(R.drawable.button_trans_normal);
+			}
 			return convertView;
 		}
 
@@ -231,8 +290,16 @@ public class ParadaInfoActivity extends FragmentActivity {
 			List<String> tiempos = Lists.newArrayList();
 			mTiempos = Lists.newArrayList();
 			int parada = mEntity.getInt("numero");
-			for(String lin : mLineas){
-				Integer[][] tiempo = Utils.getTiempos(lin, parada);
+			if(mostrarTodas || mLineaProcedente == null){
+				// muestra todas
+				for(String lin : mLineas){
+					Integer[][] tiempo = Utils.getTiempos(lin, parada);
+					mTiempos.add(tiempo);
+					tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
+				}
+			}else{
+				// muestra una
+				Integer[][] tiempo = Utils.getTiempos(mLineaProcedente.getString("nombre"), parada);
 				mTiempos.add(tiempo);
 				tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
 			}
@@ -245,6 +312,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			setProgressBarIndeterminateVisibility(Boolean.FALSE);
 			mAnimBlink.cancel();
 			mAnimBlink.reset();
+			mLoading = false;
 			super.onPostExecute(result);
 		}
 
@@ -252,6 +320,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		protected void onPreExecute() {
 			setProgressBarIndeterminateVisibility(Boolean.TRUE);
 			mBtActualizar.startAnimation(mAnimBlink);
+			mLoading = true;
 			super.onPreExecute();
 		}
 
@@ -279,6 +348,23 @@ public class ParadaInfoActivity extends FragmentActivity {
 	}
 
 	public void refresh() {
+		if(mostrarTodas){
+			mBtMostrarTodas.setImageResource(R.drawable.expander_close_holo_light);
+		}else{
+			mBtMostrarTodas.setImageResource(R.drawable.expander_open_holo_light);
+		}
+
+		// pone los tiempos de llegada
+//		mTiempos = null;
+		if(mostrarTodas || mLineaProcedente == null){
+			// Todas
+			mAdapter = new LlegadasAdapter(this, mLineas, null);
+		}else{
+			// Sólo una
+			mAdapter = new LlegadasAdapter(this, mLineaProcedente.getString("nombre"), null);
+		}
+		mList.setAdapter(mAdapter); // cargando, provisional
+
 		if(mLoader != null){
 			mLoader.cancel(true);
 		}
