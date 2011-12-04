@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_cancelar"
+        android:icon="@drawable/ic_menu_close_clear_cancel"
+        android:showAsAction="always"
+        android:title="Descartar"/>
+
+    <item
+        android:id="@+id/menu_ok"
+        android:icon="@drawable/ic_menu_mark"
+        android:showAsAction="always|withText"
+        android:title="Guardar"/>
+
+</menu>

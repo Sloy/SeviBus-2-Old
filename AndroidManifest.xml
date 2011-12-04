@@ -43,6 +43,8 @@
         <activity android:name=".ui.FavoritasActivity" >
         </activity>
         <activity android:name=".ui.AcercadeActivity" />
+        <activity android:name=".ui.EditarFavoritaActivity" >
+        </activity>
     </application>
 
 </manifest>

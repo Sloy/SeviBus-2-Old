@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/parada_seccion_nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dip" >
+
+        <TextView
+            android:id="@+id/parada_nombre_numero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="Parada nº &apos;###&apos;"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#990000"
+            android:textSize="19sp" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="3dip"
+            android:background="#8d545c" />
+
+        <TextView
+            android:id="@+id/parada_nombre_nombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:text="&apos;Nombre de la parada&apos;"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/favorita_seccion_nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dip" >
+
+        <TextView
+            android:id="@+id/favorita_nombre_titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:text="Guardar como:"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#990000"
+            android:textSize="19sp" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="3dip"
+            android:background="#8d545c" />
+
+        <EditText
+            android:id="@+id/favorita_nombre_editar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:background="@drawable/edit_text"
+            android:hint="&apos;Nombre por defecto&apos;" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/favorita_seccion_lineas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dip" >
+
+        <RelativeLayout
+            android:id="@+id/favorita_lineas_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip" >
+
+            <TextView
+                android:id="@+id/favorita_lineas_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="bottom"
+                android:text="Líneas: "
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#990000"
+                android:textSize="19sp" />
+
+            <CheckBox
+                android:id="@+id/favorita_lineas_todas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/favorita_lineas_title"
+                android:layout_alignParentRight="true"
+                android:layout_margin="1dip"
+                android:button="@drawable/btn_check_holo_light"
+                android:checked="true"
+                android:text="Todas" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/View01"
+            android:layout_width="match_parent"
+            android:layout_height="3dip"
+            android:background="#8d545c" />
+
+        <TextView
+            android:id="@+id/favorita_lineas_todas_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dip"
+            android:text="Todas seleccionadas" android:visibility="gone"/>
+
+        <ListView
+            android:id="@android:id/list"
+            style="@style/paradaListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:choiceMode="singleChoice"
+            android:fadingEdge="none" >
+
+            <!-- Preview: listitem=@layout/item_list_llegada -->
+        </ListView>
+    </LinearLayout>
+
+</LinearLayout>
