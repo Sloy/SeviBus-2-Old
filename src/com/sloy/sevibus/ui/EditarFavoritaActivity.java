@@ -18,6 +18,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
@@ -48,9 +49,9 @@ public class EditarFavoritaActivity extends FragmentActivity {
 		mList = (ListView)findViewById(android.R.id.list);
 		mTodas = (CheckBox)findViewById(R.id.favorita_lineas_todas);
 		mLineasTodas = (TextView)findViewById(R.id.favorita_lineas_todas_text);
-		
+
 		mTodas.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked){
@@ -109,19 +110,19 @@ public class EditarFavoritaActivity extends FragmentActivity {
 			// Por defecto todas las líneas
 			mList.setVisibility(View.GONE);
 			mLineasTodas.setVisibility(View.VISIBLE);
-			//TODO la línea se le pasa por Intent
 		}else{
 			// Editar
 			setTitle("Editar favorita");
 			mDescripcion.setText(mFavorita.getString("descripcion"));
-			// Si hay línea guardada...
+			// Coge la línea si la hay
 			long linea = mFavorita.getLong("linea_id");
-			if(linea!=0){
+			if(linea != 0){
 				// La selecciona y muestra la lista
-				for(int i=0;i<mAdapter.getCount();i++){
-					if(mAdapter.getItemId(i)==linea){
+				for(int i = 0; i < mAdapter.getCount(); i++){
+					if(mAdapter.getItemId(i) == linea){
 						// Es nuestra línea
 						mList.setItemChecked(i, true);
+						break;
 					}
 				}
 				mList.setVisibility(View.VISIBLE);
@@ -132,9 +133,7 @@ public class EditarFavoritaActivity extends FragmentActivity {
 				mList.setVisibility(View.GONE);
 				mLineasTodas.setVisibility(View.VISIBLE);
 			}
-			
 		}
-		
 		// Mierda del foco
 		mNumero.requestFocus();
 	}
@@ -151,7 +150,6 @@ public class EditarFavoritaActivity extends FragmentActivity {
 		switch (item.getItemId()){
 			case R.id.menu_ok:
 				guardar();
-				finish();
 				return true;
 			case R.id.menu_cancelar:
 				finish();
@@ -163,16 +161,52 @@ public class EditarFavoritaActivity extends FragmentActivity {
 				return false;
 		}
 	}
-	
+
 	private void guardar() {
-		//TODO guardar el favorito
+		DataFramework db = null;
+		try{
+			db = DataFramework.getInstance();
+			db.open(this, getPackageName());
+			// Si no existe, inicializa
+			if(mFavorita == null){
+				mFavorita = new Entity("favoritas");
+				mFavorita.setValue("parada_id", mParada.getId());
+			}else{
+				mFavorita = new Entity("favoritas", mFavorita.getId());
+			}
+			mFavorita.setValue("descripcion", mDescripcion.getText().toString());
+			// Línea?
+			if(mTodas.isChecked()){
+				// Todas
+				mFavorita.setValue("linea", "0");
+			}else{
+				// Seleccionada
+				int linea = mList.getCheckedItemPosition();
+				if(linea == ListView.INVALID_POSITION){
+					// Si por error no se ha seleccionado ninguna
+					linea = 0;
+				}
+				long lineaID = mAdapter.getItemId(linea);
+				mFavorita.setValue("linea_id", lineaID);
+			}
+			mFavorita.save();
+			Toast.makeText(this, "Guardada correctamente", Toast.LENGTH_SHORT).show();
+			finish();
+		}catch(Exception e){
+			Log.e("sevibus", "Error guardando favorita", e);
+			Toast.makeText(this, "Error :S", Toast.LENGTH_SHORT).show();
+		}finally{
+			if(db != null){
+				db.close();
+			}
+		}
 	}
 
 	private class ChoicesAdapter extends BaseAdapter {
-		
+
 		private Context mContext;
 		private List<Entity> mLineas;
-		
+
 		public ChoicesAdapter(Context context, List<Entity> lineas) {
 			mContext = context;
 			mLineas = lineas;
