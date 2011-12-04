@@ -21,6 +21,7 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.IntentMapa;
 import com.sloy.sevibus.utils.IntentParada;
 
 import java.util.Collections;
@@ -32,6 +33,7 @@ public class ParadasActivity extends FragmentActivity {
 	private ListView mList;
 	private ParadasAdapter mAdapter;
 	private String mLinea;
+	private long mLineaID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +41,9 @@ public class ParadasActivity extends FragmentActivity {
 		setContentView(R.layout.list_activity);
 
 		// coge la línea que se le ha pasado
-		final long linea = getIntent().getLongExtra("linea", 0);
+		mLineaID = getIntent().getLongExtra("linea", 0);
 		mLinea = getIntent().getStringExtra("nombre");
-		if(linea == 0){
+		if(mLineaID == 0){
 			// TODO comprobar otra cosa?
 			Toast.makeText(this, "No se pasó nunguna línea", Toast.LENGTH_SHORT).show();
 			finish();
@@ -53,7 +55,7 @@ public class ParadasActivity extends FragmentActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				startActivity(new IntentParada(ParadasActivity.this, mAdapter.getItem(pos).getId()).setLinea(linea));
+				startActivity(new IntentParada(ParadasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mLineaID));
 			}
 		});
 		DataFramework db = null;
@@ -64,7 +66,7 @@ public class ParadasActivity extends FragmentActivity {
 			// "paradas AS p JOIN relaciones AS r ON p._id=r.parada_id JOIN lineas AS l ON r.linea_id=l._id",
 			// "r.linea_id=1", null, null);
 			List<Entity> paradas = Lists.newArrayList();
-			List<Entity> rel = db.getEntityList("relaciones", "linea_id=" + linea);
+			List<Entity> rel = db.getEntityList("relaciones", "linea_id=" + mLineaID);
 			for(Entity e : rel){
 				Entity parada = db.getTopEntity("paradas", "_id=" + e.getInt("parada_id"), null);
 				paradas.add(parada);
@@ -143,6 +145,8 @@ public class ParadasActivity extends FragmentActivity {
 			case R.id.menu_reportar:
 				reportar();
 				return true;
+			case R.id.menu_mapa:
+				startActivity(new IntentMapa(this).setLinea(mLineaID));
 			case android.R.id.home:
 				startActivity(new Intent(this, HomeActivity.class));
 				return true;
