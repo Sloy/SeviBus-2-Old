@@ -178,7 +178,7 @@ public class EditarFavoritaActivity extends FragmentActivity {
 			// Línea?
 			if(mTodas.isChecked()){
 				// Todas
-				mFavorita.setValue("linea", "0");
+				mFavorita.setValue("linea_id", 0);
 			}else{
 				// Seleccionada
 				int linea = mList.getCheckedItemPosition();
