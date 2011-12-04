@@ -11,5 +11,10 @@ public class IntentEditarFavorita extends Intent {
 		super(context, EditarFavoritaActivity.class);
 		this.putExtra("parada", paradaID);
 	}
+	
+	public IntentEditarFavorita setLinea(long lineaID){
+		putExtra("linea", lineaID);
+		return this;
+	}
 
 }
