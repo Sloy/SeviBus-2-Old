@@ -82,10 +82,27 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.abs__simple_spinner_item, nombres);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
 		getSupportActionBar().setListNavigationCallbacks(aa, this);
+		
+		long linea = getIntent().getLongExtra("linea", 0);
+		if(linea!=0){
+			selectLinea(linea);
+		}
 
 		mapView.postInvalidate();
+		
+		//TODO recibir línea
+	}
 
+	private void selectLinea(long lineaID) {
+		for(int i=0;i<mLineas.size();i++){
+			Entity e = mLineas.get(i);
+			if(e.getId()==lineaID){
+				// Ésta es!
+				getSupportActionBar().setSelectedNavigationItem(i+1);
+			}
+		}
 	}
 
 	private void loadMap(Entity paradaUnica) {
