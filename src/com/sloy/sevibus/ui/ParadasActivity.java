@@ -147,6 +147,7 @@ public class ParadasActivity extends FragmentActivity {
 				return true;
 			case R.id.menu_mapa:
 				startActivity(new IntentMapa(this).setLinea(mLineaID));
+				return true;
 			case android.R.id.home:
 				startActivity(new Intent(this, HomeActivity.class));
 				return true;
