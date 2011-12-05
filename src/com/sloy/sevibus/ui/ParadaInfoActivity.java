@@ -28,6 +28,7 @@ import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
+import com.sloy.sevibus.utils.IntentEditarFavorita;
 import com.sloy.sevibus.utils.IntentMapa;
 import com.sloy.sevibus.utils.Utils;
 
@@ -35,7 +36,7 @@ import java.util.List;
 
 public class ParadaInfoActivity extends FragmentActivity {
 
-	private Entity mEntity;
+	private Entity mParada;
 	private List<String> mLineas;
 	private List<Integer[][]> mTiempos;
 	private LlegadasAdapter mAdapter;
@@ -106,7 +107,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(ParadaInfoActivity.this, MapaActivity.class);
-				startActivity(new IntentMapa(ParadaInfoActivity.this).setParada(mEntity.getId()));
+				startActivity(new IntentMapa(ParadaInfoActivity.this).setParada(mParada.getId()));
 			}
 		});
 
@@ -135,7 +136,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 			// Mírame si la tengo de favorita o no, anda
 			isFavorita = db.getEntityListCount("favoritas", "parada_id=" + parada) > 0;
 			// Saca la entity de la base de datos
-			mEntity = db.getTopEntity("paradas", "_id = " + parada, null);
+			mParada = db.getTopEntity("paradas", "_id = " + parada, null);
 			// Saca la línea, si se le ha pasado
 			mLineaProcedente = db.getTopEntity("lineas", "_id=" + linea, null);
 			// saca la lista de líneas que pasan por esta parada
@@ -152,15 +153,15 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}finally{
 			db.close();
 		}
-		if(mEntity == null){
+		if(mParada == null){
 			// TODO controlar error
 			Log.e("sevibus", "Entity null");
 		}
 
 		// pone la información en pantalla
-		mTxtNumero.setText("Parada nº " + mEntity.getString("numero"));
-		mTxtNombre.setText(mEntity.getString("nombre"));
-		String direccion = mEntity.getString("direccion");
+		mTxtNumero.setText("Parada nº " + mParada.getString("numero"));
+		mTxtNombre.setText(mParada.getString("nombre"));
+		String direccion = mParada.getString("direccion");
 		if(direccion == null || direccion.equals("")){
 			mContainerDireccion.setVisibility(View.GONE);
 		}else{
@@ -270,7 +271,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 			case R.id.menu_parada_fav:
-				Datos.createAlertDialog(this, mEntity, null).show();
+				startActivity(new IntentEditarFavorita(this, mParada.getId()));
 				return true;
 			case R.id.menu_reportar:
 				reportar();
@@ -289,7 +290,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		protected List<String> doInBackground(Void... params) {
 			List<String> tiempos = Lists.newArrayList();
 			mTiempos = Lists.newArrayList();
-			int parada = mEntity.getInt("numero");
+			int parada = mParada.getInt("numero");
 			if(mostrarTodas || mLineaProcedente == null){
 				// muestra todas
 				for(String lin : mLineas){
@@ -331,7 +332,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		emailIntent.setType("plain/text");
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, String.format(getString(R.string.email_text_parada), mEntity.getString("numero")));
+		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, String.format(getString(R.string.email_text_parada), mParada.getString("numero")));
 		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
 
