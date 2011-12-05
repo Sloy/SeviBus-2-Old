@@ -35,6 +35,7 @@ public class FavoritasActivity extends FragmentActivity {
 
 	private ListView mList;
 	private FavoritasAdapter mAdapter;
+	private List<Entity> mFavoritas;
 	private Animation mAnimShake;
 	private TextView mEmpty;
 
@@ -49,7 +50,7 @@ public class FavoritasActivity extends FragmentActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				startActivity(new IntentParada(FavoritasActivity.this, mAdapter.getItem(pos).getId()));
+				startActivity(new IntentParada(FavoritasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mFavoritas.get(pos).getLong("linea_id")));
 			}
 		});
 		mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -102,6 +103,7 @@ public class FavoritasActivity extends FragmentActivity {
 			List<Entity> paradas = Lists.newArrayList();
 			List<String> descs = Lists.newArrayList();
 			List<Entity> rel = db.getEntityList("favoritas");
+			mFavoritas = rel;
 			for(Entity e : rel){
 				Entity parada = db.getTopEntity("paradas", "_id=" + e.getInt("parada_id"), null);
 				paradas.add(parada);
