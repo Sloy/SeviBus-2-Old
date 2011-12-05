@@ -87,9 +87,6 @@ public class FavoritasActivity extends FragmentActivity {
 				return true;
 			}
 		});
-		registerForContextMenu(mList);
-		recargarLista();
-
 	}
 
 	private void recargarLista() {
@@ -213,6 +210,12 @@ public class FavoritasActivity extends FragmentActivity {
 
 	private void shake(View v) {
 		v.startAnimation(mAnimShake);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		recargarLista();
 	}
 
 }
