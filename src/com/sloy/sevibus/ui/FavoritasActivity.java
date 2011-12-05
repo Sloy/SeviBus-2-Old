@@ -23,7 +23,7 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
-import com.sloy.sevibus.utils.Datos;
+import com.sloy.sevibus.utils.IntentEditarFavorita;
 import com.sloy.sevibus.utils.IntentParada;
 
 import quickactions.ActionItem;
@@ -56,17 +56,11 @@ public class FavoritasActivity extends FragmentActivity {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View v, final int pos, long arg3) {
 				final QuickAction qa = new QuickAction(v);
-				qa.addActionItem(new ActionItem().setTitle("Cambiar nombre").setOnClickListener(new OnClickListener() {
+				qa.addActionItem(new ActionItem().setTitle("Editar").setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(final View v) {
 						qa.dismiss();
-						Datos.createAlertDialog(FavoritasActivity.this, mAdapter.getItem(pos), new Datos.OnDialogListener() {
-							@Override
-							public void onDialog() {
-								recargarLista();
-								shake(mList);
-							}
-						}).show();
+						startActivity(new IntentEditarFavorita(FavoritasActivity.this, mAdapter.getItem(pos).getId()));
 					}
 				}));
 				qa.addActionItem(new ActionItem().setTitle("Eliminar").setOnClickListener(new OnClickListener() {
