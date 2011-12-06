@@ -14,6 +14,7 @@ public class AcercadeActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_acercade);
+		setTitle("Acerca de SeviBus");
 	}
 
 	@Override
