@@ -49,7 +49,8 @@ public class ParadasActivity extends FragmentActivity {
 			finish();
 		}
 
-		setTitle("Paradas de la línea " + mLinea);
+		setTitle("Paradas");
+		getSupportActionBar().setSubtitle("De la línea "+mLinea);
 
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
