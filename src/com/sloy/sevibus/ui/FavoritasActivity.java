@@ -44,6 +44,7 @@ public class FavoritasActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_activity);
 		mAnimShake = AnimationUtils.loadAnimation(this, R.anim.shake);
+		setTitle("Paradas favoritas");
 
 		mEmpty = (TextView)findViewById(android.R.id.empty);
 		mList = (ListView)findViewById(android.R.id.list);
