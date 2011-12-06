@@ -108,7 +108,6 @@ public class ParadaInfoActivity extends FragmentActivity {
 		mBtMapa.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent i = new Intent(ParadaInfoActivity.this, MapaActivity.class);
 				startActivity(new IntentMapa(ParadaInfoActivity.this).setParada(mParada.getId()));
 			}
 		});
