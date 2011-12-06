@@ -60,6 +60,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 		// class in android.support.v4.view and NOT android.view
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_parada);
+		
+		setTitle("Info. de parada");
 
 		mAnimBlink = AnimationUtils.loadAnimation(this, R.anim.blink);
 		mAnimExpand = AnimationUtils.loadAnimation(this, R.anim.expand_contract);
