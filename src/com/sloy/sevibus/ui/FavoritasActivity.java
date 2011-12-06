@@ -156,7 +156,7 @@ public class FavoritasActivity extends FragmentActivity {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			Entity item = getItem(position);
-			if(true || convertView == null){
+			if(convertView == null){
 				convertView = View.inflate(mContext, R.layout.list_item_parada, null);
 			}
 			TextView numero = (TextView)convertView.findViewById(R.id.item_parada_numero);
