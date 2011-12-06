@@ -311,7 +311,8 @@ public class ParadaInfoActivity extends FragmentActivity {
 		protected void onPostExecute(List<String> result) {
 			mAdapter.setTiempos(result);
 			setProgressBarIndeterminateVisibility(Boolean.FALSE);
-			mAnimBlink.cancel();
+//			mAnimBlink.cancel();
+			mBtActualizar.clearAnimation();
 			mAnimBlink.reset();
 			mLoading = false;
 			super.onPostExecute(result);
