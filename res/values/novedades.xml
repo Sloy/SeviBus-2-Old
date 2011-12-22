@@ -41,5 +41,19 @@ He recibido mogollón de comentarios con esta nueva versión, veo que los botone
 \n\n- He incorporado en la pantalla principal un botón de donación vía PayPal. Al pulsarlo aparece un menú con algunas explicaciones, no voy a repetirlas aquí. Que cada uno vea si lo ignora o no.
 \n\n- Más correciones menores, espero que mejore la calidad general de la aplicación. 
     </string>
+    
+    <string name="novedades5">
+        En esta actualización no hay muchos cambios.
+
+\n\n- He creado un nuevo sistema para guardar y editar favoritos, con más opciones y más claro. Podéis como siempre hacerlo pulsando el botón de estrella del ActionBar en la pantalla de la parada, o manteniendo pulsado sobre el elemento de la lista de favoritas.
+\n\n- Además, si se guarda con una línea predeterminada también se mostrará en espacial el tiempo de esa línea, como ya pasaba cuando se accedía a través de la lista de líneas.
+\n\n- También se puede abrir directamente una lína en el mapa a través de un nuevo botón en el ActionBar de su lista de paradas.
+\n\n- He corregido también un error que me reportaron varios con Android 2.1, ya debería funcionar correctamente (Gracias Mª Dolores), y algún fallito con pantallas pequeñas.
+\n\n- Aparte de todo esto he hecho varios cambios a nivel interno e inperceptibles desde fuera, pero importantes.
+\n
+\n- No dudéis en seguir enviando reportes de cosas que fallan o que pensáis que podrían mejorar.
+\n 
+\n Próximamente actualizaré con nuevas funciones que seguro os gustarán a la mayoría.
+    </string>
 
 </resources>
