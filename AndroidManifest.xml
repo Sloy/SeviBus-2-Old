@@ -45,6 +45,7 @@
         <activity android:name=".ui.AcercadeActivity" />
         <activity android:name=".ui.EditarFavoritaActivity" >
         </activity>
+        <activity android:name=".ui.ParadasBusquedaActivity" />
     </application>
 
 </manifest>

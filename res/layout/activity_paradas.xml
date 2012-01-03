@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/paradas_busqueda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/paradas_busqueda"
+        android:hint="Nº, nombre o dirección"
+        android:imeOptions="actionSearch"
+        android:inputType="text" />
+
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/paradas_busqueda"
+        android:id="@+id/paradas_buscar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Buscar" />
+
+    <ListView
+        android:layout_below="@+id/paradas_busqueda"
+        android:id="@android:id/list"
+        style="@style/paradaListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fastScrollEnabled="true" >
+
+        <!-- Preview: listitem=@layout/list_item_parada -->
+    </ListView>
+
+</RelativeLayout>
