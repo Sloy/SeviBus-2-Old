@@ -33,5 +33,13 @@
 
         <!-- Preview: listitem=@layout/list_item_parada -->
     </ListView>
+    
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:text="No se encontraron resultados"
+        android:visibility="gone"
+        android:id="@+id/paradas_vacio"/>
 
 </RelativeLayout>
