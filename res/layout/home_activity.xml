@@ -3,6 +3,7 @@
     android:id="@+id/home_dashboard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:baselineAligned="false"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -49,7 +50,7 @@
             android:drawableTop="@drawable/ic_favoritas"
             android:gravity="center"
             android:text="Favoritas" />
-        
+
         <Button
             android:id="@+id/main_lineas_button"
             android:layout_width="match_parent"
@@ -68,7 +69,8 @@
         android:layout_weight="1"
         android:gravity="center_vertical" >
 
-        <!-- <Button
+        <!--
+             <Button
             android:id="@+id/main_cercanas_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,11 +78,12 @@
             android:background="@null"
             android:drawableTop="@drawable/ic_cercanas"
             android:gravity="center"
-            android:text="Cercanas" /> -->
+            android:text="Cercanas" />
+        -->
 
         <Button
             android:id="@+id/main_acerca_button"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
