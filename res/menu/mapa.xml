@@ -9,10 +9,10 @@
         android:icon="@drawable/ic_action_zoom_out"
         android:showAsAction="always"
         android:title="Alejar" />
-    <item
+    <!-- <item
         android:id="@+id/menu_reportar"
         android:icon="@drawable/ic_action_report"
         android:showAsAction="always|withText"
-        android:title="Reportar"/>
+        android:title="Reportar"/> -->
 
 </menu>
