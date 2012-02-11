@@ -11,10 +11,10 @@
         android:icon="@drawable/ic_action_reportar"
         android:showAsAction="always|withText"
         android:title="Reportar"/>
-    <item
+    <!-- <item
         android:id="@+id/menu_opciones"
         android:icon="@drawable/ic_action_opciones"
         android:showAsAction="always|withText"
-        android:title="Opciones"/>
+        android:title="Opciones"/> -->
 
 </menu>
