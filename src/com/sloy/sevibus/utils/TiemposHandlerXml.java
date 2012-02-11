@@ -5,6 +5,7 @@
 package com.sloy.sevibus.utils;
 
 import android.util.Log;
+import com.sloy.sevibus.R;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

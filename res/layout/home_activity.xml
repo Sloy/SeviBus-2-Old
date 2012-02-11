@@ -21,7 +21,7 @@
             android:background="@null"
             android:drawableTop="@drawable/ic_paradas"
             android:gravity="center"
-            android:text="Paradas" />
+            android:text="@string/paradas" />
 
         <Button
             android:id="@+id/main_mapa_button"
@@ -31,7 +31,7 @@
             android:background="@null"
             android:drawableTop="@drawable/ic_mapa"
             android:gravity="center"
-            android:text="Mapa" />
+            android:text="@string/mapa" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,7 +49,7 @@
             android:background="@null"
             android:drawableTop="@drawable/ic_favoritas"
             android:gravity="center"
-            android:text="Favoritas" />
+            android:text="@string/favoritas" />
 
         <Button
             android:id="@+id/main_lineas_button"
@@ -59,7 +59,7 @@
             android:background="@null"
             android:drawableTop="@drawable/ic_lineas"
             android:gravity="center"
-            android:text="Lineas" />
+            android:text="@string/lineas" />
     </LinearLayout>
 
     <LinearLayout
@@ -89,7 +89,7 @@
             android:background="@null"
             android:drawableTop="@drawable/ic_acerca"
             android:gravity="center"
-            android:text="Acerca de" />
+            android:text="@string/acerca_de" />
     </LinearLayout>
 
 </LinearLayout>

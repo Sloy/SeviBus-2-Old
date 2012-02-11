@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/paradas_busqueda"
-        android:hint="Nº, nombre o dirección"
+        android:hint="@string/n_nombre_o_direcci_n"
         android:imeOptions="actionSearch"
         android:inputType="text" />
 
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Buscar" />
+        android:text="@string/buscar" />
 
     <ListView
         android:layout_below="@+id/paradas_busqueda"

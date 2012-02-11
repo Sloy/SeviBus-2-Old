@@ -13,13 +13,13 @@
 
         <!-- Preview: listitem=@layout/list_item_parada -->
     </ListView>
-
+
     <TextView
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="Lista vacía"
+        android:text="@string/lista_vac_a"
         android:visibility="gone" />
 
 </LinearLayout>

@@ -9,6 +9,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.google.common.collect.Lists;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
+import com.sloy.sevibus.R;
 
 import java.util.List;
 

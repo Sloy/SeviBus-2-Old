@@ -1,5 +1,7 @@
 package com.sloy.sevibus.utils;
 
+import com.sloy.sevibus.R;
+
 public class FavoritosHelper {
 
 	private int paradaID;

@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.RadioButton;
+import com.sloy.sevibus.R;
 
 /**
  * CheckBox that does not react to any user event in order to let the container handle them.

@@ -3,6 +3,7 @@ package quickactions;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
+import com.sloy.sevibus.R;
 
 /**
  * Action item, displayed as menu with icon and text.

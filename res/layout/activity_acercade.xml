@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dip"
-                    android:text="Versión"
+                    android:text="@string/version"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#990000"
                     android:textSize="19sp" />
@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
-                android:text="¿Qué hay de nuevo?"
+                android:text="@string/que_hay_de_nuevo"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#990000"
                 android:textSize="19sp" />
@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
-                android:text="Aviso"
+                android:text="@string/aviso_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#990000"
                 android:textSize="19sp" />
