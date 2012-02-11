@@ -16,7 +16,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
-            android:text="Parada nº &apos;###&apos;"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#990000"
             android:textSize="19sp" />
@@ -32,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
-            android:text="&apos;Nombre de la parada&apos;"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -48,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
-            android:text="&apos;Dirección de la parada&apos;"
+            
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#990000"
             android:textSize="18sp" />
@@ -68,7 +66,7 @@
             android:background="@drawable/button_trans"
             android:drawableRight="@drawable/arrow"
             android:padding="5dip"
-            android:text="Ver en el Mapa"
+            android:text="@string/ver_en_el_mapa"
             android:textSize="17dip" />
     </LinearLayout>
 
@@ -92,7 +90,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="bottom"
                 android:layout_marginTop="18dp"
-                android:text="Tiempos de llegada"
+                android:text="@string/tiempos_de_llegada"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#990000"
                 android:textSize="19sp" />

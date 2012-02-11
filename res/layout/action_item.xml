@@ -22,7 +22,6 @@
         android:paddingLeft="5dip"
         android:paddingRight="10dip"
         android:paddingTop="4dip"
-        android:text="Chart"
         android:textColor="#fff" />
 
 </RelativeLayout>

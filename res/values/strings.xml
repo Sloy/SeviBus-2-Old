@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SeviBus2.0</string>
+    <string name="app_name">SeviBus</string>
 
-    <string name="app_version">2.0.5</string>
-    <string name="app_date">06 de diciembre de 2011</string>
+    <string name="app_version">2.1</string>
+    <string name="app_date">11 de febrero de 2012</string>
 
     <string name="dedicatoria">Aplicación dedicada a esa persona que deseo tanto que se pase a visitarnos por Sevilla ;) </string>
+    <string name="dedicatoria_luv">♥♥♥ Aplicación dedicada a esa persona que deseo tanto que se pase a visitarnos por Sevilla ♥♥♥</string>
     <string name="email_address">rafa.vazsan+sevibus@gmail.com</string>
     <string name="email_subject">Reporte de SeviBus</string>
-    <string name="email_intent">Enviar vía email...</string>
+    <string name="email_intent">Enviar vía email…</string>
     <string name="email_text_general">Escribe aquí lo que quieras. Intentaré responderte lo antes posible.\n</string>
     <string name="email_text_parada">Parada %s\nEscribe aquí lo que quieras\n</string>
     <string name="email_text_favoritas">Favoritas\nEscribe aquí lo que quieras\n</string>
@@ -22,4 +23,44 @@
 \nLa información proporcionada es dada siempre en términos de aproximación y puede a veces no ser demasiado exacta. No me hago responsable si esto ocasiona algún contratiempo al usuario.
 \n
 \nNo estoy en ningún sentido afiliado con Tussam y esta aplicación se ha realizado sin su ayuda ni consentimiento. </string>
+
+    <string name="version">Versión</string>
+
+    <string name="que_hay_de_nuevo">¿Qué hay de nuevo?</string>
+
+    <string name="aviso_title">Aviso</string>
+
+    <string name="_990000">#990000</string>
+
+    <string name="guardar_como">Guardar como:</string>
+
+    <string name="lineas_">"Líneas: "</string>
+
+    <string name="todas">Todas</string>
+
+    <string name="todas_seleccionadas">Todas seleccionadas</string>
+
+    <string name="ver_en_el_mapa">Ver en el Mapa</string>
+
+    <string name="tiempos_de_llegada">Tiempos de llegada</string>
+
+    <string name="n_nombre_o_direcci_n">Nº, nombre o dirección</string>
+
+    <string name="buscar">Buscar</string>
+
+    <string name="paradas">Paradas</string>
+
+    <string name="mapa">Mapa</string>
+
+    <string name="favoritas">Favoritas</string>
+
+    <string name="lineas">Lineas</string>
+
+    <string name="acerca_de">Acerca de</string>
+
+    <string name="lista_vac_a">Lista vacía</string>
+
+    <string name="parada_n_">Parada nº</string>
+
+    <string name="l_neas_">"Líneas: "</string>
 </resources>

@@ -7,10 +7,10 @@
         android:showAsAction="always|withText"
         android:title="Ver mapa"/>
 
-    <item
+    <!-- <item
         android:id="@+id/menu_reportar"
         android:icon="@drawable/ic_action_report"
         android:showAsAction="always|withText"
-        android:title="Reportar"/>
+        android:title="Reportar"/> -->
 
 </menu>

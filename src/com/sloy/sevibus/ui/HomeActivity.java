@@ -16,11 +16,13 @@ import android.widget.Button;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.IntentMapa;
 
+import java.util.Calendar;
+
 public class HomeActivity extends FragmentActivity {
 
 	private Context mContext = this;
 
-	private Button mBtCercanas, mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtOpciones;
+	private Button mBtCercanas, mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtAcerca;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,9 @@ public class HomeActivity extends FragmentActivity {
 		// mBtCercanas = (ImageButton) findViewById(R.id.main_cercanas_button);
 		mBtFavoritas = (Button)findViewById(R.id.main_favoritas_button);
 		mBtLineas = (Button)findViewById(R.id.main_lineas_button);
-		// mBtParadas = (ImageButton) findViewById(R.id.main_paradas_button);
+		mBtParadas = (Button)findViewById(R.id.main_paradas_button);
 		mBtMapa = (Button)findViewById(R.id.main_mapa_button);
-		mBtOpciones = (Button)findViewById(R.id.main_acercade_button);
+		mBtAcerca = (Button)findViewById(R.id.main_acerca_button);
 
 		/* Establece los listeners */
 		/*
@@ -59,20 +61,21 @@ public class HomeActivity extends FragmentActivity {
 
 			}
 		});
-		/*
-		 * mBtParadas.setOnClickListener(new View.OnClickListener() {
-		 * @Override
-		 * public void onClick(View v) {
-		 * }
-		 * });
-		 */
+
+		mBtParadas.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(mContext, ParadasBusquedaActivity.class));
+			}
+		});
+
 		mBtMapa.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startActivity(new IntentMapa(mContext));
 			}
 		});
-		mBtOpciones.setOnClickListener(new View.OnClickListener() {
+		mBtAcerca.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(mContext, AcercadeActivity.class));
@@ -85,6 +88,12 @@ public class HomeActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.home, menu);
+		Calendar rightNow = Calendar.getInstance();
+		if(rightNow.get(Calendar.MONTH)==Calendar.FEBRUARY && rightNow.get(Calendar.DAY_OF_MONTH) == 14){
+			//luv mode
+			menu.findItem(R.id.menu_donar).setIcon(R.drawable.ic_action_donate_luv);
+		}
+		
 		return true;
 	}
 

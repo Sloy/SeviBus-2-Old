@@ -6,11 +6,15 @@
         android:icon="@drawable/ic_action_donate"
         android:showAsAction="always"
         android:title="Donar"/>
-
     <item
         android:id="@+id/menu_reportar"
-        android:icon="@drawable/ic_action_report"
+        android:icon="@drawable/ic_action_reportar"
         android:showAsAction="always|withText"
         android:title="Reportar"/>
+    <!-- <item
+        android:id="@+id/menu_opciones"
+        android:icon="@drawable/ic_action_opciones"
+        android:showAsAction="always|withText"
+        android:title="Opciones"/> -->
 
 </menu>

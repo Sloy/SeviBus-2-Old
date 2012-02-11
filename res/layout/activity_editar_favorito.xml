@@ -18,9 +18,8 @@
             android:layout_marginLeft="10dip"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:text="Parada nº &apos;###&apos;"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#990000"
+            android:textColor="@string/_990000"
             android:textSize="19sp" />
 
         <View
@@ -34,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
-            android:text="&apos;Nombre de la parada&apos;"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -50,9 +48,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
-            android:text="Guardar como:"
+            android:text="@string/guardar_como"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#990000"
+            android:textColor="@string/_990000"
             android:textSize="19sp" />
 
         <View
@@ -67,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dip"
             android:background="@drawable/edit_text"
-            android:hint="&apos;Nombre por defecto&apos;" />
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -89,9 +87,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="bottom"
-                android:text="Líneas: "
+                android:text="@string/lineas_"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#990000"
+                android:textColor="@string/_990000"
                 android:textSize="19sp" />
 
             <CheckBox
@@ -103,7 +101,7 @@
                 android:layout_margin="1dip"
                 android:button="@drawable/btn_check_holo_light"
                 android:checked="true"
-                android:text="Todas" />
+                android:text="@string/todas" />
         </RelativeLayout>
 
         <View
@@ -118,7 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dip"
-            android:text="Todas seleccionadas" android:visibility="gone"/>
+            android:text="@string/todas_seleccionadas"
+            android:visibility="gone" />
 
         <ListView
             android:id="@android:id/list"

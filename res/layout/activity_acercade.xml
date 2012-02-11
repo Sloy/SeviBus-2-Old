@@ -5,28 +5,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/LinearLayout01"
+            android:id="@+id/acercade_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dip" >
 
             <LinearLayout
-                android:id="@+id/textversion"
+                android:id="@+id/acercade_info_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip" >
 
                 <TextView
-                    android:id="@+id/TextView02"
+                    android:id="@+id/acercade_info_version_dinamic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dip"
-                    android:text="Versión"
+                    android:text="@string/version"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#990000"
                     android:textSize="19sp" />
@@ -42,13 +42,13 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/View01"
+                android:id="@+id/acercade_info_separator"
                 android:layout_width="match_parent"
                 android:layout_height="3dip"
                 android:background="#8d545c" />
 
             <TextView
-                android:id="@+id/TextView01"
+                android:id="@+id/acercade_info_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
@@ -58,62 +58,62 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/parada_seccion_nombre"
+            android:id="@+id/acercade_novedades"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dip" >
 
             <TextView
-                android:id="@+id/parada_nombre_numero"
+                android:id="@+id/acercade_novedades_titulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
-                android:text="¿Qué hay de nuevo?"
+                android:text="@string/que_hay_de_nuevo"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#990000"
                 android:textSize="19sp" />
 
             <View
-                android:id="@+id/view1"
+                android:id="@+id/acercade_novedades_separator"
                 android:layout_width="match_parent"
                 android:layout_height="3dip"
                 android:background="#8d545c" />
 
             <TextView
-                android:id="@+id/parada_nombre_nombre"
+                android:id="@+id/acercade_novedades_contenido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
-                android:text="@string/novedades5"
+                android:text="@string/novedades6"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/LinearLayout02"
+            android:id="@+id/acercade_aviso"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dip" >
 
             <TextView
-                android:id="@+id/TextView03"
+                android:id="@+id/acercade_aviso_titulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
-                android:text="Aviso"
+                android:text="@string/aviso_title"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#990000"
                 android:textSize="19sp" />
 
             <View
-                android:id="@+id/View02"
+                android:id="@+id/acercade_aviso_separator"
                 android:layout_width="match_parent"
                 android:layout_height="3dip"
                 android:background="#8d545c" />
 
             <TextView
-                android:id="@+id/TextView04"
+                android:id="@+id/acercade_aviso_contenido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
@@ -122,21 +122,21 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/LinearLayout03"
+            android:id="@+id/acercade_dedicatoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dip" >
 
             <View
-                android:id="@+id/View03"
+                android:id="@+id/acercade_dedicatoria_separator"
                 android:layout_width="match_parent"
                 android:layout_height="2dip"
                 android:layout_marginBottom="10dip"
                 android:background="#8d545c" />
 
             <TextView
-                android:id="@+id/TextView05"
+                android:id="@+id/dedicatoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
