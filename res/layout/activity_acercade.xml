@@ -22,7 +22,7 @@
                 android:layout_marginLeft="10dip" >
 
                 <TextView
-                    android:id="@+id/acercade_info_version_dinamic"
+                    android:id="@+id/acercade_info_version_static"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dip"
@@ -32,7 +32,7 @@
                     android:textSize="19sp" />
 
                 <TextView
-                    android:id="@+id/TextView03"
+                    android:id="@+id/acercade_info_version_dynamic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_version"
@@ -79,14 +79,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="3dip"
                 android:background="#8d545c" />
-
-            <TextView
+
+            <RelativeLayout
                 android:id="@+id/acercade_novedades_contenido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dip"
-                android:text="@string/novedades6"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_marginLeft="20dip" >
+
+                <FrameLayout
+                    android:id="@+id/acercade_novedades_contenido_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/acercade_novedades_contenido_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/novedades6"
+                        style="@style/text_persiana_style"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/acercade_novedades_contenido_boton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/acercade_novedades_contenido_frame"
+                    android:text="Más" />
+
+                <View
+                    android:id="@+id/acercade_novedades_contenido_separador"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignBaseline="@+id/acercade_novedades_contenido_boton"
+                    android:layout_toLeftOf="@+id/acercade_novedades_contenido_boton"
+                    android:background="#AAA" />
+
+            </RelativeLayout>
+
         </LinearLayout>
 
         <LinearLayout
