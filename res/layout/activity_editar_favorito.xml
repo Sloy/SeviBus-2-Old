@@ -19,7 +19,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@string/_990000"
+            android:textColor="#990000"
             android:textSize="19sp" />
 
         <View
@@ -50,7 +50,7 @@
             android:layout_marginLeft="10dip"
             android:text="@string/guardar_como"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@string/_990000"
+            android:textColor="#990000"
             android:textSize="19sp" />
 
         <View
@@ -89,7 +89,7 @@
                 android:layout_gravity="bottom"
                 android:text="@string/lineas_"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@string/_990000"
+                android:textColor="#990000"
                 android:textSize="19sp" />
 
             <CheckBox
