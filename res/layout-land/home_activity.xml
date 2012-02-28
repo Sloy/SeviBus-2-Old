@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_dashboard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/home_dashboard_row1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical" >
+
+        <Button
+            android:id="@+id/main_paradas_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/ic_paradas"
+            android:gravity="center"
+            android:text="@string/paradas" />
+
+        <Button
+            android:id="@+id/main_mapa_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/ic_mapa"
+            android:gravity="center"
+            android:text="@string/mapa" />
+
+        <Button
+            android:id="@+id/main_lineas_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/ic_lineas"
+            android:gravity="center"
+            android:text="@string/lineas" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/home_dashboard_row2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical" >
+
+        <Button
+            android:id="@+id/main_favoritas_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/ic_favoritas"
+            android:gravity="center"
+            android:text="@string/favoritas" />
+
+        <Button
+            android:id="@+id/main_acerca_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableTop="@drawable/ic_acerca"
+            android:gravity="center"
+            android:text="@string/acerca_de" />
+    </LinearLayout>
+
+   
+
+</LinearLayout>
