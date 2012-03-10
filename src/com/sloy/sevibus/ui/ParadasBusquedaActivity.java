@@ -1,6 +1,7 @@
 package com.sloy.sevibus.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.sloy.sevibus.R;
@@ -139,6 +141,17 @@ public class ParadasBusquedaActivity extends SherlockActivity {
 			res = limpiaConsulta(string.substring(0, string.length() - 1));
 		}
 		return res;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()){
+			case android.R.id.home:
+				startActivity(new Intent(this, HomeActivity.class));
+				return true;
+			default:
+				return false;
+		}
 	}
 
 }
