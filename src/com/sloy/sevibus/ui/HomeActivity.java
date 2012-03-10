@@ -128,7 +128,7 @@ public class HomeActivity extends FragmentActivity {
 		new AlertDialog.Builder(this)
 				.setTitle("Invítame a un café")
 				.setMessage(
-						"Este botón es para donar (dinero). Pulsando donar te mandará a una págian de PayPal a través de la cual puedes donar la cantidad que quieras. \n\n¿Por qué? Porque hacer esta aplicación requiere mucho trabajo, porque soy un único desarrollador trabajando en ella, estudiante, desempleado, que no cobra por la aplicación que puede facilitar a muchos el día a día. \n\nNo tienes que hacerlo si no quieres, la aplicación sigue siendo gratuita y por donar no se obtiene ninguna función extra. Pero si quieres apoyar el desarrollo y mejora de la aplicación, o simplemente quieres agradecerme mi trabajo, aquí tienes una buena oportunidad. \n\nGracias.")
+						"Este botón es para donar (dinero). Pulsando donar te mandará a una página de PayPal a través de la cual puedes donar la cantidad que quieras. \n\n¿Por qué? Porque hacer esta aplicación requiere mucho trabajo, porque soy un único desarrollador trabajando en ella, estudiante, desempleado, que no cobra por la aplicación que puede facilitar a muchos el día a día. \n\nNo tienes que hacerlo si no quieres, la aplicación sigue siendo gratuita y por donar no se obtiene ninguna función extra. Pero si quieres apoyar el desarrollo y mejora de la aplicación, o simplemente quieres agradecerme mi trabajo, aquí tienes una buena oportunidad. \n\nGracias.")
 				.setPositiveButton("Donar", new DialogInterface.OnClickListener() {
 
 					@Override

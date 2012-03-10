@@ -22,7 +22,7 @@
                 android:layout_marginLeft="10dip" >
 
                 <TextView
-                    android:id="@+id/acercade_info_version_dinamic"
+                    android:id="@+id/acercade_info_version_static"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dip"
@@ -32,7 +32,7 @@
                     android:textSize="19sp" />
 
                 <TextView
-                    android:id="@+id/TextView03"
+                    android:id="@+id/acercade_info_version_dynamic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_version"
@@ -80,13 +80,49 @@
                 android:layout_height="3dip"
                 android:background="#8d545c" />
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/acercade_novedades_contenido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
-                android:text="@string/novedades6"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:id="@+id/acercade_novedades_contenido_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/collapsed_text_height" >
+
+                    <TextView
+                        android:id="@+id/acercade_novedades_contenido_text"
+                        style="@style/text_persiana_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/novedades"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/acercade_novedades_contenido_frame2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ImageButton
+                        android:id="@+id/acercade_novedades_contenido_boton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/button_trans"
+                        android:src="@drawable/expander_open_holo_light" />
+
+                    <View
+                        android:id="@+id/acercade_novedades_contenido_separador"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="50dip"
+                        android:background="#AAA" />
+                </FrameLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

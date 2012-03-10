@@ -16,6 +16,17 @@
         <item name="android:cacheColorHint">#00000000</item>
         <item name="android:smoothScrollbar">false</item>
     </style>
+    
+    
+    <style name="text_persiana_style" parent="android:Widget.TextView">
+        <item name="android:fadingEdge">vertical</item>
+        <item name="android:fadingEdgeLength">15sp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+    
+    
+    
+    
 
     <style name="Animations" />
 
