@@ -81,6 +81,7 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		}
 		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.abs__simple_spinner_item, nombres);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		getSupportActionBar().setListNavigationCallbacks(aa, this);
