@@ -2,10 +2,20 @@
 <resources>
 
     <style name="Theme.SeviBus" parent="@style/Theme.Sherlock.Light">
-        <item name="abBackground">@drawable/ab_solid_light_holo</item>
         <item name="android:windowBackground">@drawable/background_noise</item>
-        <item name="abLogo">@drawable/ic_action_ic_ab_home</item>
+        <!--
+<item name="abLogo">@drawable/ic_action_ic_ab_home</item>
+<item name="abBackground">@drawable/ab_solid_light_holo</item>
         <item name="abIcon">@drawable/logo</item>
+        -->
+
+        <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+    </style>
+
+    <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="background">@drawable/ab_solid_light_holo</item>
+        <item name="android:background">@drawable/ab_solid_light_holo</item>
     </style>
 
     <style name="paradaListView">
@@ -16,17 +26,12 @@
         <item name="android:cacheColorHint">#00000000</item>
         <item name="android:smoothScrollbar">false</item>
     </style>
-    
-    
+
     <style name="text_persiana_style" parent="android:Widget.TextView">
         <item name="android:fadingEdge">vertical</item>
         <item name="android:fadingEdgeLength">15sp</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
-    
-    
-    
-    
 
     <style name="Animations" />
 
