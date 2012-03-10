@@ -1,13 +1,10 @@
 package com.sloy.sevibus.ui;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,6 +16,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
@@ -31,7 +32,7 @@ import quickactions.QuickAction;
 
 import java.util.List;
 
-public class FavoritasActivity extends FragmentActivity {
+public class FavoritasActivity extends SherlockActivity  {
 
 	private ListView mList;
 	private FavoritasAdapter mAdapter;
@@ -181,7 +182,7 @@ public class FavoritasActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSherlock().getMenuInflater();
 		inflater.inflate(R.menu.favoritas, menu);
 		return true;
 	}

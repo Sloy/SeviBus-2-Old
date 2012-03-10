@@ -2,15 +2,12 @@ package com.sloy.sevibus.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActionBar;
-import android.support.v4.app.ActionBar.OnNavigationListener;
-import android.support.v4.app.FragmentMapActivity;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.util.Log;
-import android.view.MenuInflater;
-import android.widget.ArrayAdapter;
 
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.android.maps.GeoPoint;
@@ -21,10 +18,11 @@ import com.google.android.maps.Overlay;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.MyItemizedOverlay;
+import com.sloy.sevibus.utils.SherlockMapActivity;
 
 import java.util.List;
 
-public class MapaActivity extends FragmentMapActivity implements OnNavigationListener {
+public class MapaActivity extends SherlockMapActivity implements OnNavigationListener {
 
 	private MapView mapView;
 	private MapController myMapController;
@@ -79,12 +77,12 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 		for(Entity e : mLineas){
 			nombres.add("Línea " + e.getString("nombre"));
 		}
-		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.abs__simple_spinner_item, nombres);
+		/*ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.abs__simple_spinner_item, nombres);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
-		getSupportActionBar().setListNavigationCallbacks(aa, this);
+		getSupportActionBar().setListNavigationCallbacks(aa, this);*/
 		
 		long linea = getIntent().getLongExtra("linea", 0);
 		if(linea!=0){
@@ -196,7 +194,7 @@ public class MapaActivity extends FragmentMapActivity implements OnNavigationLis
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSherlock().getMenuInflater();
 		inflater.inflate(R.menu.mapa, menu);
 		return true;
 	}

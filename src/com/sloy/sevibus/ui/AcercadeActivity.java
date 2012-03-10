@@ -1,23 +1,25 @@
 package com.sloy.sevibus.ui;
 
+
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.ExpandAnimation;
 
 import java.lang.reflect.Method;
 import java.util.Calendar;
 
-public class AcercadeActivity extends FragmentActivity {
+public class AcercadeActivity extends SherlockActivity  {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

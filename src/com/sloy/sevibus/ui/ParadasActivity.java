@@ -1,17 +1,18 @@
 package com.sloy.sevibus.ui;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
@@ -24,7 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ParadasActivity extends FragmentActivity {
+public class ParadasActivity extends SherlockActivity  {
 
 	private ListView mList;
 	private ParadasAdapter mAdapter;
@@ -90,7 +91,7 @@ public class ParadasActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSherlock().getMenuInflater();
 		inflater.inflate(R.menu.paradas, menu);
 		return true;
 	}

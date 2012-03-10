@@ -1,8 +1,8 @@
 package com.sloy.sevibus.ui;
 
+
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.sloy.sevibus.R;
@@ -22,7 +23,7 @@ import com.sloy.sevibus.utils.ParadasAdapter;
 
 import java.util.List;
 
-public class ParadasBusquedaActivity extends FragmentActivity {
+public class ParadasBusquedaActivity extends SherlockActivity  {
 
 	private Button mBtSearch;
 	private EditText mTxtBusqueda;
