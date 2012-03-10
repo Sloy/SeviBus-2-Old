@@ -1,6 +1,5 @@
 package com.sloy.sevibus.ui;
 
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -35,7 +34,7 @@ import com.sloy.sevibus.utils.Utils;
 
 import java.util.List;
 
-public class ParadaInfoActivity extends SherlockActivity  {
+public class ParadaInfoActivity extends SherlockActivity {
 
 	private Entity mParada;
 	private List<String> mLineas;
@@ -51,7 +50,7 @@ public class ParadaInfoActivity extends SherlockActivity  {
 	private boolean isFavorita;
 	private boolean mostrarTodas = false;
 	private boolean mLoading = true;
-	private Animation mAnimBlink,mAnimExpand;
+	private Animation mAnimBlink, mAnimExpand;
 	private TiemposLoader mLoader;
 
 	@Override
@@ -61,12 +60,15 @@ public class ParadaInfoActivity extends SherlockActivity  {
 		// class in android.support.v4.view and NOT android.view
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_parada);
-		
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		setTitle("Info. de parada");
 
 		mAnimBlink = AnimationUtils.loadAnimation(this, R.anim.blink);
 		mAnimExpand = AnimationUtils.loadAnimation(this, R.anim.expand_contract);
-		
+
 		mTxtNumero = (TextView)findViewById(R.id.parada_nombre_numero);
 		mTxtNombre = (TextView)findViewById(R.id.parada_nombre_nombre);
 		mTxtDireccion = (TextView)findViewById(R.id.parada_direccion_direccion);
@@ -119,7 +121,7 @@ public class ParadaInfoActivity extends SherlockActivity  {
 				refresh();
 			}
 		});
-		
+
 		// Obtiene la opción de mostrar todas
 		mostrarTodas = Datos.getPrefs().getBoolean("mostrar_todas", true);
 
@@ -183,10 +185,11 @@ public class ParadaInfoActivity extends SherlockActivity  {
 		// Cambia el estado de mostrar
 		mostrarTodas = !mostrarTodas;
 		// Vacía los tiempos para evitar error
-//		mTiempos = null;
+		// mTiempos = null;
 		// Refresca los tiempos
 		refresh();
-		// Guarda el nuevo estado de mostrar en sharedPreferences para recordarlo
+		// Guarda el nuevo estado de mostrar en sharedPreferences para
+		// recordarlo
 		Datos.getPrefs().edit().putBoolean("mostrar_todas", mostrarTodas).commit();
 	}
 
@@ -313,7 +316,7 @@ public class ParadaInfoActivity extends SherlockActivity  {
 		protected void onPostExecute(List<String> result) {
 			mAdapter.setTiempos(result);
 			setProgressBarIndeterminateVisibility(Boolean.FALSE);
-//			mAnimBlink.cancel();
+			// mAnimBlink.cancel();
 			mBtActualizar.clearAnimation();
 			mAnimBlink.reset();
 			mLoading = false;
@@ -359,7 +362,7 @@ public class ParadaInfoActivity extends SherlockActivity  {
 		}
 
 		// pone los tiempos de llegada
-//		mTiempos = null;
+		// mTiempos = null;
 		if(mostrarTodas || mLineaProcedente == null){
 			// Todas
 			mAdapter = new LlegadasAdapter(this, mLineas, null);

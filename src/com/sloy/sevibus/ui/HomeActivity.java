@@ -32,7 +32,9 @@ public class HomeActivity extends SherlockActivity  {
 		setContentView(R.layout.home_activity);
 
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
-		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayUseLogoEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		
 
 		// mBtCercanas = (ImageButton) findViewById(R.id.main_cercanas_button);
 		mBtFavoritas = (Button)findViewById(R.id.main_favoritas_button);

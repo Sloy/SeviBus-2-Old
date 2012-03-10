@@ -3,7 +3,9 @@ package com.sloy.sevibus.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -37,6 +39,9 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mapa);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mapView = (MapView)findViewById(R.id.mapa_mapview);
 		myMapController = mapView.getController();
@@ -77,12 +82,12 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		for(Entity e : mLineas){
 			nombres.add("Línea " + e.getString("nombre"));
 		}
-		/*ArrayAdapter<String> aa = new ArrayAdapter<String>(this, android.R.layout.abs__simple_spinner_item, nombres);
+		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.sherlock_spinner_item, nombres);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
-		getSupportActionBar().setListNavigationCallbacks(aa, this);*/
+		getSupportActionBar().setListNavigationCallbacks(aa, this);
 		
 		long linea = getIntent().getLongExtra("linea", 0);
 		if(linea!=0){

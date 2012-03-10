@@ -31,6 +31,9 @@ public class LineasActivity extends SherlockActivity  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_activity);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		setTitle("Líneas");
 		mList = (ListView)findViewById(android.R.id.list);

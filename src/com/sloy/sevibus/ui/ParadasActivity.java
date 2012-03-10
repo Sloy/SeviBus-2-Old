@@ -1,6 +1,5 @@
 package com.sloy.sevibus.ui;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ParadasActivity extends SherlockActivity  {
+public class ParadasActivity extends SherlockActivity {
 
 	private ListView mList;
 	private ParadasAdapter mAdapter;
@@ -36,6 +35,9 @@ public class ParadasActivity extends SherlockActivity  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_activity);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// coge la línea que se le ha pasado
 		mLineaID = getIntent().getLongExtra("linea", 0);
@@ -47,7 +49,7 @@ public class ParadasActivity extends SherlockActivity  {
 		}
 
 		setTitle("Paradas");
-		getSupportActionBar().setSubtitle("De la línea "+mLinea);
+		getSupportActionBar().setSubtitle("De la línea " + mLinea);
 
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,8 +88,6 @@ public class ParadasActivity extends SherlockActivity  {
 			mList.setAdapter(mAdapter);
 		}
 	}
-
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

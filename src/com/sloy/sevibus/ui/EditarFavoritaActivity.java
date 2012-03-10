@@ -42,6 +42,9 @@ public class EditarFavoritaActivity extends SherlockActivity  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editar_favorito);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mDescripcion = (EditText)findViewById(R.id.favorita_nombre_editar);
 		mNombre = (TextView)findViewById(R.id.parada_nombre_nombre);

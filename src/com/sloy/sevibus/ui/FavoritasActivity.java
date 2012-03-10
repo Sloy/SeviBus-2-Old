@@ -44,6 +44,10 @@ public class FavoritasActivity extends SherlockActivity  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_activity);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		mAnimShake = AnimationUtils.loadAnimation(this, R.anim.shake);
 		setTitle("Paradas favoritas");
 

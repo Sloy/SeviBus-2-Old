@@ -27,6 +27,10 @@ public class AcercadeActivity extends SherlockActivity  {
 		setContentView(R.layout.activity_acercade);
 		setTitle("Acerca de SeviBus");
 
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		Calendar rightNow = Calendar.getInstance();
 		if(rightNow.get(Calendar.MONTH) == Calendar.FEBRUARY && rightNow.get(Calendar.DAY_OF_MONTH) == 14){
 			// luv mode

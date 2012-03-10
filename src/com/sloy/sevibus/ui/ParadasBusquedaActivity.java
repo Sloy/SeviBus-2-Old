@@ -1,6 +1,5 @@
 package com.sloy.sevibus.ui;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,7 +22,7 @@ import com.sloy.sevibus.utils.ParadasAdapter;
 
 import java.util.List;
 
-public class ParadasBusquedaActivity extends SherlockActivity  {
+public class ParadasBusquedaActivity extends SherlockActivity {
 
 	private Button mBtSearch;
 	private EditText mTxtBusqueda;
@@ -35,6 +34,9 @@ public class ParadasBusquedaActivity extends SherlockActivity  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_paradas);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mEmpty = (TextView)findViewById(R.id.paradas_vacio);
 		mList = (ListView)findViewById(android.R.id.list);
