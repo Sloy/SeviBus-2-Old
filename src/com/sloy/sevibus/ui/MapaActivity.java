@@ -33,8 +33,6 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	private List<Entity> mLineas;
 	private Entity mParadaUnica;
 
-	// private MyItemizedOverlay mOverlaySearchIda;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,6 +40,8 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 		mapView = (MapView)findViewById(R.id.mapa_mapview);
 		myMapController = mapView.getController();
@@ -83,28 +83,27 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 			nombres.add("Línea " + e.getString("nombre"));
 		}
 		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.sherlock_spinner_item, nombres);
-		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
+
 		getSupportActionBar().setListNavigationCallbacks(aa, this);
-		
+
 		long linea = getIntent().getLongExtra("linea", 0);
-		if(linea!=0){
+		if(linea != 0){
 			selectLinea(linea);
 		}
 
 		mapView.postInvalidate();
-		
-		//TODO recibir línea
+
+		// TODO recibir línea
 	}
 
 	private void selectLinea(long lineaID) {
-		for(int i=0;i<mLineas.size();i++){
+		for(int i = 0; i < mLineas.size(); i++){
 			Entity e = mLineas.get(i);
-			if(e.getId()==lineaID){
+			if(e.getId() == lineaID){
 				// Ésta es!
-				getSupportActionBar().setSelectedNavigationItem(i+1);
+				getSupportActionBar().setSelectedNavigationItem(i + 1);
 			}
 		}
 	}
