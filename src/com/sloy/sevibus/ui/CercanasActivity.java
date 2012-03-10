@@ -5,13 +5,13 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.ParadasAdapter;
 
-public class CercanasActivity extends FragmentActivity {
+public class CercanasActivity extends SherlockActivity  {
 
 	private String mProvider;
 	private LocationManager mLocationManager;
@@ -23,6 +23,9 @@ public class CercanasActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_activity);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		mList = (ListView)findViewById(android.R.id.list);
 		

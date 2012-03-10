@@ -1,24 +1,25 @@
 package com.sloy.sevibus.ui;
 
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.IntentMapa;
 
 import java.util.Calendar;
 
-public class HomeActivity extends FragmentActivity {
+public class HomeActivity extends SherlockActivity  {
 
 	private Context mContext = this;
 
@@ -31,7 +32,9 @@ public class HomeActivity extends FragmentActivity {
 		setContentView(R.layout.home_activity);
 
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
-		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayUseLogoEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		
 
 		// mBtCercanas = (ImageButton) findViewById(R.id.main_cercanas_button);
 		mBtFavoritas = (Button)findViewById(R.id.main_favoritas_button);
@@ -86,7 +89,7 @@ public class HomeActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSherlock().getMenuInflater();
 		inflater.inflate(R.menu.home, menu);
 		Calendar rightNow = Calendar.getInstance();
 		if(rightNow.get(Calendar.MONTH)==Calendar.FEBRUARY && rightNow.get(Calendar.DAY_OF_MONTH) == 14){

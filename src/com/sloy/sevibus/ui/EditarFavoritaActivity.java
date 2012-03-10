@@ -3,12 +3,8 @@ package com.sloy.sevibus.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -20,6 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
@@ -27,7 +27,7 @@ import com.sloy.sevibus.R;
 
 import java.util.List;
 
-public class EditarFavoritaActivity extends FragmentActivity {
+public class EditarFavoritaActivity extends SherlockActivity  {
 
 	private Entity mParada;
 	private Entity mFavorita;
@@ -42,6 +42,9 @@ public class EditarFavoritaActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editar_favorito);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mDescripcion = (EditText)findViewById(R.id.favorita_nombre_editar);
 		mNombre = (TextView)findViewById(R.id.parada_nombre_nombre);
@@ -140,7 +143,7 @@ public class EditarFavoritaActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSherlock().getMenuInflater();
 		inflater.inflate(R.menu.editar_favorita, menu);
 		return true;
 	}

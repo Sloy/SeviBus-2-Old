@@ -5,12 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
-import android.support.v4.view.Window;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -23,6 +18,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
@@ -34,7 +34,7 @@ import com.sloy.sevibus.utils.Utils;
 
 import java.util.List;
 
-public class ParadaInfoActivity extends FragmentActivity {
+public class ParadaInfoActivity extends SherlockActivity {
 
 	private Entity mParada;
 	private List<String> mLineas;
@@ -50,7 +50,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 	private boolean isFavorita;
 	private boolean mostrarTodas = false;
 	private boolean mLoading = true;
-	private Animation mAnimBlink,mAnimExpand;
+	private Animation mAnimBlink, mAnimExpand;
 	private TiemposLoader mLoader;
 
 	@Override
@@ -60,12 +60,15 @@ public class ParadaInfoActivity extends FragmentActivity {
 		// class in android.support.v4.view and NOT android.view
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_parada);
-		
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 		setTitle("Info. de parada");
 
 		mAnimBlink = AnimationUtils.loadAnimation(this, R.anim.blink);
 		mAnimExpand = AnimationUtils.loadAnimation(this, R.anim.expand_contract);
-		
+
 		mTxtNumero = (TextView)findViewById(R.id.parada_nombre_numero);
 		mTxtNombre = (TextView)findViewById(R.id.parada_nombre_nombre);
 		mTxtDireccion = (TextView)findViewById(R.id.parada_direccion_direccion);
@@ -118,7 +121,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 				refresh();
 			}
 		});
-		
+
 		// Obtiene la opción de mostrar todas
 		mostrarTodas = Datos.getPrefs().getBoolean("mostrar_todas", true);
 
@@ -182,10 +185,11 @@ public class ParadaInfoActivity extends FragmentActivity {
 		// Cambia el estado de mostrar
 		mostrarTodas = !mostrarTodas;
 		// Vacía los tiempos para evitar error
-//		mTiempos = null;
+		// mTiempos = null;
 		// Refresca los tiempos
 		refresh();
-		// Guarda el nuevo estado de mostrar en sharedPreferences para recordarlo
+		// Guarda el nuevo estado de mostrar en sharedPreferences para
+		// recordarlo
 		Datos.getPrefs().edit().putBoolean("mostrar_todas", mostrarTodas).commit();
 	}
 
@@ -263,7 +267,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getSherlock().getMenuInflater();
 		inflater.inflate(R.menu.parada_fav, menu);
 		return true;
 	}
@@ -312,7 +316,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		protected void onPostExecute(List<String> result) {
 			mAdapter.setTiempos(result);
 			setProgressBarIndeterminateVisibility(Boolean.FALSE);
-//			mAnimBlink.cancel();
+			// mAnimBlink.cancel();
 			mBtActualizar.clearAnimation();
 			mAnimBlink.reset();
 			mLoading = false;
@@ -358,7 +362,7 @@ public class ParadaInfoActivity extends FragmentActivity {
 		}
 
 		// pone los tiempos de llegada
-//		mTiempos = null;
+		// mTiempos = null;
 		if(mostrarTodas || mLineaProcedente == null){
 			// Todas
 			mAdapter = new LlegadasAdapter(this, mLineas, null);
