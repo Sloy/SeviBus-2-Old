@@ -1,30 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <EditText
-        android:id="@+id/paradas_busqueda"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/paradas_busqueda"
-        android:hint="@string/n_nombre_o_direcci_n"
-        android:imeOptions="actionSearch"
-        android:inputType="text" />
-
-    <Button
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/paradas_busqueda"
-        android:id="@+id/paradas_buscar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="@string/buscar" />
+    android:layout_height="match_parent" >
 
     <ListView
-        android:layout_below="@+id/paradas_busqueda"
         android:id="@android:id/list"
         style="@style/paradaListView"
         android:layout_width="match_parent"
@@ -33,13 +12,13 @@
 
         <!-- Preview: listitem=@layout/list_item_parada -->
     </ListView>
-    
-    <TextView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:text="No se encontraron resultados"
-        android:visibility="gone"
-        android:id="@+id/paradas_vacio"/>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/paradas_vacio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="No se encontraron resultados"
+        android:visibility="gone" />
+
+</FrameLayout>
