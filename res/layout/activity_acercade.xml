@@ -97,7 +97,7 @@
                         style="@style/text_persiana_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/novedades6"
+                        android:text="@string/novedades"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
                 </FrameLayout>
 
