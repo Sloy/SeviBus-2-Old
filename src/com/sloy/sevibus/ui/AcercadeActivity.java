@@ -7,8 +7,8 @@ import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
 import android.view.View;
 import android.view.View.MeasureSpec;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.sloy.sevibus.R;
@@ -24,19 +24,20 @@ public class AcercadeActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_acercade);
 		setTitle("Acerca de SeviBus");
-		
+
 		Calendar rightNow = Calendar.getInstance();
-		if(rightNow.get(Calendar.MONTH)==Calendar.FEBRUARY && rightNow.get(Calendar.DAY_OF_MONTH) == 14){
-			//luv mode
+		if(rightNow.get(Calendar.MONTH) == Calendar.FEBRUARY && rightNow.get(Calendar.DAY_OF_MONTH) == 14){
+			// luv mode
 			((TextView)findViewById(R.id.dedicatoria)).setText(R.string.dedicatoria_luv);
 		}
-		((Button)findViewById(R.id.acercade_novedades_contenido_boton)).setOnClickListener(new View.OnClickListener() {
+		final ImageButton button = ((ImageButton)findViewById(R.id.acercade_novedades_contenido_boton));
+		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				FrameLayout novedadesLayout = (FrameLayout)findViewById(R.id.acercade_novedades_contenido_frame);
 				TextView textNovedades = (TextView)findViewById(R.id.acercade_novedades_contenido_text);
 				int collapsedHeight = getResources().getDimensionPixelSize(R.dimen.collapsed_text_height);
-				expandOrCollapse(novedadesLayout, textNovedades, collapsedHeight);
+				expandOrCollapse(novedadesLayout, textNovedades, collapsedHeight, button);
 			}
 		});
 	}
@@ -57,8 +58,7 @@ public class AcercadeActivity extends FragmentActivity {
 				return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	
+
 	private static int measureViewHeight(View view2Expand, View view2Measure) {
 		try{
 			Method m = view2Measure.getClass().getDeclaredMethod("onMeasure", int.class, int.class);
@@ -72,7 +72,7 @@ public class AcercadeActivity extends FragmentActivity {
 		return measuredHeight;
 	}
 
-	private static void expandOrCollapse(View view2Expand, View view2Measure, int collapsedHeight) {
+	private static void expandOrCollapse(View view2Expand, View view2Measure, int collapsedHeight, ImageButton indicator) {
 		if(view2Expand.getHeight() < collapsedHeight){
 			return;
 		}
@@ -83,6 +83,14 @@ public class AcercadeActivity extends FragmentActivity {
 
 		final int startHeight = view2Expand.getHeight();
 		final int finishHeight = startHeight <= collapsedHeight ? measuredHeight : collapsedHeight;
+
+		if(startHeight > finishHeight){
+			// collapse
+			indicator.setImageResource(R.drawable.expander_open_holo_light);
+		}else{
+			// expand
+			indicator.setImageResource(R.drawable.expander_close_holo_light);
+		}
 
 		view2Expand.startAnimation(new ExpandAnimation(view2Expand, startHeight, finishHeight));
 	}

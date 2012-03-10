@@ -79,45 +79,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="3dip"
                 android:background="#8d545c" />
-
-            <RelativeLayout
+
+            <LinearLayout
                 android:id="@+id/acercade_novedades_contenido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dip" >
-
+                android:layout_marginLeft="20dip"
+                android:orientation="vertical" >
+
                 <FrameLayout
                     android:id="@+id/acercade_novedades_contenido_frame"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="@dimen/collapsed_text_height" >
 
                     <TextView
                         android:id="@+id/acercade_novedades_contenido_text"
+                        style="@style/text_persiana_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/novedades6"
-                        style="@style/text_persiana_style"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
                 </FrameLayout>
-
-                <Button
-                    android:id="@+id/acercade_novedades_contenido_boton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/acercade_novedades_contenido_frame"
-                    android:text="Más" />
-
-                <View
-                    android:id="@+id/acercade_novedades_contenido_separador"
+
+                <FrameLayout
+                    android:id="@+id/acercade_novedades_contenido_frame2"
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:layout_alignBaseline="@+id/acercade_novedades_contenido_boton"
-                    android:layout_toLeftOf="@+id/acercade_novedades_contenido_boton"
-                    android:background="#AAA" />
+                    android:layout_height="wrap_content" >
 
-            </RelativeLayout>
+                    <ImageButton
+                        android:id="@+id/acercade_novedades_contenido_boton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/button_trans"
+                        android:src="@drawable/expander_open_holo_light" />
 
+                    <View
+                        android:id="@+id/acercade_novedades_contenido_separador"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dip"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="50dip"
+                        android:background="#AAA" />
+                </FrameLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
