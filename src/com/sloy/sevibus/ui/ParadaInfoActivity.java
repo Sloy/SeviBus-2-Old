@@ -156,6 +156,8 @@ public class ParadaInfoActivity extends SherlockActivity {
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 				// Cambia la lína preferente
 				mLineaPrioritaria = pos;
+				// Le dice algo al usuario
+				Toast.makeText(ParadaInfoActivity.this, "Se establecido "+mLineas.get(pos).getString("nombre")+" como prioritaria", Toast.LENGTH_SHORT).show();
 				return true;
 			}
 		});
