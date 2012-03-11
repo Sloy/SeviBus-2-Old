@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <ListView
-        android:id="@android:id/list"
-        style="@style/paradaListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fastScrollEnabled="true" >
-
-        <!-- Preview: listitem=@layout/list_item_parada -->
-    </ListView>
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/paradas_vacio"
-        android:layout_width="wrap_content"
+        android:id="@+id/paradas_recientes"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="No se encontraron resultados"
-        android:visibility="gone" />
+        android:text="Consultadas recientemente" 
+        android:gravity="center_horizontal"
+        android:background="@drawable/ab_solid_light_holo"/>
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/paradas_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ListView
+            android:id="@android:id/list"
+            style="@style/paradaListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fastScrollEnabled="true" >
+
+            <!-- Preview: listitem=@layout/list_item_parada -->
+        </ListView>
+
+        <TextView
+            android:id="@+id/paradas_vacio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No se encontraron resultados"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</LinearLayout>
