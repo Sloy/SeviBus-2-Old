@@ -70,19 +70,22 @@ public class ParadaInfoActivity extends SherlockActivity {
 			// Comienza la descarga
 			Entity linea = mCola.get(0);
 			Llegada tiempo = Utils.getTiempos(linea, mParada.getInt("numero"));
+
 			/*
 			 * try{
-			 * Thread.sleep(3000);
+			 * Thread.sleep(2000);
 			 * }catch(InterruptedException e){
 			 * e.printStackTrace();
 			 * }
 			 */
+
 			// Actualiza el adapter
 			mAdapter.addLlegada(tiempo);
 			// mAdapter.addLlegada(new Llegada(linea.getId(), null, null));
-			// TODO notificar progressbar
-			// Lo quita de la cola
+			
+			// Quita la línea de la cola
 			mCola.remove(linea);
+			
 			// Notifica al hilo principal de que se terminó la descarga para que
 			// continúe con la cola
 			Log.d("sevibus", "Actualizada línea " + linea.getString("nombre"));
@@ -92,12 +95,23 @@ public class ParadaInfoActivity extends SherlockActivity {
 	private Runnable finishBackgroundDownload = new Runnable() {
 		@Override
 		public void run() {
+			// Notifica de los cambios
 			mAdapter.notifyDataSetChanged();
-			setSupportProgress(getProgress(100-(100*mCola.size()/mLineas.size())));
+			// Actualiza la barra de progreso
+			setSupportProgress(getProgress(100 - (100 * mCola.size() / mLineas.size())));
+			// Sigue con las descargas
 			runNext();
 
 		}
 	};
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if(mCola != null){
+			mCola.clear();
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,8 +146,8 @@ public class ParadaInfoActivity extends SherlockActivity {
 				}else{
 					String title = String.format("Línea %1s", mLineas.get(pos).getString("nombre"));
 					String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", llegada.getTexto1(), llegada.getTexto2());
-					new AlertDialog.Builder(ParadaInfoActivity.this).setTitle(title).setMessage(display).setNeutralButton("Cerrar", null)
-					.create().show();
+					new AlertDialog.Builder(ParadaInfoActivity.this).setTitle(title).setMessage(display).setNeutralButton("Cerrar", null).create()
+							.show();
 				}
 			}
 		});
@@ -205,10 +219,6 @@ public class ParadaInfoActivity extends SherlockActivity {
 		}finally{
 			db.close();
 		}
-		if(mParada == null){
-			// TODO controlar error
-			Log.e("sevibus", "Entity null");
-		}
 
 		// Pone la información de la parada en la pantalla
 		mTxtNumero.setText("Parada nº " + mParada.getString("numero"));
@@ -225,7 +235,6 @@ public class ParadaInfoActivity extends SherlockActivity {
 
 	}
 
-	// TODO esto es una mierda que hay que cambiar por completo
 	private class LlegadasAdapter extends BaseAdapter {
 
 		Context mContext;
@@ -337,8 +346,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mBtActualizar.startAnimation(mAnimBlink);
 
 		mAdapter.reset();
-		// TODO cancelar carga previa
-		// Crea la cola
+		// Limpia y crea la cola
 		if(mCola == null){
 			mCola = Lists.newArrayList();
 		}else{
@@ -370,12 +378,12 @@ public class ParadaInfoActivity extends SherlockActivity {
 			mAnimBlink.reset();
 		}else{
 			// Descarga el siguiente tiempo en la cola
-			Thread downloadThread = new Thread(backgroundDownload, "TorrentDownload");
+			Thread downloadThread = new Thread(backgroundDownload, "Linea " + mCola.get(0).getString("nombre"));
 			downloadThread.start();
 		}
 	}
-	
-	private int getProgress(int percentage){
+
+	private int getProgress(int percentage) {
 		return (Window.PROGRESS_END - Window.PROGRESS_START) / 100 * percentage;
 	}
 }
