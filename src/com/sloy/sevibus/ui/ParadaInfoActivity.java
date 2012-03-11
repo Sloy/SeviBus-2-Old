@@ -137,6 +137,14 @@ public class ParadaInfoActivity extends SherlockActivity {
 				}
 			}
 		});
+		mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+				// Cambia la lína preferente
+				mLineaPrioritaria = pos;
+				return true;
+			}
+		});
 
 		mBtMapa.setOnClickListener(new View.OnClickListener() {
 			@Override
