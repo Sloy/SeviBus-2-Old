@@ -6,7 +6,6 @@ import android.util.Log;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
-import com.sloy.sevibus.R;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,9 +16,9 @@ public class SeviApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-
 		Datos.initialize(this);
-
+		int lastVersion = Datos.getPrefs().getInt(Datos.DB_VERSION, 0);
+		int currentVersion = Datos.getAppVersion();
 		/* DB stuff */
 
 		// Si no hay base de datos, la crea
@@ -30,18 +29,25 @@ public class SeviApplication extends Application {
 		}
 
 		// Comprueba si la tiene que actualizar
-		if(Datos.getPrefs().getInt(Datos.DB_VERSION, 0) < Datos.getAppVersion()){
+		if(lastVersion < currentVersion){
 			// si la versión guardada es menor que esta versión
 			// -> la actualiza
 
-			// Cogemos los favoritos
-			List<FavoritosHelper> favoritos = Lists.newArrayList();
 			DataFramework db = null;
 			try{
 				db = DataFramework.getInstance();
 				db.open(this, getPackageName());
-				// antes de la versión 13 las favoritas tenían menos columnas, cuidado
-				if(Datos.getPrefs().getInt(Datos.DB_VERSION, 0)<14){
+
+				// Cogemos los recientes
+				List<Entity> recientes = null;
+				if(lastVersion >= 22){ // Disponible desde 2.2
+					  recientes = db.getEntityList("recientes");
+				}
+				// Cogemos los favoritos
+				List<FavoritosHelper> favoritos = Lists.newArrayList();
+				// antes de la versión 13 las favoritas tenían menos columnas,
+				// cuidado
+				if(Datos.getPrefs().getInt(Datos.DB_VERSION, 0) < 14){
 					db.getDB().execSQL("ALTER TABLE favoritas ADD linea_id INTEGER");
 					db.getDB().execSQL("ALTER TABLE favoritas ADD orden INTEGER");
 					db.getDB().execSQL("ALTER TABLE favoritas ADD usada INTEGER");
@@ -71,11 +77,19 @@ public class SeviApplication extends Application {
 				Utils.copyDataBase(this);
 				db = DataFramework.getInstance();
 				db.open(this, getPackageName());
-				
+
+				// Guardamos los recientes
+				if(lastVersion >= 22){ // Disponible desde 2.2
+					for(Entity e : recientes){
+						Entity n = new Entity("recientes");
+						n.setValue("parada", e.getValue("parada"));
+						n.save();
+					}
+				}
 				// Guardamos los favoritos en la nueva base de datos
-				for(FavoritosHelper fav:favoritos){
-					//Comprueba que exista
-					if(db.getTopEntity("paradas", "_id="+fav.getParadaID(),null)==null){
+				for(FavoritosHelper fav : favoritos){
+					// Comprueba que exista
+					if(db.getTopEntity("paradas", "_id=" + fav.getParadaID(), null) == null){
 						continue;
 					}
 					Entity f = new Entity("favoritas");
@@ -98,5 +112,4 @@ public class SeviApplication extends Application {
 		}
 
 	}
-
 }
