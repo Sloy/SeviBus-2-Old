@@ -32,11 +32,11 @@
 
     <string name="guardar_como">Guardar como:</string>
 
-    <string name="lineas_">"Líneas: "</string>
+    <string name="lineas_">"Línea preferente: "</string>
 
-    <string name="todas">Todas</string>
+    <string name="todas">Todas por igual</string>
 
-    <string name="todas_seleccionadas">Todas seleccionadas</string>
+    <string name="todas_seleccionadas">Los tiempos se cargarán por orden alfabético</string>
 
     <string name="ver_en_el_mapa">Ver en el Mapa</string>
 
