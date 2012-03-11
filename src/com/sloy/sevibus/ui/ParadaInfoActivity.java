@@ -328,12 +328,12 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mCola.addAll(mLineas);
 
 		// Si hay prioritaria la pone en primer lugar
-		/*
-		 * if(mLineaPrioritaria != -1){
-		 * mCola.remove(mLineaPrioritaria);
-		 * mCola.add(0, mLineas.get(mLineaPrioritaria));
-		 * }
-		 */
+
+		if(mLineaPrioritaria != -1){
+			mCola.remove(mLineaPrioritaria);
+			mCola.add(0, mLineas.get(mLineaPrioritaria));
+		}
+
 		// Comenzar descargas si no está ya en ello
 		if(!mLoading){
 			runNext();
