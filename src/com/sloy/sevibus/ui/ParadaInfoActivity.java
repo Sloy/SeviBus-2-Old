@@ -93,7 +93,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 		@Override
 		public void run() {
 			mAdapter.notifyDataSetChanged();
-
+			setSupportProgress(getProgress(100-(100*mCola.size()/mLineas.size())));
 			runNext();
 
 		}
@@ -104,7 +104,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		// This has to be called before setContentView and you must use the
 		// class in android.support.v4.view and NOT android.view
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		requestWindowFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.activity_parada);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
@@ -333,7 +333,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 
 	public void cargaTiempos() {
 		// Pone la interfaz cargando
-		setProgressBarIndeterminateVisibility(Boolean.TRUE);
+		setSupportProgress(getProgress(1));
 		mBtActualizar.startAnimation(mAnimBlink);
 
 		mAdapter.reset();
@@ -347,7 +347,6 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mCola.addAll(mLineas);
 
 		// Si hay prioritaria la pone en primer lugar
-
 		if(mLineaPrioritaria != -1){
 			mCola.remove(mLineaPrioritaria);
 			mCola.add(0, mLineas.get(mLineaPrioritaria));
@@ -374,5 +373,9 @@ public class ParadaInfoActivity extends SherlockActivity {
 			Thread downloadThread = new Thread(backgroundDownload, "TorrentDownload");
 			downloadThread.start();
 		}
+	}
+	
+	private int getProgress(int percentage){
+		return (Window.PROGRESS_END - Window.PROGRESS_START) / 100 * percentage;
 	}
 }
