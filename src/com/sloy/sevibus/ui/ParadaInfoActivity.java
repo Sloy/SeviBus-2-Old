@@ -1,5 +1,6 @@
 package com.sloy.sevibus.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -120,10 +121,20 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mList = (ListView)findViewById(android.R.id.list);
 		mBtActualizar = (ImageButton)findViewById(R.id.parada_llegadas_actualizar);
 
+		mList.setChoiceMode(ListView.CHOICE_MODE_NONE);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				// TODO algo xD
+				// Muestra un diálogo con las 2 llegadas
+				Llegada llegada = mAdapter.getItem(pos);
+				if(llegada == null){
+					Toast.makeText(ParadaInfoActivity.this, "Espera a que termine de cargar los tiempos", Toast.LENGTH_SHORT).show();
+				}else{
+					String title = String.format("Línea %1s", mLineas.get(pos).getString("nombre"));
+					String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", llegada.getTexto1(), llegada.getTexto2());
+					new AlertDialog.Builder(ParadaInfoActivity.this).setTitle(title).setMessage(display).setNeutralButton("Cerrar", null)
+					.create().show();
+				}
 			}
 		});
 
