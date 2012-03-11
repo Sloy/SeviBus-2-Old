@@ -1,10 +1,9 @@
 package com.sloy.sevibus.ui;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,31 +26,41 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
-import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.IntentEditarFavorita;
 import com.sloy.sevibus.utils.IntentMapa;
+import com.sloy.sevibus.utils.Llegada;
 import com.sloy.sevibus.utils.Utils;
 
 import java.util.List;
 
 public class ParadaInfoActivity extends SherlockActivity {
 
+	/**
+	 * Entida correspondiente a la parada actual
+	 */
 	private Entity mParada;
-	private List<String> mLineas;
-	private List<Integer[][]> mTiempos;
+	/**
+	 * Lista de líneas pertenecientes a esta parada
+	 */
+	private List<Entity> mLineas;
+
 	private LlegadasAdapter mAdapter;
-	private Entity mLineaProcedente;
+
+	/**
+	 * Índice de la línea prioritaria en la lista de líneas. Si no la hay será
+	 * -1
+	 */
+	private int mLineaPrioritaria = -1;
 
 	private ListView mList;
 	private TextView mTxtNombre, mTxtNumero, mTxtDireccion;
 	private Button mBtMapa;
-	private ImageButton mBtActualizar, mBtMostrarTodas;
+	private ImageButton mBtActualizar;
 	private View mContainerDireccion;
-	private boolean isFavorita;
-	private boolean mostrarTodas = false;
+	private Animation mAnimBlink;
+
 	private boolean mLoading = true;
-	private Animation mAnimBlink, mAnimExpand;
-	private TiemposLoader mLoader;
+	private List<Entity> mCola;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +76,6 @@ public class ParadaInfoActivity extends SherlockActivity {
 		setTitle("Info. de parada");
 
 		mAnimBlink = AnimationUtils.loadAnimation(this, R.anim.blink);
-		mAnimExpand = AnimationUtils.loadAnimation(this, R.anim.expand_contract);
-
 		mTxtNumero = (TextView)findViewById(R.id.parada_nombre_numero);
 		mTxtNombre = (TextView)findViewById(R.id.parada_nombre_nombre);
 		mTxtDireccion = (TextView)findViewById(R.id.parada_direccion_direccion);
@@ -76,35 +83,11 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mContainerDireccion = findViewById(R.id.parada_seccion_direccion);
 		mList = (ListView)findViewById(android.R.id.list);
 		mBtActualizar = (ImageButton)findViewById(R.id.parada_llegadas_actualizar);
-		mBtMostrarTodas = (ImageButton)findViewById(R.id.parada_llegadas_todas_button);
-
-		mBtMostrarTodas.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggleMostrar();
-			}
-		});
 
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				if(mLoading){
-					// Aún no ha cargado los tiempos, avisa para que espere
-					Toast.makeText(ParadaInfoActivity.this, "Espera a que terminen de cargar los tiempos", Toast.LENGTH_SHORT).show();
-				}else{
-					String lin = null;
-					if(mostrarTodas || mLineaProcedente == null){
-						lin = mLineas.get(pos);
-					}else{
-						lin = mLineaProcedente.getString("nombre");
-					}
-
-					Integer[][] t = mTiempos.get(pos);
-					String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", getTextoDisplay(t[0][0], t[0][1]),
-							getTextoDisplay(t[1][0], t[1][1]));
-					new AlertDialog.Builder(ParadaInfoActivity.this).setTitle("Línea " + lin).setMessage(display).setNeutralButton("Cerrar", null)
-							.create().show();
-				}
+				// TODO algo xD
 			}
 		});
 
@@ -118,40 +101,50 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mBtActualizar.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				refresh();
+				cargaTiempos();
 			}
 		});
 
-		// Obtiene la opción de mostrar todas
-		mostrarTodas = Datos.getPrefs().getBoolean("mostrar_todas", true);
-
+		/* -- Carga las líneas de esta parada -- */
 		// obtiene el id de la parada pasada por el intent
 		long parada = getIntent().getLongExtra("parada", 0);
 		if(parada == 0){
 			Toast.makeText(this, "No se pasó ninguna parada", Toast.LENGTH_SHORT).show();
 			finish();
 		}
+		// Línea prioritaria, si se le ha pasado
 		long linea = getIntent().getLongExtra("linea", 0);
 
+		// Saca los datos de la BD
 		DataFramework db = null;
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
 			// Mírame si la tengo de favorita o no, anda
-			isFavorita = db.getEntityListCount("favoritas", "parada_id=" + parada) > 0;
-			// Saca la entity de la base de datos
+			// isFavorita = db.getEntityListCount("favoritas", "parada_id=" +
+			// parada) > 0;
+
+			// Saca esta parada de la base de datos
 			mParada = db.getTopEntity("paradas", "_id = " + parada, null);
-			// Saca la línea, si se le ha pasado
-			mLineaProcedente = db.getTopEntity("lineas", "_id=" + linea, null);
-			// saca la lista de líneas que pasan por esta parada
+
+			// Saca, si se le ha pasado, la línea prioritaria
+			Entity prioritaria = db.getTopEntity("lineas", "_id=" + linea, null);
+
+			// Saca la lista de líneas que pasan por esta parada...
 			List<Entity> rel = db.getEntityList("relaciones", "parada_id=" + parada);
-			// List<Entity> lineas = Lists.newArrayList();
 			mLineas = Lists.newArrayList();
 			for(Entity e : rel){
 				Entity l = db.getTopEntity("lineas", "_id=" + e.getString("linea_id"), null);
-				// lineas.add(l);
-				mLineas.add(l.getString("nombre"));
+				mLineas.add(l);
+				// busca la línea prioritaria, si hay
+				if(prioritaria != null && l.getId() == prioritaria.getId()){
+					// bingo!
+					mLineaPrioritaria = mLineas.size() - 1;
+				}
 			}
+			// Crea el adapter vacío
+			mAdapter = new LlegadasAdapter(this, null);
+			mList.setAdapter(mAdapter);
 		}catch(Exception e){
 			Log.e("sevibus", e.toString(), e);
 		}finally{
@@ -162,7 +155,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 			Log.e("sevibus", "Entity null");
 		}
 
-		// pone la información en pantalla
+		// Pone la información de la parada en la pantalla
 		mTxtNumero.setText("Parada nº " + mParada.getString("numero"));
 		mTxtNombre.setText(mParada.getString("nombre"));
 		String direccion = mParada.getString("direccion");
@@ -172,65 +165,61 @@ public class ParadaInfoActivity extends SherlockActivity {
 			mTxtDireccion.setText(direccion);
 		}
 
-		if(mLineaProcedente == null){
-			mBtMostrarTodas.setVisibility(View.GONE);
-		}else{
-			mBtMostrarTodas.startAnimation(mAnimExpand);
-		}
-		refresh();
+		// Carga los tiempos
+		cargaTiempos();
 
-	}
-
-	protected void toggleMostrar() {
-		// Cambia el estado de mostrar
-		mostrarTodas = !mostrarTodas;
-		// Vacía los tiempos para evitar error
-		// mTiempos = null;
-		// Refresca los tiempos
-		refresh();
-		// Guarda el nuevo estado de mostrar en sharedPreferences para
-		// recordarlo
-		Datos.getPrefs().edit().putBoolean("mostrar_todas", mostrarTodas).commit();
 	}
 
 	// TODO esto es una mierda que hay que cambiar por completo
 	private class LlegadasAdapter extends BaseAdapter {
 
 		Context mContext;
-		List<String> mItems;
-		List<String> mTiempos; //
+		List<Llegada> mLlegadas;
 
-		public LlegadasAdapter(Context context, List<String> lineas, List<String> tiempos) {
-			mItems = lineas;
-			mTiempos = tiempos;
-			mContext = context;
-		}
-
-		public LlegadasAdapter(Context context, String linea, String tiempo) {
-			mItems = Lists.newArrayList();
-			mItems.add(linea);
-			if(tiempo == null){
-				mTiempos = null;
+		public LlegadasAdapter(Context context, List<Llegada> llegadas) {
+			if(llegadas == null){
+				mLlegadas = Lists.newArrayList();
 			}else{
-				mTiempos = Lists.newArrayList();
-				mTiempos.add(tiempo);
+				mLlegadas = llegadas;
 			}
 			mContext = context;
 		}
 
-		public void setTiempos(List<String> tiempos) {
-			mTiempos = tiempos;
-			this.notifyDataSetChanged();
+		/**
+		 * Añade una llegada al adapter. Requiere notificar los cambios manualmente (thread safe)
+		 * @param l
+		 */
+		public void addLlegada(Llegada l) {
+			mLlegadas.add(l);
+//			notifyDataSetChanged();
+		}
+		
+		/**
+		 * Vacía la lista de llegadas y actualiza la lista para mostrarse cargando
+		 */
+		public void reset(){
+			mLlegadas.clear();
+			notifyDataSetChanged();
 		}
 
 		@Override
 		public int getCount() {
-			return mItems.size();
+			return mLineas.size();
 		}
 
 		@Override
-		public String getItem(int position) {
-			return mItems.get(position);
+		/**
+		 * Devuelve la llegada correspondiente a la línea marcada por la posición, null si no está aún
+		 */
+		public Llegada getItem(int position) {
+			// Comprobamos que no esté consultando fuera de la lista
+			for(Llegada l : mLlegadas){
+				// Si la llegada corresponde a la línea la devuelve
+				if(l.getLineaID() == mLineas.get(position).getId()){
+					return l;
+				}
+			}
+			return null;
 		}
 
 		@Override
@@ -241,25 +230,23 @@ public class ParadaInfoActivity extends SherlockActivity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// Entity item = getItem(position);
 			if(convertView == null){
 				convertView = View.inflate(mContext, R.layout.item_list_llegada, null);
 			}
 			TextView linea = (TextView)convertView.findViewById(R.id.item_llegada_linea);
 			TextView text = (TextView)convertView.findViewById(R.id.item_llegada_texto);
-			// linea.setText(item.getString("nombre"));
-			linea.setText(getItem(position));
-			if(mTiempos == null){
-				text.setText("Cargando...");
+
+			// Pone el nombre de la línea
+			linea.setText(mLineas.get(position).getString("nombre"));
+
+			// Si tenemos la llegada ponemos la info, si no cargando
+			Llegada llegada = getItem(position);
+			if(llegada != null){
+				text.setText(getTextoDisplay(llegada.getBus1().getTiempo(), llegada.getBus1().getDistancia()));
 			}else{
-				text.setText(mTiempos.get(position));
+				text.setText("Cargando...");
 			}
 
-			if(mLineaProcedente != null && mostrarTodas && mLineaProcedente.getString("nombre").equals(mItems.get(position))){
-				convertView.setBackgroundResource(R.drawable.button_trans_pressed);
-			}else{
-				convertView.setBackgroundResource(R.drawable.button_trans_normal);
-			}
 			return convertView;
 		}
 
@@ -278,68 +265,12 @@ public class ParadaInfoActivity extends SherlockActivity {
 			case R.id.menu_parada_fav:
 				startActivity(new IntentEditarFavorita(this, mParada.getId()));
 				return true;
-			case R.id.menu_reportar:
-				reportar();
-				return true;
 			case android.R.id.home:
 				startActivity(new Intent(this, HomeActivity.class));
 				return true;
 			default:
 				return false;
 		}
-	}
-
-	private class TiemposLoader extends AsyncTask<Void, Void, List<String>> {
-
-		@Override
-		protected List<String> doInBackground(Void... params) {
-			List<String> tiempos = Lists.newArrayList();
-			mTiempos = Lists.newArrayList();
-			int parada = mParada.getInt("numero");
-			if(mostrarTodas || mLineaProcedente == null){
-				// muestra todas
-				for(String lin : mLineas){
-					Integer[][] tiempo = Utils.getTiempos(lin, parada);
-					mTiempos.add(tiempo);
-					tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
-				}
-			}else{
-				// muestra una
-				Integer[][] tiempo = Utils.getTiempos(mLineaProcedente.getString("nombre"), parada);
-				mTiempos.add(tiempo);
-				tiempos.add(getTextoDisplay(tiempo[0][0], tiempo[0][1]));
-			}
-			return tiempos;
-		}
-
-		@Override
-		protected void onPostExecute(List<String> result) {
-			mAdapter.setTiempos(result);
-			setProgressBarIndeterminateVisibility(Boolean.FALSE);
-			// mAnimBlink.cancel();
-			mBtActualizar.clearAnimation();
-			mAnimBlink.reset();
-			mLoading = false;
-			super.onPostExecute(result);
-		}
-
-		@Override
-		protected void onPreExecute() {
-			setProgressBarIndeterminateVisibility(Boolean.TRUE);
-			mBtActualizar.startAnimation(mAnimBlink);
-			mLoading = true;
-			super.onPreExecute();
-		}
-
-	}
-
-	private void reportar() {
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, String.format(getString(R.string.email_text_parada), mParada.getString("numero")));
-		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
 
 	private String getTextoDisplay(int tiempo, int distancia) {
@@ -354,29 +285,68 @@ public class ParadaInfoActivity extends SherlockActivity {
 		return texto;
 	}
 
-	public void refresh() {
-		if(mostrarTodas){
-			mBtMostrarTodas.setImageResource(R.drawable.expander_close_holo_light);
+	public void cargaTiempos() {
+		// Pone la interfaz cargando
+		setProgressBarIndeterminateVisibility(Boolean.TRUE);
+		mBtActualizar.startAnimation(mAnimBlink);
+		
+		mAdapter.reset();
+		// TODO cancelar carga previa
+		// Crea la cola
+		if(mCola == null){
+			mCola = Lists.newArrayList();
 		}else{
-			mBtMostrarTodas.setImageResource(R.drawable.expander_open_holo_light);
+			mCola.clear();
 		}
+		mCola.addAll(mLineas);
 
-		// pone los tiempos de llegada
-		// mTiempos = null;
-		if(mostrarTodas || mLineaProcedente == null){
-			// Todas
-			mAdapter = new LlegadasAdapter(this, mLineas, null);
-		}else{
-			// Sólo una
-			mAdapter = new LlegadasAdapter(this, mLineaProcedente.getString("nombre"), null);
+		// Si hay prioritaria la pone en primer lugar
+		if(mLineaPrioritaria != -1){
+			mCola.remove(mLineaPrioritaria);
+			mCola.add(0, mLineas.get(mLineaPrioritaria));
 		}
-		mList.setAdapter(mAdapter); // cargando, provisional
-
-		if(mLoader != null){
-			mLoader.cancel(true);
-		}
-		mLoader = new TiemposLoader();
-		mLoader.execute();
+		// Comenzar descargas
+		runNext();
 	}
 
+	private Handler handler = new Handler();
+	private Runnable backgroundDownload = new Runnable() {
+		@Override
+		public void run() {
+			// Comienza la descarga
+			Entity linea = mCola.get(0);
+			Llegada tiempo = Utils.getTiempos(linea, mParada.getInt("numero"));
+			// Actualiza el adapter
+			mAdapter.addLlegada(tiempo);
+			// TODO notificar progressbar
+			// Lo quita de la cola
+			mCola.remove(linea);
+			// Notifica al hilo principal de que se terminó la descarga para que
+			// continúe con la cola
+			handler.post(finishBackgroundDownload);
+		}
+	};
+	private Runnable finishBackgroundDownload = new Runnable() {
+		@Override
+		public void run() {
+			mAdapter.notifyDataSetChanged();
+			runNext();
+		}
+	};
+
+	private void runNext() {
+//		android.os.Debug.waitForDebugger();
+		mLoading = true;
+		if(mCola.size() == 0){
+			// Se acabó
+			mLoading = false;
+			setProgressBarIndeterminateVisibility(Boolean.FALSE);
+			mBtActualizar.clearAnimation();
+			mAnimBlink.reset();
+		}else{
+			// Descarga el siguiente tiempo en la cola
+			Thread downloadThread = new Thread(backgroundDownload, "TorrentDownload");
+			downloadThread.start();
+		}
+	}
 }
