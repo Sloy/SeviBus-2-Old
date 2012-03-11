@@ -12,6 +12,40 @@ public class Llegada {
 		this.bus1 = bus1;
 		this.bus2 = bus2;
 	}
+	
+	/**
+	 * Devuelve una cadena con la información de la llegada del bus 1
+	 * @return Error | Sin estimaciones | Llegada inminente | x minutos (y metros)
+	 */
+	public String getTexto1(){
+		return getTextoDisplay(getBus1());
+	}
+	
+	/**
+	 * Devuelve una cadena con la información de la llegada del bus 2
+	 * @return Error | Sin estimaciones | Llegada inminente | x minutos (y metros)
+	 */
+	public String getTexto2(){
+		return getTextoDisplay(getBus2());
+	}
+	
+	private String getTextoDisplay(Bus bus) {
+		String texto = null;
+		if(bus==null){
+			return "Error";
+		}
+		int tiempo = bus.getTiempo();
+		int distancia = bus.getDistancia();
+		
+		if(tiempo > 0){
+			texto = tiempo + " minutos (" + distancia + " metros)";
+		}else if(tiempo == 0){
+			texto = "Llegada inminente";
+		}else{
+			texto = "Sin estimaciones";
+		}
+		return texto;
+	}
 
 	public Bus getBus1() {
 		return bus1;
