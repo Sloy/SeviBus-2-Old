@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	 android:shape="rectangle"
->
-	<solid
-		android:color="#108e565d"
-	/>
-	<corners
-		android:radius="5dip"
-	/>
-	
-</shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:exitFadeDuration="@android:integer/config_mediumAnimTime">
+
+    <item android:state_window_focused="false" android:drawable="@android:color/transparent" />
+
+    <!-- Even though these two point to the same resource, have two states so the drawable will invalidate itself when coming out of pressed state. -->
+
+
+    <item android:state_focused="true"  android:state_pressed="true" android:drawable="@drawable/list_selector_background_transition" />
+    <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/list_selector_background_transition" />
+    <item android:state_focused="true"                               android:drawable="@drawable/list_selector_background_focus" />
+    
+</selector>
 
