@@ -25,6 +25,11 @@ public class Llegada {
 		return lineaID;
 	}
 
+	@Override
+	public String toString() {
+		return "Llegada [lineaID=" + lineaID + ", bus1=" + bus1 + ", bus2=" + bus2 + "]";
+	}
+
 	public static class Bus {
 		private int tiempo;
 		private int distancia;
@@ -40,6 +45,11 @@ public class Llegada {
 
 		public int getDistancia() {
 			return distancia;
+		}
+
+		@Override
+		public String toString() {
+			return "Bus [tiempo=" + tiempo + ", distancia=" + distancia + "]";
 		}
 
 	}
