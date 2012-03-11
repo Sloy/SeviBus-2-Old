@@ -8,7 +8,7 @@ import android.util.Log;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
-import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Llegada.Bus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,14 +82,17 @@ public class Utils {
 		return res;
 	}
 
-	public static Integer[][] getTiempos(String linea, int parada) {
-		Integer[][] res = new Integer[2][2];
+	/**
+	 * Obtiene los tiempos de llegada de una línea y parada concretas
+	 * @param linea Entidad de la base de datos representando la línea
+	 * @param parada Número de la parada
+	 * @return
+	 */
+	public static Llegada getTiempos(Entity linea, int parada) {
+		Llegada res;
 		TiemposHandler th = new TiemposHandler();
-		th.obtenerTiempos(linea, new Integer(parada).toString());
-		res[0][0] = th.tiempos[0];
-		res[0][1] = th.distancias[0];
-		res[1][0] = th.tiempos[1];
-		res[1][1] = th.distancias[1];
+		th.obtenerTiempos(linea.getString("nombre"), new Integer(parada).toString());
+		res = new Llegada(linea.getId(), new Bus(th.tiempos[0], th.distancias[0]), new Bus(th.tiempos[1], th.distancias[1]));
 		return res;
 	}
 
