@@ -59,8 +59,44 @@ public class ParadaInfoActivity extends SherlockActivity {
 	private View mContainerDireccion;
 	private Animation mAnimBlink;
 
-	private boolean mLoading = true;
+	private boolean mLoading = false;
 	private List<Entity> mCola;
+
+	private Handler handler = new Handler();
+	private Runnable backgroundDownload = new Runnable() {
+		@Override
+		public void run() {
+			// Comienza la descarga
+			Entity linea = mCola.get(0);
+			Llegada tiempo = Utils.getTiempos(linea, mParada.getInt("numero"));
+			/*
+			 * try{
+			 * Thread.sleep(3000);
+			 * }catch(InterruptedException e){
+			 * e.printStackTrace();
+			 * }
+			 */
+			// Actualiza el adapter
+			mAdapter.addLlegada(tiempo);
+			// mAdapter.addLlegada(new Llegada(linea.getId(), null, null));
+			// TODO notificar progressbar
+			// Lo quita de la cola
+			mCola.remove(linea);
+			// Notifica al hilo principal de que se terminó la descarga para que
+			// continúe con la cola
+			Log.d("sevibus", "Actualizada línea " + linea.getString("nombre"));
+			handler.post(finishBackgroundDownload);
+		}
+	};
+	private Runnable finishBackgroundDownload = new Runnable() {
+		@Override
+		public void run() {
+			mAdapter.notifyDataSetChanged();
+
+			runNext();
+
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -186,18 +222,21 @@ public class ParadaInfoActivity extends SherlockActivity {
 		}
 
 		/**
-		 * Añade una llegada al adapter. Requiere notificar los cambios manualmente (thread safe)
+		 * Añade una llegada al adapter. Requiere notificar los cambios
+		 * manualmente (thread safe)
+		 * 
 		 * @param l
 		 */
 		public void addLlegada(Llegada l) {
 			mLlegadas.add(l);
-//			notifyDataSetChanged();
+			// notifyDataSetChanged();
 		}
-		
+
 		/**
-		 * Vacía la lista de llegadas y actualiza la lista para mostrarse cargando
+		 * Vacía la lista de llegadas y actualiza la lista para mostrarse
+		 * cargando
 		 */
-		public void reset(){
+		public void reset() {
 			mLlegadas.clear();
 			notifyDataSetChanged();
 		}
@@ -242,7 +281,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 			// Si tenemos la llegada ponemos la info, si no cargando
 			Llegada llegada = getItem(position);
 			if(llegada != null){
-				text.setText(getTextoDisplay(llegada.getBus1().getTiempo(), llegada.getBus1().getDistancia()));
+				text.setText(llegada.getTexto1());
 			}else{
 				text.setText("Cargando...");
 			}
@@ -273,23 +312,11 @@ public class ParadaInfoActivity extends SherlockActivity {
 		}
 	}
 
-	private String getTextoDisplay(int tiempo, int distancia) {
-		String texto = null;
-		if(tiempo > 0){
-			texto = tiempo + " minutos (" + distancia + " metros)";
-		}else if(tiempo == 0){
-			texto = "Llegada inminente";
-		}else{
-			texto = "Sin estimaciones";
-		}
-		return texto;
-	}
-
 	public void cargaTiempos() {
 		// Pone la interfaz cargando
 		setProgressBarIndeterminateVisibility(Boolean.TRUE);
 		mBtActualizar.startAnimation(mAnimBlink);
-		
+
 		mAdapter.reset();
 		// TODO cancelar carga previa
 		// Crea la cola
@@ -301,41 +328,21 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mCola.addAll(mLineas);
 
 		// Si hay prioritaria la pone en primer lugar
-		if(mLineaPrioritaria != -1){
-			mCola.remove(mLineaPrioritaria);
-			mCola.add(0, mLineas.get(mLineaPrioritaria));
-		}
-		// Comenzar descargas
-		runNext();
-	}
-
-	private Handler handler = new Handler();
-	private Runnable backgroundDownload = new Runnable() {
-		@Override
-		public void run() {
-			// Comienza la descarga
-			Entity linea = mCola.get(0);
-			Llegada tiempo = Utils.getTiempos(linea, mParada.getInt("numero"));
-			// Actualiza el adapter
-			mAdapter.addLlegada(tiempo);
-			// TODO notificar progressbar
-			// Lo quita de la cola
-			mCola.remove(linea);
-			// Notifica al hilo principal de que se terminó la descarga para que
-			// continúe con la cola
-			handler.post(finishBackgroundDownload);
-		}
-	};
-	private Runnable finishBackgroundDownload = new Runnable() {
-		@Override
-		public void run() {
-			mAdapter.notifyDataSetChanged();
+		/*
+		 * if(mLineaPrioritaria != -1){
+		 * mCola.remove(mLineaPrioritaria);
+		 * mCola.add(0, mLineas.get(mLineaPrioritaria));
+		 * }
+		 */
+		// Comenzar descargas si no está ya en ello
+		if(!mLoading){
 			runNext();
 		}
-	};
+
+	}
 
 	private void runNext() {
-//		android.os.Debug.waitForDebugger();
+		// android.os.Debug.waitForDebugger();
 		mLoading = true;
 		if(mCola.size() == 0){
 			// Se acabó
