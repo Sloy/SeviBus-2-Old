@@ -207,6 +207,9 @@ public class ParadasBusquedaActivity extends SherlockActivity {
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
+			// Elimina cualquier reciente de la lista que coincida con esta parada
+			db.getDB().delete("recientes", "parada = "+id, null);
+			// Y guarda una nueva
 			Entity e = new Entity("recientes");
 			e.setValue("parada", id);
 			e.save();
