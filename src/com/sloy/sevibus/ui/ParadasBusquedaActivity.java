@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,7 +31,7 @@ import java.util.List;
 
 public class ParadasBusquedaActivity extends SherlockActivity {
 
-	private Button mBtSearch;
+	// private Button mBtSearch;
 	private EditText mTxtBusqueda;
 	private ListView mList;
 	private ParadasAdapter mAdapter;
@@ -135,8 +134,12 @@ public class ParadasBusquedaActivity extends SherlockActivity {
 
 		if(query.trim().isEmpty()){
 			// Muestra las consultas recientes
-			mIndicadorRecientes.setVisibility(View.VISIBLE);
 			mAdapter = new ParadasAdapter(this, mRecientes);
+			if(!mAdapter.isEmpty()){
+				mIndicadorRecientes.setVisibility(View.VISIBLE);
+			}else{
+				mIndicadorRecientes.setVisibility(View.GONE);
+			}
 			mList.setAdapter(mAdapter);
 		}else{
 			// Busca, miarma
@@ -207,8 +210,9 @@ public class ParadasBusquedaActivity extends SherlockActivity {
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
-			// Elimina cualquier reciente de la lista que coincida con esta parada
-			db.getDB().delete("recientes", "parada = "+id, null);
+			// Elimina cualquier reciente de la lista que coincida con esta
+			// parada
+			db.getDB().delete("recientes", "parada = " + id, null);
 			// Y guarda una nueva
 			Entity e = new Entity("recientes");
 			e.setValue("parada", id);
