@@ -105,18 +105,6 @@
                 android:background="@drawable/button_trans"
                 android:padding="1dip"
                 android:src="@drawable/ic_menu_refresh" />
-
-            <ImageButton
-                android:id="@+id/parada_llegadas_todas_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/TextView03"
-                android:layout_gravity="bottom"
-                android:layout_marginRight="10dip"
-                android:layout_toLeftOf="@+id/parada_llegadas_actualizar"
-                android:background="@drawable/button_trans"
-                android:padding="1dip"
-                android:src="@drawable/expander_open_holo_light" />
         </RelativeLayout>
 
         <View
