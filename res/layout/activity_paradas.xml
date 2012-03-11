@@ -8,9 +8,11 @@
         android:id="@+id/paradas_recientes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Consultadas recientemente" 
+        android:background="@drawable/ab_recientes"
         android:gravity="center_horizontal"
-        android:background="@drawable/ab_solid_light_holo"/>
+        android:paddingBottom="3dip"
+        android:paddingTop="5dip"
+        android:text="Consultadas recientemente" />
 
     <FrameLayout
         android:id="@+id/paradas_results"
