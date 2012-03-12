@@ -1,6 +1,5 @@
 package com.sloy.sevibus.ui;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.ActionMode;
@@ -26,18 +24,20 @@ import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.IntentEditarFavorita;
+import com.sloy.sevibus.utils.IntentParada;
 
 import java.util.List;
 
-public class FavoritasActivity extends SherlockActivity  {
+public class FavoritasActivity extends SherlockActivity {
 
 	private ListView mList;
 	private FavoritasAdapter mAdapter;
 	private List<Entity> mFavoritas;
 	private Animation mAnimShake;
 	private TextView mEmpty;
-	
+
 	private int selectedItem = -1;
+	private ActionMode mActionMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,39 +46,46 @@ public class FavoritasActivity extends SherlockActivity  {
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		
+
 		mAnimShake = AnimationUtils.loadAnimation(this, R.anim.shake);
 		setTitle("Paradas favoritas");
 
 		mEmpty = (TextView)findViewById(android.R.id.empty);
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setChoiceMode(ListView.CHOICE_MODE_NONE);
-		
+
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-//				startActivity(new IntentParada(FavoritasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mFavoritas.get(pos).getLong("linea_id")));
+				if(mActionMode == null){
+					startActivity(new IntentParada(FavoritasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mFavoritas.get(pos).getLong(
+							"linea_id")));
+				}else{
+					selectedItem = pos;
+					mAdapter.notifyDataSetChanged();
+				}
 			}
 		});
 		mList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View v, final int pos, long arg3) {
+				// Abre el actionmode
+				if(mActionMode == null){
+					mActionMode = startActionMode(new FavoritasActionMode());
+				}
 				// Marca la parada seleccionada
-				mList.setItemChecked(pos, true);
 				selectedItem = pos;
-				
-				// Abrir el ActionMode
-				startActionMode(new FavoritasActionMode());
+				mAdapter.notifyDataSetChanged();
 				return true;
 			}
 		});
 	}
-	
-	private void editar(){
+
+	private void editar() {
 		startActivity(new IntentEditarFavorita(FavoritasActivity.this, mAdapter.getItem(selectedItem).getId()));
 	}
-	
-	private void eliminar(){
+
+	private void eliminar() {
 		DataFramework db = null;
 		try{
 			db = DataFramework.getInstance();
@@ -159,8 +166,12 @@ public class FavoritasActivity extends SherlockActivity  {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			Entity item = getItem(position);
-			if(convertView == null){
+			/*if(convertView == null){
 				convertView = View.inflate(mContext, R.layout.list_item_parada, null);
+			}*/
+			convertView = View.inflate(mContext, R.layout.list_item_parada, null);
+			if(mActionMode != null && selectedItem == position){
+				convertView.setBackgroundResource(R.color.sevibus_seleccionado);
 			}
 			TextView numero = (TextView)convertView.findViewById(R.id.item_parada_numero);
 			TextView nombre = (TextView)convertView.findViewById(R.id.item_parada_nombre);
@@ -209,45 +220,46 @@ public class FavoritasActivity extends SherlockActivity  {
 		super.onResume();
 		recargarLista();
 	}
-	
-	private final class FavoritasActionMode implements ActionMode.Callback{
+
+	private final class FavoritasActionMode implements ActionMode.Callback {
 
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			 // Inflate a menu resource providing context menu items
-	        MenuInflater inflater = mode.getMenuInflater();
-	        inflater.inflate(R.menu.favoritas_actionmode, menu);
-	        return true;
+			// Inflate a menu resource providing context menu items
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.favoritas_actionmode, menu);
+			return true;
 		}
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			mode.setTitle("Modificar favoritas");
 			return false;
 		}
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			Toast.makeText(FavoritasActivity.this, String.valueOf(selectedItem), Toast.LENGTH_SHORT).show();
-			/*switch (item.getItemId()) {
-	            case R.id.menu_editar:
-	                editar();
-	                break;
-	            case R.id.menu_eliminar:
-	            	eliminar();
-	            	break;
-	            default:
-	                return false;
-	        }
-			mode.finish();*/
+			switch (item.getItemId()){
+				case R.id.menu_editar:
+					editar();
+					break;
+				case R.id.menu_eliminar:
+					eliminar();
+					break;
+				default:
+					return false;
+			}
+			mode.finish();
+
 			return true;
 		}
 
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
-			selectedItem=-1;
-			mList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			mActionMode = null;
+			mAdapter.notifyDataSetChanged();
 		}
-		
+
 	}
 
 }
