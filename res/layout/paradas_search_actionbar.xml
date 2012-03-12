@@ -5,4 +5,5 @@
     android:layout_height="wrap_content"
     android:hint="@string/n_nombre_o_direcci_n"
     android:imeOptions="actionSearch"
-    android:inputType="text" />
+    android:inputType="text"
+    android:background="@drawable/edit_text_holo_light" />
