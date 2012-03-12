@@ -32,6 +32,7 @@ import com.sloy.sevibus.utils.IntentMapa;
 import com.sloy.sevibus.utils.Llegada;
 import com.sloy.sevibus.utils.Utils;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 public class ParadaInfoActivity extends SherlockActivity {
@@ -61,35 +62,39 @@ public class ParadaInfoActivity extends SherlockActivity {
 	private Animation mAnimBlink;
 
 	private boolean mLoading = false;
+	private boolean mTimeout = false;
+	private boolean mDisconnected = false;
+	
 	private List<Entity> mCola;
 
 	private Handler handler = new Handler();
 	private Runnable backgroundDownload = new Runnable() {
 		@Override
 		public void run() {
-			// Comienza la descarga
 			Entity linea = mCola.get(0);
-			Llegada tiempo = Utils.getTiempos(linea, mParada.getInt("numero"));
+			try{
+				// Comienza la descarga
+				Llegada tiempo = Utils.getTiempos(linea, mParada.getInt("numero"));
+				// Actualiza el adapter
+				mAdapter.addLlegada(tiempo);
+				// mAdapter.addLlegada(new Llegada(linea.getId(), null, null));
 
-			/*
-			 * try{
-			 * Thread.sleep(2000);
-			 * }catch(InterruptedException e){
-			 * e.printStackTrace();
-			 * }
-			 */
+				// Quita la línea de la cola
+				mCola.remove(linea);
 
-			// Actualiza el adapter
-			mAdapter.addLlegada(tiempo);
-			// mAdapter.addLlegada(new Llegada(linea.getId(), null, null));
-			
-			// Quita la línea de la cola
-			mCola.remove(linea);
-			
-			// Notifica al hilo principal de que se terminó la descarga para que
-			// continúe con la cola
-			Log.d("sevibus", "Actualizada línea " + linea.getString("nombre"));
-			handler.post(finishBackgroundDownload);
+				// Notifica al hilo principal de que se terminó la descarga para
+				// que
+				// continúe con la cola
+				Log.d("sevibus", "Actualizada línea " + linea.getString("nombre"));
+				handler.post(finishBackgroundDownload);
+			}catch(SocketTimeoutException e){
+				Log.e("sevibus", "Se alcanzó el timeout", e);
+				// Notifica a la interfaz del error y detiene las descargas
+				mTimeout = true;
+				handler.post(timeoutBackgroundDownload);
+
+			}
+
 		}
 	};
 	private Runnable finishBackgroundDownload = new Runnable() {
@@ -102,6 +107,19 @@ public class ParadaInfoActivity extends SherlockActivity {
 			// Sigue con las descargas
 			runNext();
 
+		}
+	};
+	private Runnable timeoutBackgroundDownload = new Runnable() {
+		@Override
+		public void run() {
+			// Notifica para que se actualice la lista
+			mAdapter.notifyDataSetChanged();
+			// Actualiza la barra de progreso
+			setSupportProgress(getProgress(100));
+			// Avisa al usuario
+			notificaTimeout();
+			// Y para la interfaz
+			finCola();
 		}
 	};
 
@@ -139,15 +157,19 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				// Muestra un diálogo con las 2 llegadas
-				Llegada llegada = mAdapter.getItem(pos);
-				if(llegada == null){
-					Toast.makeText(ParadaInfoActivity.this, "Espera a que termine de cargar los tiempos", Toast.LENGTH_SHORT).show();
+				if(mTimeout){
+					notificaTimeout();
 				}else{
-					String title = String.format("Línea %1s", mLineas.get(pos).getString("nombre"));
-					String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", llegada.getTexto1(), llegada.getTexto2());
-					new AlertDialog.Builder(ParadaInfoActivity.this).setTitle(title).setMessage(display).setNeutralButton("Cerrar", null).create()
-							.show();
+					// Muestra un diálogo con las 2 llegadas
+					Llegada llegada = mAdapter.getItem(pos);
+					if(llegada == null){
+						Toast.makeText(ParadaInfoActivity.this, "Espera a que termine de cargar los tiempos", Toast.LENGTH_SHORT).show();
+					}else{
+						String title = String.format("Línea %1s", mLineas.get(pos).getString("nombre"));
+						String display = String.format("Siguiente llegada:\n%1s\n\nPróxima llegada:\n%2s", llegada.getTexto1(), llegada.getTexto2());
+						new AlertDialog.Builder(ParadaInfoActivity.this).setTitle(title).setMessage(display).setNeutralButton("Cerrar", null)
+								.create().show();
+					}
 				}
 			}
 		});
@@ -157,7 +179,8 @@ public class ParadaInfoActivity extends SherlockActivity {
 				// Cambia la lína preferente
 				mLineaPrioritaria = pos;
 				// Le dice algo al usuario
-				Toast.makeText(ParadaInfoActivity.this, "Se establecido "+mLineas.get(pos).getString("nombre")+" como prioritaria", Toast.LENGTH_SHORT).show();
+				Toast.makeText(ParadaInfoActivity.this, "Se establecido " + mLineas.get(pos).getString("nombre") + " como prioritaria",
+						Toast.LENGTH_SHORT).show();
 				return true;
 			}
 		});
@@ -308,12 +331,19 @@ public class ParadaInfoActivity extends SherlockActivity {
 			// Pone el nombre de la línea
 			linea.setText(mLineas.get(position).getString("nombre"));
 
-			// Si tenemos la llegada ponemos la info, si no cargando
-			Llegada llegada = getItem(position);
-			if(llegada != null){
-				text.setText(llegada.getTexto1());
+			// Si se ha producido timeout muestro el error, me da igual el resto
+			if(mDisconnected){
+				text.setText("Necesaria conexión a Internet");
+			}else if(mTimeout){
+				text.setText("No hay respuesta :("); 
 			}else{
-				text.setText("Cargando...");
+				// Si tenemos la llegada ponemos la info, si no cargando
+				Llegada llegada = getItem(position);
+				if(llegada != null){
+					text.setText(llegada.getTexto1());
+				}else{
+					text.setText("Cargando...");
+				}
 			}
 
 			return convertView;
@@ -342,10 +372,19 @@ public class ParadaInfoActivity extends SherlockActivity {
 		}
 	}
 
-	public void cargaTiempos() {
+	private void cargaTiempos() {
+		// Comprueba la conexión a Internet, importante
+		mDisconnected = !Utils.isNetworkAvailable(this);
+		if(mDisconnected){
+			mDisconnected=true;
+			notificaSinConexion();
+			mAdapter.notifyDataSetChanged();
+			return;
+		}
 		// Pone la interfaz cargando
 		setSupportProgress(getProgress(1));
 		mBtActualizar.startAnimation(mAnimBlink);
+		mTimeout=false;
 
 		mAdapter.reset();
 		// Limpia y crea la cola
@@ -374,15 +413,29 @@ public class ParadaInfoActivity extends SherlockActivity {
 		mLoading = true;
 		if(mCola.size() == 0){
 			// Se acabó
-			mLoading = false;
-			setProgressBarIndeterminateVisibility(Boolean.FALSE);
-			mBtActualizar.clearAnimation();
-			mAnimBlink.reset();
+			finCola();
 		}else{
 			// Descarga el siguiente tiempo en la cola
 			Thread downloadThread = new Thread(backgroundDownload, "Linea " + mCola.get(0).getString("nombre"));
 			downloadThread.start();
 		}
+	}
+
+	private void finCola() {
+		mLoading = false;
+		setProgressBarIndeterminateVisibility(Boolean.FALSE);
+		mBtActualizar.clearAnimation();
+		mAnimBlink.reset();
+	}
+
+	private void notificaTimeout() {
+		Toast.makeText(ParadaInfoActivity.this, "El servidor está tardando demasiado en responder. Intenta recargar de nuevo más tarde.",
+				Toast.LENGTH_LONG).show();
+	}
+	
+	private void notificaSinConexion(){
+		Toast.makeText(ParadaInfoActivity.this, "No hay conexión a Internet.",
+				Toast.LENGTH_LONG).show();
 	}
 
 	private int getProgress(int percentage) {
