@@ -161,7 +161,7 @@ public class ParadasBusquedaActivity extends SherlockActivity {
 			try{
 				db = DataFramework.getInstance();
 				db.open(this, getPackageName());
-				List<Entity> results = db.getEntityList("paradas", where, "numero", "50");
+				List<Entity> results = db.getEntityList("paradas", where, "numero", "20");
 				if(results.size() > 0){
 					mAdapter = new ParadasAdapter(this, results);
 					mList.setAdapter(mAdapter);
