@@ -3,6 +3,8 @@ package com.sloy.sevibus.utils;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.android.dataframework.DataFramework;
@@ -25,6 +27,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -84,14 +87,18 @@ public class Utils {
 
 	/**
 	 * Obtiene los tiempos de llegada de una línea y parada concretas
-	 * @param linea Entidad de la base de datos representando la línea
-	 * @param parada Número de la parada
+	 * 
+	 * @param linea
+	 *            Entidad de la base de datos representando la línea
+	 * @param parada
+	 *            Número de la parada
 	 * @return
+	 * @throws SocketTimeoutException
 	 */
-	public static Llegada getTiempos(Entity linea, int parada) {
+	public static Llegada getTiempos(Entity linea, Integer parada) throws SocketTimeoutException {
 		Llegada res;
 		TiemposHandler th = new TiemposHandler();
-		th.obtenerTiempos(linea.getString("nombre"), new Integer(parada).toString());
+		th.obtenerTiempos(linea.getString("nombre"), parada.toString());
 		res = new Llegada(linea.getId(), new Bus(th.tiempos[0], th.distancias[0]), new Bus(th.tiempos[1], th.distancias[1]));
 		return res;
 	}
@@ -256,6 +263,23 @@ public class Utils {
 		myOutput.flush();
 		myOutput.close();
 		myInput.close();
+	}
+
+	public static boolean isNetworkAvailable(Context ctx) {
+		ConnectivityManager connectivity = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if(connectivity == null){
+			return false;
+		}else{
+			NetworkInfo[] info = connectivity.getAllNetworkInfo();
+			if(info != null){
+				for(int i = 0; i < info.length; i++){
+					if(info[i].getState() == NetworkInfo.State.CONNECTED){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 }

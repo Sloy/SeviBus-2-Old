@@ -14,19 +14,21 @@
     </uses-permission>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
     </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
 
     <application
+        android:name=".utils.SeviApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name=".utils.SeviApplication"
         android:theme="@style/Theme.SeviBus" >
         <uses-library android:name="com.google.android.maps" />
 
         <activity
+            android:name=".ui.HomeActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:name=".ui.HomeActivity" >
-            <intent-filter >
+            android:launchMode="singleTask" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
