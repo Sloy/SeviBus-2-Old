@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <string name="app_version">2.1.2</string>
+    <string name="app_date">10 de marzo de 2012</string>
 
     <string name="novedades">
 Esta versión es para corrección de errores principalmente.

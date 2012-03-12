@@ -3,9 +3,6 @@
 
     <string name="app_name">SeviBus</string>
 
-    <string name="app_version">2.1.2</string>
-    <string name="app_date">10 de marzo de 2012</string>
-
     <string name="dedicatoria">Aplicación dedicada a esa persona que deseo tanto que se pase a visitarnos por Sevilla ;) </string>
     <string name="dedicatoria_luv">♥♥♥ Aplicación dedicada a esa persona que deseo tanto que se pase a visitarnos por Sevilla ♥♥♥</string>
     <string name="email_address">rafa.vazsan+sevibus@gmail.com</string>
