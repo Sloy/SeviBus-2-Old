@@ -43,7 +43,8 @@ public class TiemposHandler {
 		try{
 			/* Realiza la llamada */
 			aht.call(SOAP_ACTION, soapEnvelope);
-			SoapObject resultado = (SoapObject)soapEnvelope.getResponse();
+			Object resultado = soapEnvelope.getResponse();
+//			SoapObject resultado = (SoapObject)res;
 			/* Convierte la respuesta a String */
 			String respuesta = resultado.toString();
 			//Log.d("bus", "respuesta: "+respuesta); //log
