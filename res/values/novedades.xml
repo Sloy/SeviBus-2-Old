@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <string name="app_version">2.1.2</string>
-    <string name="app_date">10 de marzo de 2012</string>
 
-    <string name="novedades">
-Esta versión es para corrección de errores principalmente.
-\nLas únicas novedades notables son que ahora el menú principal y la pantalla de tiempos de llegada se muestran mejor en posición horizontal o pantallas como la del HTC ChaCha (Gracias Lorena); y que como estás viendo las novedades aparecen contraídas en el Acerca de.
+    <string name="app_version">2.2.0</string>
+    <string name="app_date">15 de marzo de 2012</string>
+    <string name="novedades">Con esta actualización se mejora la velocidad acceso a los tiempos de llegada, de forma que ahora estos se muestran uno tras otro, a diferencia de en versiones anteriores que no se mostraban hasta descargar todos.
 \n
-\nEl resto de correcciones tienen que ver con algunas imágenes que se mostraban mal en la interfaz, un bug en el mapa con ICS y cambios menores.
+\nIncorpora también la opción de ver las últimas paradas consultadas en la lista de paradas si no se introduce ninguna búsqueda.
 \n
-\nTambién he corregido algunas paradas erróneas que me habéis reportado, pertenecientes a las líneas 22, 24, 29, 31, 34 y 38.
-Si detectáis más fallos podéis seguir reportándolos e intentaré corregirlos.
+\nAunque no es común que sea problema, he puesto la comprobación de la conexión a Internet antes descargar los tiempos de llegada. Es por eso que la aplicación pide un nuevo permiso.
 \n
-\nIntentaré sacar tiempo para traer más novedades a la aplicación.
-    </string>
+\nAdemás trae algunos pequeños cambios en la interfaz, con más cosas propias de Android Ice Cream Sandwich gracias a la versión 4 de la librería ActionBarSherlock.
+\n
+\nY por último he corregido la parada 949 de San Bernardo gracias a un reporte. Tengo entendido que por esa zona han cambiado recientemente muchas paradas. Sin vuestros reportes no puedo corregir las que estén erróneas.</string>
 
 </resources>
