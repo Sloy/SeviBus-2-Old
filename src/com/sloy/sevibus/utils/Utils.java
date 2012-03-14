@@ -10,7 +10,6 @@ import android.util.Log;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
-import com.sloy.sevibus.utils.Llegada.Bus;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
@@ -38,7 +38,8 @@ import javax.xml.parsers.SAXParserFactory;
 public class Utils {
 
 	public static String URL_XML = "http://www.infobustussam.com:9005/tussamGO/Resultados?op=ep&ls=%s&st=%d"; // 1.linea
-																												// 2.parada
+	private static final String URL_SOAP = "http://www.infobustussam.com:9001/services/dinamica.asmx";
+	private static final String BODY_SOAP = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetPasoParada xmlns=\"http://tempuri.org/\"><linea>%1s</linea><parada>%2s</parada><status>1</status></GetPasoParada></soap:Body></soap:Envelope>"; // 2.parada
 
 	public static String suputamadre(URL url) throws IOException {
 		HttpURLConnection c = (HttpURLConnection)url.openConnection();
@@ -96,11 +97,44 @@ public class Utils {
 	 * @throws SocketTimeoutException
 	 */
 	public static Llegada getTiempos(Entity linea, Integer parada) throws SocketTimeoutException {
-		Llegada res;
-		TiemposHandler th = new TiemposHandler();
-		th.obtenerTiempos(linea.getString("nombre"), parada.toString());
-		res = new Llegada(linea.getId(), new Bus(th.tiempos[0], th.distancias[0]), new Bus(th.tiempos[1], th.distancias[1]));
+		Llegada res = new Llegada(linea.getId());
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		try{
+			SAXParser parser = factory.newSAXParser();
+			TiemposHandler handler = new TiemposHandler();
+			parser.parse(getInputStream(linea.getString("nombre"), parada.toString()), handler);
+			handler.configurarLlegada(res);
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
 		return res;
+	}
+
+	private static InputStream getInputStream(String linea, String parada) {
+		try{
+			URL url = new URL(URL_SOAP);
+			HttpURLConnection c = (HttpURLConnection)url.openConnection();
+			c.setRequestMethod("POST");
+			c.setReadTimeout(15 * 1000);
+			c.setDoOutput(true);
+			// c.setFixedLengthStreamingMode(contentLength)
+			c.setUseCaches(false);
+			c.setRequestProperty("Content-Type", "text/xml");
+			c.connect();
+
+			OutputStreamWriter wr = new OutputStreamWriter(c.getOutputStream());
+			String data = String.format(BODY_SOAP, linea, parada);
+			wr.write(data);
+			wr.flush();
+
+			return c.getInputStream();
+		}catch(MalformedURLException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	public static void descargarRelaciones(DataFramework db) throws MalformedURLException, IOException, JSONException {

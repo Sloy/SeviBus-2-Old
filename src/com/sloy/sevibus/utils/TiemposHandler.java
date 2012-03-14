@@ -1,94 +1,70 @@
 package com.sloy.sevibus.utils;
 
+import com.sloy.sevibus.utils.Llegada.Bus;
 
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
-import android.util.Log;
+public class TiemposHandler extends DefaultHandler {
 
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
+	Bus tmpBus, bus1, bus2;
+	StringBuilder sb = new StringBuilder();
+	Builder build = Builder.NO;
 
-import java.net.SocketTimeoutException;
+	private enum Builder {
+		NO, TIEMPO, DISTANCIA, RUTA;
+	}
 
-public class TiemposHandler {
+	public Llegada configurarLlegada(Llegada empty) {
+		empty.setBus1(bus1);
+		empty.setBus2(bus2);
+		return empty;
+	}
 
-	
-	public static final int ST_OK = 1;
-	public static final int ST_ERROR = 2;
-	public static final int ST_TIMEOUT = 3;
-
-	private static final String SOAP_ACTION="http://tempuri.org/GetPasoParada";
-	private static final  String METHOD_NAME="GetPasoParada";
-	private static final  String NAMESPACE="http://tempuri.org/";
-	private static final  String URL="http://www.infobustussam.com:9001/services/dinamica.asmx";
-	private static final int TIMEOUT = 15000;
-	
-	public int[] tiempos = new int[2];
-	public int[] distancias = new int[2];
-	public String nombre = "";
-	private int status = 0;
-	
-	
-	public boolean obtenerTiempos(String linea, String parada) throws SocketTimeoutException{
-		/* Prepara la llamada SOAP */
-		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
-		request.addProperty("linea", linea);
-		request.addProperty("parada", parada);
-		SoapSerializationEnvelope soapEnvelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-		soapEnvelope.dotNet=true;
-		soapEnvelope.setOutputSoapObject(request);
-		HttpTransportSE aht = new HttpTransportSE(URL,TIMEOUT);
-		
-		try{
-			/* Realiza la llamada */
-			aht.call(SOAP_ACTION, soapEnvelope);
-			Object resultado = soapEnvelope.getResponse();
-//			SoapObject resultado = (SoapObject)res;
-			/* Convierte la respuesta a String */
-			String respuesta = resultado.toString();
-			//Log.d("bus", "respuesta: "+respuesta); //log
-			/* Parsea los minutos de la respuesta */
-			int i = 0;
-			for(String item : respuesta.split("minutos=")){
-				if(i>0){
-					String[] t = item.split(";");
-					tiempos[i-1] = Integer.valueOf(t[0]).intValue();
-					//Log.d("bus", "tiempo"+i+" "+t[0]);
-				}
-				i++;
+	@Override
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		if(!Builder.NO.equals(build)){
+			StringBuilder sb = new StringBuilder();
+			sb.append(ch, start, length);
+			switch (build){
+				case TIEMPO:
+					tmpBus.setTiempo(Integer.parseInt(sb.toString()));
+					break;
+				case DISTANCIA:
+					tmpBus.setDistancia(Integer.parseInt(sb.toString()));
+					break;
+				default:
+					break;
 			}
-			/* Parsea los metros de la respuesta */
-			i = 0;
-			for(String item : respuesta.split("metros=")){
-				if(i>0){
-					String[] m = item.split(";");
-					distancias[i-1] = Integer.valueOf(m[0]).intValue();
-				}
-				i++;
-			}
-			/* Parsea el nombre de la parada */
-			try{
-				String[] a = respuesta.split("ruta=");
-				String[] b = a[1].split(";");
-				nombre = b[0];
-			}catch(Exception e){
-				Log.e("sevibus", e.toString(),e);
-			}
-			
-			return true; 
-		}catch(SocketTimeoutException  e){
-			throw e;
-		}catch(Exception e){
-			Log.d("sevibus", "No se pudo obtener el tiempo de la línea "+linea);
-			status = ST_ERROR;
-			tiempos = new int[]{-1,-1};
-			distancias = new int[]{-1,-1};
-			return false;
+			sb.setLength(0);
 		}
 	}
-	
-	public int getStatus(){
-		return status;
+
+	@Override
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		if(localName.equals("e1")){
+			tmpBus = new Bus();
+		}else if(localName.equals("e2")){
+			tmpBus = new Bus();
+		}else if(localName.equals("minutos")){
+			build = Builder.TIEMPO;
+		}else if(localName.equals("metros")){
+			build = Builder.DISTANCIA;
+		}
 	}
+
+	@Override
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+		if(localName.equals("e1")){
+			bus1 = tmpBus;
+			tmpBus = null;
+		}else if(localName.equals("e2")){
+			bus2 = tmpBus;
+			tmpBus = null;
+		}else if(localName.equals("minutos") || localName.equals("metros")){
+			build = Builder.NO;
+		}
+	}
+
 }

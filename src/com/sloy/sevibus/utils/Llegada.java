@@ -13,6 +13,10 @@ public class Llegada {
 		this.bus2 = bus2;
 	}
 	
+	public Llegada(long lineaID){
+		this(lineaID, null, null);
+	}
+	
 	/**
 	 * Devuelve una cadena con la información de la llegada del bus 1
 	 * @return Error | Sin estimaciones | Llegada inminente | x minutos (y metros)
@@ -59,6 +63,14 @@ public class Llegada {
 		return lineaID;
 	}
 
+	public void setBus1(Bus bus1) {
+		this.bus1 = bus1;
+	}
+
+	public void setBus2(Bus bus2) {
+		this.bus2 = bus2;
+	}
+
 	@Override
 	public String toString() {
 		return "Llegada [lineaID=" + lineaID + ", bus1=" + bus1 + ", bus2=" + bus2 + "]";
@@ -73,12 +85,23 @@ public class Llegada {
 			this.distancia = distancia;
 		}
 
+		public Bus() {
+		}
+
 		public int getTiempo() {
 			return tiempo;
 		}
 
 		public int getDistancia() {
 			return distancia;
+		}
+
+		public void setTiempo(int tiempo) {
+			this.tiempo = tiempo;
+		}
+
+		public void setDistancia(int distancia) {
+			this.distancia = distancia;
 		}
 
 		@Override
