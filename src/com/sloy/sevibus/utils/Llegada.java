@@ -36,7 +36,7 @@ public class Llegada {
 	private String getTextoDisplay(Bus bus) {
 		String texto = null;
 		if(bus==null){
-			return "Error";
+			return "No disponible";
 		}
 		int tiempo = bus.getTiempo();
 		int distancia = bus.getDistancia();
