@@ -95,15 +95,20 @@ public class Utils {
 	 *            Número de la parada
 	 * @return
 	 * @throws SocketTimeoutException
+	 * @throws ServerErrorException si el inputstream falla y devuelve null
 	 */
-	public static Llegada getTiempos(Entity linea, Integer parada) throws SocketTimeoutException {
+	public static Llegada getTiempos(Entity linea, Integer parada) throws SocketTimeoutException, ServerErrorException {
 		Llegada res = new Llegada(linea.getId());
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try{
 			SAXParser parser = factory.newSAXParser();
 			TiemposHandler handler = new TiemposHandler();
-			parser.parse(getInputStream(linea.getString("nombre"), parada.toString()), handler);
+			InputStream is = getInputStream(linea.getString("nombre"), parada.toString());
+			parser.parse(is, handler);
 			handler.configurarLlegada(res);
+		}catch(IllegalArgumentException e){
+			Log.e("sevibus", "Error con el InputStream", e);
+			throw new ServerErrorException();
 		}catch(Exception e){
 			throw new RuntimeException(e);
 		}
@@ -111,6 +116,7 @@ public class Utils {
 	}
 
 	private static InputStream getInputStream(String linea, String parada) {
+		InputStream res = null;
 		try{
 			URL url = new URL(URL_SOAP);
 			HttpURLConnection c = (HttpURLConnection)url.openConnection();
@@ -127,13 +133,13 @@ public class Utils {
 			wr.write(data);
 			wr.flush();
 
-			return c.getInputStream();
+			res = c.getInputStream();
 		}catch(MalformedURLException e){
-			e.printStackTrace();
+			Log.e("sevibus", "Error al obtener la fuente de los tiempos", e);
 		}catch(IOException e){
-			e.printStackTrace();
+			Log.e("sevibus", "Error al obtener la fuente de los tiempos", e);
 		}
-		return null;
+		return res;
 
 	}
 

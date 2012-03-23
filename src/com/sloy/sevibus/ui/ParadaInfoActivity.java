@@ -30,6 +30,7 @@ import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.IntentEditarFavorita;
 import com.sloy.sevibus.utils.IntentMapa;
 import com.sloy.sevibus.utils.Llegada;
+import com.sloy.sevibus.utils.ServerErrorException;
 import com.sloy.sevibus.utils.Utils;
 
 import java.net.SocketTimeoutException;
@@ -64,7 +65,8 @@ public class ParadaInfoActivity extends SherlockActivity {
 	private boolean mLoading = false;
 	private boolean mTimeout = false;
 	private boolean mDisconnected = false;
-	
+	private boolean mError = false;
+
 	private List<Entity> mCola;
 
 	private Handler handler = new Handler();
@@ -75,6 +77,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 			try{
 				// Comienza la descarga
 				Llegada tiempo = Utils.getTiempos(linea, mParada.getInt("numero"));
+
 				// Actualiza el adapter
 				mAdapter.addLlegada(tiempo);
 				// mAdapter.addLlegada(new Llegada(linea.getId(), null, null));
@@ -93,6 +96,8 @@ public class ParadaInfoActivity extends SherlockActivity {
 				mTimeout = true;
 				handler.post(timeoutBackgroundDownload);
 
+			}catch(ServerErrorException e){
+				handler.post(serverError);
 			}
 
 		}
@@ -121,6 +126,22 @@ public class ParadaInfoActivity extends SherlockActivity {
 			// Y para la interfaz
 			finCola();
 		}
+	};
+
+	private Runnable serverError = new Runnable() {
+		@Override
+		public void run() {
+			mError=true;
+			// Notifica para que se actualice la lista
+			mAdapter.notifyDataSetChanged();
+			// Actualiza la barra de progreso
+			setSupportProgress(getProgress(100));
+			// Avisa al usuario
+			Toast.makeText(ParadaInfoActivity.this, "Error con el servidor, inténtalo de nuevo", Toast.LENGTH_SHORT).show();
+			// Y para la interfaz
+			finCola();
+		}
+
 	};
 
 	@Override
@@ -332,10 +353,12 @@ public class ParadaInfoActivity extends SherlockActivity {
 			linea.setText(mLineas.get(position).getString("nombre"));
 
 			// Si se ha producido timeout muestro el error, me da igual el resto
-			if(mDisconnected){
+			if(mError){
+				text.setText("Error");
+			}else if(mDisconnected){
 				text.setText("Necesaria conexión a Internet");
 			}else if(mTimeout){
-				text.setText("No hay respuesta :("); 
+				text.setText("No hay respuesta :(");
 			}else{
 				// Si tenemos la llegada ponemos la info, si no cargando
 				Llegada llegada = getItem(position);
@@ -376,7 +399,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 		// Comprueba la conexión a Internet, importante
 		mDisconnected = !Utils.isNetworkAvailable(this);
 		if(mDisconnected){
-			mDisconnected=true;
+			mDisconnected = true;
 			notificaSinConexion();
 			mAdapter.notifyDataSetChanged();
 			return;
@@ -384,7 +407,8 @@ public class ParadaInfoActivity extends SherlockActivity {
 		// Pone la interfaz cargando
 		setSupportProgress(getProgress(1));
 		mBtActualizar.startAnimation(mAnimBlink);
-		mTimeout=false;
+		mTimeout = false;
+		mError = false;
 
 		mAdapter.reset();
 		// Limpia y crea la cola
@@ -432,10 +456,9 @@ public class ParadaInfoActivity extends SherlockActivity {
 		Toast.makeText(ParadaInfoActivity.this, "El servidor está tardando demasiado en responder. Intenta recargar de nuevo más tarde.",
 				Toast.LENGTH_LONG).show();
 	}
-	
-	private void notificaSinConexion(){
-		Toast.makeText(ParadaInfoActivity.this, "No hay conexión a Internet.",
-				Toast.LENGTH_LONG).show();
+
+	private void notificaSinConexion() {
+		Toast.makeText(ParadaInfoActivity.this, "No hay conexión a Internet.", Toast.LENGTH_LONG).show();
 	}
 
 	private int getProgress(int percentage) {
