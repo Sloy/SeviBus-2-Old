@@ -132,7 +132,8 @@ public class ParadasBusquedaActivity extends SherlockActivity {
 		// extrae la consulta
 		String query = limpiaConsulta(mTxtBusqueda.getText().toString());
 
-		if(query.trim().isEmpty()){
+//		if(query.trim().isEmpty()){ //éste no funciona antes de froyo
+		if(query.trim().length()==0){
 			// Muestra las consultas recientes
 			mAdapter = new ParadasAdapter(this, mRecientes);
 			if(!mAdapter.isEmpty()){
