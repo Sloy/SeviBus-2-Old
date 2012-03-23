@@ -23,7 +23,11 @@ public class ParadasAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mItems.size();
+		if(mItems != null){
+			return mItems.size();
+		}else{
+			return 0;
+		}
 	}
 
 	@Override
