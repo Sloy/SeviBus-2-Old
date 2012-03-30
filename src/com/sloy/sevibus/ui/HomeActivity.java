@@ -23,7 +23,7 @@ public class HomeActivity extends SherlockActivity  {
 
 	private Context mContext = this;
 
-	private Button mBtCercanas, mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtAcerca;
+	private Button mBtCercanas, mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtAcerca, mBtNovedades;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,7 @@ public class HomeActivity extends SherlockActivity  {
 		mBtParadas = (Button)findViewById(R.id.main_paradas_button);
 		mBtMapa = (Button)findViewById(R.id.main_mapa_button);
 		mBtAcerca = (Button)findViewById(R.id.main_acerca_button);
+		mBtNovedades = (Button)findViewById(R.id.main_novedades_button);
 
 		/* Establece los listeners */
 		/*
@@ -76,6 +77,12 @@ public class HomeActivity extends SherlockActivity  {
 			@Override
 			public void onClick(View v) {
 				startActivity(new IntentMapa(mContext));
+			}
+		});
+		mBtNovedades.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(mContext, NovedadesActivity.class));
 			}
 		});
 		mBtAcerca.setOnClickListener(new View.OnClickListener() {
