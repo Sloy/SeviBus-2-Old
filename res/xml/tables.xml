@@ -1,4 +1,4 @@
-<database name="sevibus.db" version="3">
+<database name="sevibus.db" version="4">
 	<table name="paradas" to-string="%numero%: %nombre%">
 		<field name="numero" type="integer" obligatory="true"/>
 		<field name="nombre" type="text" obligatory="true"/>
@@ -29,6 +29,14 @@
 	
 	<table name="recientes" >
 		<field name="parada" type="foreign-key" foreign-table="paradas" obligatory="true"/>
+	</table>
+	
+	
+	<table name="tweets">
+		<field name="id" type="long" obligatory="true" />
+		<field name="date" type="long" obligatory="true" />
+		<field name="text" type="text" obligatory="true" />
+		<field name="nuevo" type="integer" obligatory="false" />
 	</table>
 
 </database>
