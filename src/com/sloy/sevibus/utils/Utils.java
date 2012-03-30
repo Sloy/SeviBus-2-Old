@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 import org.json.JSONArray;
@@ -16,6 +18,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
+
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -141,6 +148,20 @@ public class Utils {
 		}
 		return res;
 
+	}
+	
+	private static Predicate<Status> isReply = new Predicate<Status>() {
+		@Override
+		public boolean apply(Status status) {
+			return !status.getText().startsWith("@");
+		}
+	};
+	
+	public static List<Status> getTussamNews() throws TwitterException{
+		Twitter tw = TwitterFactory.getSingleton();
+		List<Status> statuses = tw.getUserTimeline("tussamsevilla");
+		return Lists.newArrayList(Collections2.filter(statuses, isReply));
+		
 	}
 
 	public static void descargarRelaciones(DataFramework db) throws MalformedURLException, IOException, JSONException {
