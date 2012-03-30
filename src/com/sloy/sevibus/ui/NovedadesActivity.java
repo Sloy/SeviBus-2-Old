@@ -96,7 +96,7 @@ public class NovedadesActivity extends SherlockActivity {
 			TextView texto = (TextView)v.findViewById(R.id.item_novedades_twitter_texto);
 
 			fecha.setText(s.getCreatedAt().toString());
-			texto.setText(s.getText());
+			texto.setText(Utils.limpiarTweet(s));
 			return v;
 		}
 

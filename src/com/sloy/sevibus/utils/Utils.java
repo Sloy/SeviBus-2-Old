@@ -157,6 +157,14 @@ public class Utils {
 		}
 	};
 	
+	public static String limpiarTweet(Status tweet){
+		String texto = tweet.getText();
+		texto = texto.replaceAll("\n", " ");
+		texto = texto.replaceAll("#TUSSAM", "");
+		texto = texto.replaceAll("#Sevilla", "");
+		return texto;
+	}
+	
 	public static List<Status> getTussamNews() throws TwitterException{
 		Twitter tw = TwitterFactory.getSingleton();
 		List<Status> statuses = tw.getUserTimeline("tussamsevilla");
