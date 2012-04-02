@@ -2,8 +2,8 @@ package com.sloy.sevibus.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +18,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
@@ -34,11 +35,13 @@ public class NovedadesActivity extends SherlockActivity {
 	private List<TweetHolder> mListTweets;
 	private TwitterAdapter mAdapter;
 	private Context mCtx;
+	private boolean running = false;
 
-	AsyncTask<Void, Void, Boolean> downloadTweets = new AsyncTask<Void, Void, Boolean>() {
-
+	private Handler handler = new Handler();
+	
+	private Runnable downloadTweets = new Runnable() {
 		@Override
-		protected Boolean doInBackground(Void... params) {
+		public void run() {
 			try{
 				/*
 				 * Debe obtener la lista de últimos tweets de tussam,
@@ -61,6 +64,7 @@ public class NovedadesActivity extends SherlockActivity {
 					// Itera sobre la lista de nuevos tweets para quedarse con
 					// los que no estén guardados, y los mete en la lista
 					// principal vacía
+					//TODO creo que hay un problema al trabajar directamente con esta lista
 					mListTweets.clear();
 					for(TweetHolder t : newReceived){
 						if(t.compareTo(lastTwitCached) > 0){
@@ -78,34 +82,33 @@ public class NovedadesActivity extends SherlockActivity {
 					guardarCache(newReceived);
 				}
 				// Los devuelve al hilo principal para trabajar con ellos
-				return true;
 			}catch(TwitterException e){
 				Log.e("sevibus", "Error al descargar los tweets de @TussamSevilla", e);
-			}
-			return false;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			if(!result){
 				Toast.makeText(mCtx, "Error al descargar los tweets", Toast.LENGTH_SHORT).show();
-			}else{
-				// Descarga correcta, actualiza la lista
-				mAdapter.notifyDataSetChanged();
 			}
+			handler.post(postDownload);
 		}
+	};
 
+	private Runnable postDownload = new Runnable() {
+		@Override
+		public void run() {
+			setProgressBarIndeterminateVisibility(false);
+			mAdapter.notifyDataSetChanged();
+			running = false;
+		}
 	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_novedades);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setTitle("Novedades");
-		
+
 		mCtx = this;
 		// Carga los tweets guardados actualmente
 		mListTweets = cargarCache();
@@ -115,7 +118,7 @@ public class NovedadesActivity extends SherlockActivity {
 		list.setAdapter(mAdapter);
 
 		// Carga los nuevos
-		downloadTweets.execute();
+		actualizar();
 	}
 
 	private List<TweetHolder> cargarCache() {
@@ -133,15 +136,19 @@ public class NovedadesActivity extends SherlockActivity {
 		db.close();
 		return res;
 	}
-	
-	private void actualizar(){
-		
+
+	private void actualizar() {
+		if(!running){
+			setProgressBarIndeterminateVisibility(true);
+			new Thread(downloadTweets).start();
+		}
+
 	}
-	
-	private void abrirNavegador(){
-		
+
+	private void abrirNavegador() {
+
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSherlock().getMenuInflater();
@@ -187,7 +194,7 @@ public class NovedadesActivity extends SherlockActivity {
 	}
 
 	private class TwitterAdapter extends BaseAdapter {
-		
+
 		String format = "dd MMM k:mm";
 
 		@Override
