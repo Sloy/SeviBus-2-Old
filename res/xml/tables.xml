@@ -36,7 +36,6 @@
 		<field name="id" type="long" obligatory="true" />
 		<field name="date" type="long" obligatory="true" />
 		<field name="text" type="text" obligatory="true" />
-		<field name="nuevo" type="integer" obligatory="false" />
 	</table>
 
 </database>
