@@ -3,6 +3,7 @@ package com.sloy.sevibus.ui;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,6 +146,8 @@ public class NovedadesActivity extends SherlockActivity {
 	}
 
 	private class TwitterAdapter extends BaseAdapter {
+		
+		String format = "dd MMM k:mm";
 
 		@Override
 		public int getCount() {
@@ -172,16 +175,16 @@ public class NovedadesActivity extends SherlockActivity {
 			if(v == null){
 				v = LayoutInflater.from(mCtx).inflate(R.layout.item_list_tweet, parent, false);
 			}
+			if(th.isNuevo()){
+				
+			}else{
+				
+			}
 			
 			TextView fecha = (TextView)v.findViewById(R.id.item_novedades_twitter_fecha);
 			TextView texto = (TextView)v.findViewById(R.id.item_novedades_twitter_texto);
 
-//			fecha.setText(th.getFecha().toString());// TODO DateFormatter
-			if(th.isNuevo()){
-				fecha.setText("nuevo");
-			}else{
-				fecha.setText(th.getFecha().toString());
-			}
+			fecha.setText(DateFormat.format(format, th.getFecha()));
 			texto.setText(th.getTexto());
 			return v;
 		}
