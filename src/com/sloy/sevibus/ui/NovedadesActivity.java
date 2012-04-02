@@ -97,6 +97,11 @@ public class NovedadesActivity extends SherlockActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_novedades);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		setTitle("Novedades");
+		
 		mCtx = this;
 		// Carga los tweets guardados actualmente
 		mListTweets = cargarCache();
