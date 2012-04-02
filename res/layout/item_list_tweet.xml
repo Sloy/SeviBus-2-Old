@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dip"  >
+    android:padding="10dip" >
 
     <TextView
         android:id="@+id/item_novedades_twitter_fecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="30/03/2012" 
-        android:layout_gravity="right"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:drawableLeft="@drawable/twitter"
+        android:drawablePadding="5dip"
+        android:text="30/03/2012" />
 
     <TextView
         android:id="@+id/item_novedades_twitter_texto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/item_novedades_twitter_fecha"
+        android:layout_marginBottom="5dip"
+        android:layout_marginTop="2dip"
         android:text="La Línea B3 normaliza su recorrido. #TUSSAM #Sevilla"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-</LinearLayout>
+</RelativeLayout>
