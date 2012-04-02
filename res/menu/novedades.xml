@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_actualizar"
+        android:icon="@drawable/ic_menu_refresh"
+        android:showAsAction="always"
+        android:title="Actualizar"/>
+    <item
+        android:id="@+id/menu_navegador"
+        android:icon="@drawable/ic_action_globe"
+        android:showAsAction="always"
+        android:title="Ver en navegador"/>
+
+</menu>
