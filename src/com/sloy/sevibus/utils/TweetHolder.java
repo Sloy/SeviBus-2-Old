@@ -70,5 +70,9 @@ public class TweetHolder implements Comparable<TweetHolder> {
 		return texto;
 	}
 	
+	@Override
+	public String toString(){
+		return texto;
+	}
 
 }
