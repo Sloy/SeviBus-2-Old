@@ -1,6 +1,7 @@
 package com.sloy.sevibus.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
@@ -128,6 +132,38 @@ public class NovedadesActivity extends SherlockActivity {
 		}
 		db.close();
 		return res;
+	}
+	
+	private void actualizar(){
+		
+	}
+	
+	private void abrirNavegador(){
+		
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSherlock().getMenuInflater();
+		inflater.inflate(R.menu.novedades, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()){
+			case R.id.menu_actualizar:
+				actualizar();
+				return true;
+			case R.id.menu_navegador:
+				abrirNavegador();
+				return true;
+			case android.R.id.home:
+				startActivity(new Intent(this, HomeActivity.class));
+				return true;
+			default:
+				return false;
+		}
 	}
 
 	private void guardarCache(List<TweetHolder> tweets) {
