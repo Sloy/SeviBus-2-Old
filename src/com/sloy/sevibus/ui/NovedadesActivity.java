@@ -64,9 +64,9 @@ public class NovedadesActivity extends SherlockActivity {
 							mListTweets.add(t);
 						}
 					}
-					//Guarda en caché los nuevos de ahora
+					// Guarda en caché los nuevos de ahora
 					guardarCache(mListTweets);
-					//Mete a continuación los antiguos
+					// Mete a continuación los antiguos
 					mListTweets.addAll(cache);
 				}else{
 					mListTweets = newReceived;
@@ -175,17 +175,18 @@ public class NovedadesActivity extends SherlockActivity {
 			if(v == null){
 				v = LayoutInflater.from(mCtx).inflate(R.layout.item_list_tweet, parent, false);
 			}
-			if(th.isNuevo()){
-				
-			}else{
-				
-			}
-			
+
 			TextView fecha = (TextView)v.findViewById(R.id.item_novedades_twitter_fecha);
 			TextView texto = (TextView)v.findViewById(R.id.item_novedades_twitter_texto);
 
 			fecha.setText(DateFormat.format(format, th.getFecha()));
 			texto.setText(th.getTexto());
+
+			if(th.isNuevo()){
+				texto.setTypeface(null, 1);
+			}else{
+				texto.setTypeface(null, 0);
+			}
 			return v;
 		}
 
