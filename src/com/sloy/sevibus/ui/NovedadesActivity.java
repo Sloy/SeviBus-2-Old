@@ -30,10 +30,10 @@ public class NovedadesActivity extends SherlockActivity {
 	private TwitterAdapter mAdapter;
 	private Context mCtx;
 
-	AsyncTask<Void, Void, List<TweetHolder>> downloadTweets = new AsyncTask<Void, Void, List<TweetHolder>>() {
+	AsyncTask<Void, Void, Boolean> downloadTweets = new AsyncTask<Void, Void, Boolean>() {
 
 		@Override
-		protected List<TweetHolder> doInBackground(Void... params) {
+		protected Boolean doInBackground(Void... params) {
 			try{
 				/*
 				 * Debe obtener la lista de últimos tweets de tussam,
@@ -52,41 +52,40 @@ public class NovedadesActivity extends SherlockActivity {
 				if(!cache.isEmpty()){// siempre y cuando la cache tenga algo
 										// guardado
 					// Coge el último tweet como referencia
-					TweetHolder lastTwitCached = cache.get(cache.size() - 1);
+					TweetHolder lastTwitCached = cache.get(0);
 					// Itera sobre la lista de nuevos tweets para quedarse con
-					// los
-					// que no estén guardados
-					for(int i = 0; i < newReceived.size(); i++){
-						// Si el tweet i es más nuevo que el último
-						if(newReceived.get(i).compareTo(lastTwitCached) > 0){
-							// Deja en la lista únicamente los nuevos
-							newReceived = newReceived.subList(i, newReceived.size());
+					// los que no estén guardados, y los mete en la lista
+					// principal vacía
+					mListTweets.clear();
+					for(TweetHolder t : newReceived){
+						if(t.compareTo(lastTwitCached) > 0){
+							// Es más nuevo
+							mListTweets.add(t);
 						}
 					}
+					//Guarda en caché los nuevos de ahora
+					guardarCache(mListTweets);
+					//Mete a continuación los antiguos
+					mListTweets.addAll(cache);
+				}else{
+					mListTweets = newReceived;
+					// Guarda los nuevos en la caché
+					guardarCache(newReceived);
 				}
-				// Guarda los nuevos en la caché
-				guardarCache(newReceived);
 				// Los devuelve al hilo principal para trabajar con ellos
-				return newReceived;
+				return true;
 			}catch(TwitterException e){
 				Log.e("sevibus", "Error al descargar los tweets de @TussamSevilla", e);
 			}
-			return null;
+			return false;
 		}
 
 		@Override
-		protected void onPostExecute(List<TweetHolder> result) {
-			if(result == null){
+		protected void onPostExecute(Boolean result) {
+			if(!result){
 				Toast.makeText(mCtx, "Error al descargar los tweets", Toast.LENGTH_SHORT).show();
 			}else{
 				// Descarga correcta, actualiza la lista
-				// Primero marca todos los actuales como no nuevos, yatussabe
-				for(TweetHolder th : mListTweets){
-					th.setNuevo(false);
-				}
-				// Luego añade los nuevos
-				mListTweets.addAll(result);
-				// Y actualiza la interfaz
 				mAdapter.notifyDataSetChanged();
 			}
 		}
@@ -173,10 +172,16 @@ public class NovedadesActivity extends SherlockActivity {
 			if(v == null){
 				v = LayoutInflater.from(mCtx).inflate(R.layout.item_list_tweet, parent, false);
 			}
+			
 			TextView fecha = (TextView)v.findViewById(R.id.item_novedades_twitter_fecha);
 			TextView texto = (TextView)v.findViewById(R.id.item_novedades_twitter_texto);
 
-			fecha.setText(th.getFecha().toString());// TODO DateFormatter
+//			fecha.setText(th.getFecha().toString());// TODO DateFormatter
+			if(th.isNuevo()){
+				fecha.setText("nuevo");
+			}else{
+				fecha.setText(th.getFecha().toString());
+			}
 			texto.setText(th.getTexto());
 			return v;
 		}
