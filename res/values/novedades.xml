@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.2.0</string>
-    <string name="app_date">15 de marzo de 2012</string>
+    <string name="app_version">2.3</string>
+    <string name="app_date">03 de abril de 2012</string>
     <string name="novedades">Con esta actualización se mejora la velocidad acceso a los tiempos de llegada, de forma que ahora estos se muestran uno tras otro, a diferencia de en versiones anteriores que no se mostraban hasta descargar todos.
 \n
 \nIncorpora también la opción de ver las últimas paradas consultadas en la lista de paradas si no se introduce ninguna búsqueda.
