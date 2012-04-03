@@ -58,4 +58,10 @@
     <string name="parada_n_">Parada nº</string>
 
     <string name="l_neas_">"Líneas: "</string>
+
+    <string name="novedades_warning">En esta página puedes ver los últimos avisos comunicados a través de la cuenta de Twitter oficial de Tussam (@TussamSevilla). 
+        \n
+        \nComo tal yo no tengo ninguna potestad ni control sobre lo que aparecerá, recuerdo que SeviBus no tiene ninguna relación directa con Tussam por lo que no me responsabilizo de la información mostrada. 
+        \n
+        \nPodéis ver su perfil completo y seguirlos pulsando el globo de arriba.</string>
 </resources>

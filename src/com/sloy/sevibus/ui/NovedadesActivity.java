@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,8 @@ public class NovedadesActivity extends SherlockActivity {
 	private boolean running = false;
 
 	private Handler handler = new Handler();
+	private ListView list;
+	private View empty;
 	
 	private Runnable downloadTweets = new Runnable() {
 		@Override
@@ -65,7 +68,8 @@ public class NovedadesActivity extends SherlockActivity {
 					// Itera sobre la lista de nuevos tweets para quedarse con
 					// los que no estén guardados, y los mete en la lista
 					// principal vacía
-					//TODO creo que hay un problema al trabajar directamente con esta lista
+					// TODO creo que hay un problema al trabajar directamente
+					// con esta lista
 					mListTweets.clear();
 					for(TweetHolder t : newReceived){
 						if(t.compareTo(lastTwitCached) > 0){
@@ -94,6 +98,8 @@ public class NovedadesActivity extends SherlockActivity {
 	private Runnable postDownload = new Runnable() {
 		@Override
 		public void run() {
+			empty.setVisibility(View.GONE);
+			list.setVisibility(View.VISIBLE);
 			setProgressBarIndeterminateVisibility(false);
 			mAdapter.notifyDataSetChanged();
 			running = false;
@@ -109,17 +115,33 @@ public class NovedadesActivity extends SherlockActivity {
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setTitle("Novedades");
+		setProgressBarIndeterminateVisibility(false);
 
 		mCtx = this;
 		// Carga los tweets guardados actualmente
 		mListTweets = cargarCache();
 		// Asigna el adapter al listview
-		ListView list = (ListView)findViewById(android.R.id.list);
+		list = (ListView)findViewById(android.R.id.list);
+		empty = findViewById(android.R.id.empty);
+		((Button)empty.findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				actualizar();
+			}
+		});
 		mAdapter = new TwitterAdapter();
 		list.setAdapter(mAdapter);
 
-		// Carga los nuevos
-		actualizar();
+		//¿Mensaje de bienvenida?
+		if(mListTweets.isEmpty()){
+			list.setVisibility(View.GONE);
+			empty.setVisibility(View.VISIBLE);
+		}else{
+			empty.setVisibility(View.GONE);
+			// Carga los nuevos
+			actualizar();
+		}
+
 	}
 
 	private List<TweetHolder> cargarCache() {
@@ -147,7 +169,7 @@ public class NovedadesActivity extends SherlockActivity {
 	}
 
 	private void abrirNavegador() {
-		startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://twitter.com/tussamsevilla")));
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/tussamsevilla")));
 	}
 
 	@Override
