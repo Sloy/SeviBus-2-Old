@@ -2,6 +2,7 @@ package com.sloy.sevibus.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateFormat;
@@ -146,7 +147,7 @@ public class NovedadesActivity extends SherlockActivity {
 	}
 
 	private void abrirNavegador() {
-
+		startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://twitter.com/tussamsevilla")));
 	}
 
 	@Override
