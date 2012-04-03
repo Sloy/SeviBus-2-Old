@@ -162,8 +162,13 @@ public class NovedadesActivity extends SherlockActivity {
 
 	private void actualizar() {
 		if(!running){
-			setSupportProgressBarIndeterminateVisibility(true);
-			new Thread(downloadTweets).start();
+			if(Utils.isNetworkAvailable(mCtx)){
+				setSupportProgressBarIndeterminateVisibility(true);
+				new Thread(downloadTweets).start();	
+			}else{
+				Toast.makeText(mCtx, "Necesitas conexión a Internet", Toast.LENGTH_SHORT).show();
+			}
+			
 		}
 
 	}
