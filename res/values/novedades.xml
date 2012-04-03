@@ -3,14 +3,13 @@
 
     <string name="app_version">2.3</string>
     <string name="app_date">03 de abril de 2012</string>
-    <string name="novedades">Con esta actualización se mejora la velocidad acceso a los tiempos de llegada, de forma que ahora estos se muestran uno tras otro, a diferencia de en versiones anteriores que no se mostraban hasta descargar todos.
+    <string name="novedades">La novedad inmediatamente visible de esta versión es la nueva pantalla de Novedades para estar al tanto de los últimos avisos oficiales de Tussam a través de su cuenta de Twitter. 
 \n
-\nIncorpora también la opción de ver las últimas paradas consultadas en la lista de paradas si no se introduce ninguna búsqueda.
+\nAdemás reincorporo las características de la versión 2.2 que tuve que retirar por los reportes de errores. Ya deberían estar corregidos y no dar más problemas. Recuerdo brevemente de qué se trataban:
 \n
-\nAunque no es común que sea problema, he puesto la comprobación de la conexión a Internet antes descargar los tiempos de llegada. Es por eso que la aplicación pide un nuevo permiso.
-\n
-\nAdemás trae algunos pequeños cambios en la interfaz, con más cosas propias de Android Ice Cream Sandwich gracias a la versión 4 de la librería ActionBarSherlock.
-\n
-\nY por último he corregido la parada 949 de San Bernardo gracias a un reporte. Tengo entendido que por esa zona han cambiado recientemente muchas paradas. Sin vuestros reportes no puedo corregir las que estén erróneas.</string>
+\n- Mejora de la velocidad de acceso a los tiempos de llegada, descargándose y mostrándose de forma individual.
+\n- Posibilidad de ver las últimas paradas consultadas en la lista de paradas si no se introduce ninguna búsqueda.
+\n- Comprobar la conexión a Internet, por eso pide un nuevo permiso.
+\n- Cambios menores en la interfaz, como la actualización de la librería ActionBarSherlock 4.</string>
 
 </resources>
