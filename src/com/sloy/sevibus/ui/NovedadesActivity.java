@@ -100,7 +100,7 @@ public class NovedadesActivity extends SherlockActivity {
 		public void run() {
 			empty.setVisibility(View.GONE);
 			list.setVisibility(View.VISIBLE);
-			setProgressBarIndeterminateVisibility(false);
+			setSupportProgressBarIndeterminateVisibility(false);
 			mAdapter.notifyDataSetChanged();
 			running = false;
 		}
@@ -115,7 +115,7 @@ public class NovedadesActivity extends SherlockActivity {
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setTitle("Novedades");
-		setProgressBarIndeterminateVisibility(false);
+		setSupportProgressBarIndeterminateVisibility(false);
 
 		mCtx = this;
 		// Carga los tweets guardados actualmente
@@ -162,7 +162,7 @@ public class NovedadesActivity extends SherlockActivity {
 
 	private void actualizar() {
 		if(!running){
-			setProgressBarIndeterminateVisibility(true);
+			setSupportProgressBarIndeterminateVisibility(true);
 			new Thread(downloadTweets).start();
 		}
 
