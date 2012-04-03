@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -42,7 +43,7 @@ public class NovedadesActivity extends SherlockActivity {
 	private Handler handler = new Handler();
 	private ListView list;
 	private View empty;
-	
+
 	private Runnable downloadTweets = new Runnable() {
 		@Override
 		public void run() {
@@ -122,6 +123,13 @@ public class NovedadesActivity extends SherlockActivity {
 		mListTweets = cargarCache();
 		// Asigna el adapter al listview
 		list = (ListView)findViewById(android.R.id.list);
+		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mListTweets.get(position).getUrl())));
+			}
+		});
 		empty = findViewById(android.R.id.empty);
 		((Button)empty.findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -132,7 +140,7 @@ public class NovedadesActivity extends SherlockActivity {
 		mAdapter = new TwitterAdapter();
 		list.setAdapter(mAdapter);
 
-		//¿Mensaje de bienvenida?
+		// ¿Mensaje de bienvenida?
 		if(mListTweets.isEmpty()){
 			list.setVisibility(View.GONE);
 			empty.setVisibility(View.VISIBLE);
@@ -164,13 +172,11 @@ public class NovedadesActivity extends SherlockActivity {
 		if(!running){
 			if(Utils.isNetworkAvailable(mCtx)){
 				setSupportProgressBarIndeterminateVisibility(true);
-				new Thread(downloadTweets).start();	
+				new Thread(downloadTweets).start();
 			}else{
 				Toast.makeText(mCtx, "Necesitas conexión a Internet", Toast.LENGTH_SHORT).show();
 			}
-			
 		}
-
 	}
 
 	private void abrirNavegador() {
