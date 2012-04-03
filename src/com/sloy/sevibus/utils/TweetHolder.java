@@ -74,5 +74,9 @@ public class TweetHolder implements Comparable<TweetHolder> {
 	public String toString(){
 		return texto;
 	}
+	
+	public String getUrl(){
+		return "https://twitter.com/tussamsevilla/status/"+getId();
+	}
 
 }
