@@ -40,7 +40,7 @@ public class SeviApplication extends Application {
 
 				// Cogemos los recientes
 				List<Entity> recientes = null;
-				if(lastVersion >= 22){ // Disponible desde 2.2
+				if(lastVersion >= 24){ // Disponible desde 2.2
 					  recientes = db.getEntityList("recientes");
 				}
 				// Cogemos los favoritos
@@ -79,7 +79,7 @@ public class SeviApplication extends Application {
 				db.open(this, getPackageName());
 
 				// Guardamos los recientes
-				if(lastVersion >= 22){ // Disponible desde 2.2
+				if(lastVersion >= 24){ // Disponible desde 2.2
 					for(Entity e : recientes){
 						Entity n = new Entity("recientes");
 						n.setValue("parada", e.getValue("parada"));
