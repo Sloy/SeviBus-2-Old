@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.3</string>
-    <string name="app_date">03 de abril de 2012</string>
-    <string name="novedades">La novedad inmediatamente visible de esta versión es la nueva pantalla de Novedades para estar al tanto de los últimos avisos oficiales de Tussam a través de su cuenta de Twitter. 
+    <string name="app_version">2.3.1</string>
+    <string name="app_date">10 de abril de 2012</string>
+    <string name="novedades">Pequeños cambios.
 \n
-\nAdemás reincorporo las características de la versión 2.2 que tuve que retirar por los reportes de errores. Ya deberían estar corregidos y no dar más problemas. Recuerdo brevemente de qué se trataban:
+\nLa novedad principal es la incorporación de estadísticas anónimas, para poder contabilizar el uso de la aplicación. Son completamente anónimas, no se envía ningún dato personal o identificativo. Además son muy importantes para el futuro a corto-medio plazo de SeviBus. Si alguien tiene algún problema al respecto puede contactar conmigo. 
 \n
-\n- Mejora de la velocidad de acceso a los tiempos de llegada, descargándose y mostrándose de forma individual.
-\n- Posibilidad de ver las últimas paradas consultadas en la lista de paradas si no se introduce ninguna búsqueda.
-\n- Comprobar la conexión a Internet, por eso pide un nuevo permiso.
-\n- Cambios menores en la interfaz, como la actualización de la librería ActionBarSherlock 4.</string>
+\nCambio del icono de la aplicación, para evitar usar el logo de Tussam. A ver si así queda más claro que SeviBus NO recibe apoyo ni ayuda por parte de Tussam, al contrario. (Menos agradecerles a ellos y más donar ;p)
+\n
+\nAlgunas paradas corregidas gracias a los reportes recibidos.
+\n
+\nAlgunos errores corregidos, sobre todo en la lista de Tweets de novedades.
+\n
+\nA partir de ahora la aplicación sólo soporta versiones de Android desde 2.1 en adelante por problemas de compatibilidad. </string>
 
 </resources>
