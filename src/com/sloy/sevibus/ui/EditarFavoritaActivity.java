@@ -22,8 +22,10 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
+import com.flurry.android.FlurryAgent;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
 
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class EditarFavoritaActivity extends SherlockActivity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FlurryAgent.onStartSession(this, Datos.FLURRY_KEY);
 		setContentView(R.layout.activity_editar_favorito);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
@@ -141,6 +144,12 @@ public class EditarFavoritaActivity extends SherlockActivity  {
 		mNumero.requestFocus();
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSherlock().getMenuInflater();

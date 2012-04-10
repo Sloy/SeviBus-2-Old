@@ -25,8 +25,10 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
+import com.flurry.android.FlurryAgent;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.IntentEditarFavorita;
 import com.sloy.sevibus.utils.IntentMapa;
 import com.sloy.sevibus.utils.Llegada;
@@ -155,6 +157,7 @@ public class ParadaInfoActivity extends SherlockActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FlurryAgent.onStartSession(this, Datos.FLURRY_KEY);
 		// This has to be called before setContentView and you must use the
 		// class in android.support.v4.view and NOT android.view
 		requestWindowFeature(Window.FEATURE_PROGRESS);
@@ -281,6 +284,12 @@ public class ParadaInfoActivity extends SherlockActivity {
 
 	}
 
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
+	}
 	private class LlegadasAdapter extends BaseAdapter {
 
 		Context mContext;

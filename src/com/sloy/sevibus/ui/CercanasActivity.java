@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.flurry.android.FlurryAgent;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.ParadasAdapter;
 
 public class CercanasActivity extends SherlockActivity  {
@@ -22,6 +24,7 @@ public class CercanasActivity extends SherlockActivity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FlurryAgent.onStartSession(this, Datos.FLURRY_KEY);
 		setContentView(R.layout.list_activity);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
@@ -39,6 +42,12 @@ public class CercanasActivity extends SherlockActivity  {
 		Location loc = mLocationManager.getLastKnownLocation(mProvider);
 		
 		
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
 	}
 
 }

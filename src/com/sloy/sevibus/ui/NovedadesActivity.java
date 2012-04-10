@@ -24,8 +24,10 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
+import com.flurry.android.FlurryAgent;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.TweetHolder;
 import com.sloy.sevibus.utils.Utils;
 
@@ -115,6 +117,7 @@ public class NovedadesActivity extends SherlockActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FlurryAgent.onStartSession(this, Datos.FLURRY_KEY);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_novedades);
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -157,6 +160,12 @@ public class NovedadesActivity extends SherlockActivity {
 
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
+	}
+	
 	private List<TweetHolder> cargarCache() {
 		List<TweetHolder> res = Lists.newArrayList();
 		DataFramework db = null;

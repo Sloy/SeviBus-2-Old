@@ -14,7 +14,9 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.flurry.android.FlurryAgent;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.IntentMapa;
 
 import java.util.Calendar;
@@ -28,7 +30,7 @@ public class HomeActivity extends SherlockActivity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		FlurryAgent.onStartSession(this, Datos.FLURRY_KEY);
 		setContentView(R.layout.home_activity);
 
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -94,6 +96,12 @@ public class HomeActivity extends SherlockActivity  {
 
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSherlock().getMenuInflater();

@@ -12,6 +12,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
+import com.flurry.android.FlurryAgent;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -19,6 +20,7 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.MyItemizedOverlay;
 import com.sloy.sevibus.utils.SherlockMapActivity;
 
@@ -36,6 +38,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FlurryAgent.onStartSession(this, Datos.FLURRY_KEY);
 		setContentView(R.layout.activity_mapa);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
@@ -98,6 +101,13 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		// TODO recibir línea
 	}
 
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
+	}
+	
 	private void selectLinea(long lineaID) {
 		for(int i = 0; i < mLineas.size(); i++){
 			Entity e = mLineas.get(i);

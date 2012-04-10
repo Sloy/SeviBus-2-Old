@@ -1,23 +1,13 @@
 package com.sloy.sevibus.utils;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.android.dataframework.DataFramework;
-import com.android.dataframework.Entity;
-import com.sloy.sevibus.R;
 
 public class Datos {
 
+	public static final String FLURRY_KEY = "6NGELGNPTRH5NIR1XK78";
 	private static SharedPreferences preferencias;
 	private static Context mContext;
 

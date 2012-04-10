@@ -18,7 +18,9 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
+import com.flurry.android.FlurryAgent;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.Datos;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class LineasActivity extends SherlockActivity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FlurryAgent.onStartSession(this, Datos.FLURRY_KEY);
 		setContentView(R.layout.list_activity);
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
@@ -61,6 +64,12 @@ public class LineasActivity extends SherlockActivity  {
 			mList.setAdapter(mAdapter);
 		}
 
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		FlurryAgent.onEndSession(this);
 	}
 
 	private class LineasAdapter extends BaseAdapter {
