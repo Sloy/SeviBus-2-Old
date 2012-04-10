@@ -90,7 +90,12 @@ public class NovedadesActivity extends SherlockActivity {
 				// Los devuelve al hilo principal para trabajar con ellos
 			}catch(TwitterException e){
 				Log.e("sevibus", "Error al descargar los tweets de @TussamSevilla", e);
-				Toast.makeText(mCtx, "Error al descargar los tweets", Toast.LENGTH_SHORT).show();
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(mCtx, "Error al descargar los tweets. Puede que Twitter esté saturado.", Toast.LENGTH_SHORT).show();
+					}
+				});
 			}
 			handler.post(postDownload);
 		}
