@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
+import com.flurry.android.FlurryAgent;
 import com.google.common.collect.Lists;
+import com.sloy.sevibus.R;
 
 import java.io.IOException;
 import java.util.List;
@@ -110,6 +112,12 @@ public class SeviApplication extends Application {
 				db.close();
 			}
 		}
+		
+		/* Flurry config */
+		FlurryAgent.setVersionName(getResources().getString(R.string.version));
+		FlurryAgent.setUseHttps(true);
+		FlurryAgent.setReportLocation(false);
+		FlurryAgent.setLogLevel(0);
 
 	}
 }
