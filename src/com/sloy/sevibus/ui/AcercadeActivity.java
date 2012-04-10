@@ -19,7 +19,6 @@ import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.ExpandAnimation;
 
 import java.lang.reflect.Method;
-import java.util.Calendar;
 
 public class AcercadeActivity extends SherlockActivity  {
 
@@ -35,11 +34,6 @@ public class AcercadeActivity extends SherlockActivity  {
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		Calendar rightNow = Calendar.getInstance();
-		if(rightNow.get(Calendar.MONTH) == Calendar.FEBRUARY && rightNow.get(Calendar.DAY_OF_MONTH) == 14){
-			// luv mode
-			((TextView)findViewById(R.id.dedicatoria)).setText(R.string.dedicatoria_luv);
-		}
 		final ImageButton button = ((ImageButton)findViewById(R.id.acercade_novedades_contenido_boton));
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override

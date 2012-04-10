@@ -19,8 +19,6 @@ import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.IntentMapa;
 
-import java.util.Calendar;
-
 public class HomeActivity extends SherlockActivity  {
 
 	private Context mContext = this;
@@ -106,12 +104,6 @@ public class HomeActivity extends SherlockActivity  {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSherlock().getMenuInflater();
 		inflater.inflate(R.menu.home, menu);
-		Calendar rightNow = Calendar.getInstance();
-		if(rightNow.get(Calendar.MONTH)==Calendar.FEBRUARY && rightNow.get(Calendar.DAY_OF_MONTH) == 14){
-			//luv mode
-			menu.findItem(R.id.menu_donar).setIcon(R.drawable.ic_action_donate_luv);
-		}
-		
 		return true;
 	}
 
