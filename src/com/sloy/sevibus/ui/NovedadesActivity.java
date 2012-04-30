@@ -33,6 +33,7 @@ import com.sloy.sevibus.utils.Utils;
 
 import twitter4j.TwitterException;
 
+import java.util.Date;
 import java.util.List;
 
 public class NovedadesActivity extends SherlockActivity {
@@ -172,6 +173,13 @@ public class NovedadesActivity extends SherlockActivity {
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
+			// tareas de limpieza, por favor
+			for(Entity e:db.getEntityList("tweets", "date < "+(new Date().getTime()-604800000))){
+				//elimina los tweets con más de 1 semana
+//			for(Entity e:db.getEntityList("tweets", "date < "+(new Date().getTime()-86400000))){
+				e.delete();
+			}
+			
 			for(Entity e : db.getEntityList("tweets", null, "date desc")){
 				res.add(new TweetHolder(e));
 			}
@@ -226,7 +234,7 @@ public class NovedadesActivity extends SherlockActivity {
 		try{
 			db = DataFramework.getInstance();
 			db.open(this, getPackageName());
-			// TODO tareas de limpieza, por favor
+			
 			Entity e;
 			for(TweetHolder th : tweets){
 				e = new Entity("tweets");
