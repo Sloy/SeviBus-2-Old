@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.3.2</string>
-    <string name="app_date">1 de mayo de 2012</string>
-    <string name="novedades">Recuperándonos de la resaca.
-        \n
-        \nEliminado el acceso a la información de itinerarios para feria por motivos más que obvios.
-        \n
-        \nCorregidas algunas paradas erróneas. Gracias por los reportes. 
+    <string name="app_version">2.3.3</string>
+    <string name="app_date">6 de mayo de 2012</string>
+    <string name="novedades">Añadida la línea Especial Aeropuerto, que desde del día 1 pasa Tussam a prestar este servicio. Para más información al respecto consultad su web oficial.
+        \n 
+        \nEliminadas también algunas líneas actualmente sin funcionamiento.
         \n¡Continuará! </string>
 
 </resources>
