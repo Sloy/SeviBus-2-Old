@@ -17,6 +17,7 @@ import com.sloy.sevibus.R;
 import com.sloy.sevibus.ui.fragments.TussamFragment;
 import com.sloy.sevibus.ui.fragments.TwitterFragment;
 import com.sloy.sevibus.utils.Datos;
+import com.viewpagerindicator.TabPageIndicator;
 
 public class NovedadesActivity extends SherlockFragmentActivity {
 
@@ -34,11 +35,13 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setTitle("Novedades");
 		setSupportProgressBarIndeterminateVisibility(false);
-		
-		mViewPager = (ViewPager) findViewById(R.id.viewpager);
+
+		mViewPager = (ViewPager)findViewById(R.id.viewpager);
 		mAdapter = new NovedadesAdapter(getSupportFragmentManager());
-		
 		mViewPager.setAdapter(mAdapter);
+
+		TabPageIndicator tabIndicator = (TabPageIndicator)findViewById(R.id.titles);
+		tabIndicator.setViewPager(mViewPager);
 	}
 
 	@Override
@@ -66,6 +69,13 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 	}
 
 	private class NovedadesAdapter extends FragmentPagerAdapter {
+		
+		private final String[] titles = new String[]{"@TussamSevilla", "@SeviBus"}; 
+		
+		@Override
+		public CharSequence getPageTitle(int position) {
+			return titles[position];
+		}
 
 		public NovedadesAdapter(FragmentManager fm) {
 			super(fm);
