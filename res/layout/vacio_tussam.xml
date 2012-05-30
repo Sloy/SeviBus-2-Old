@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dip"
-            android:text="@string/novedades_warning"
+            android:text="@string/novedades_tussam_warning"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button

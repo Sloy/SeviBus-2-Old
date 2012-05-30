@@ -163,7 +163,12 @@ public class Utils {
 		Twitter tw = TwitterFactory.getSingleton();
 		List<Status> statuses = tw.getUserTimeline("tussamsevilla");
 		return Lists.newArrayList(Collections2.filter(statuses, isReply));
-		
+	}
+	
+	public static List<Status> getSevibusNews() throws TwitterException{
+		Twitter tw = TwitterFactory.getSingleton();
+		List<Status> statuses = tw.getUserTimeline("SeviBus");
+		return Lists.newArrayList(Collections2.filter(statuses, isReply));
 	}
 
 	public static void descargarRelaciones(DataFramework db) throws MalformedURLException, IOException, JSONException {
