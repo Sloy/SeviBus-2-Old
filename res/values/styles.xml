@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SeviBus" parent="@style/Theme.Sherlock.Light">
+    <style name="Theme.SeviBus" parent="@style/Theme.Sherlock.Light.ForceOverflow">
         <item name="android:windowBackground">@drawable/background_noise</item>
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
 		
@@ -92,7 +92,7 @@
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
         <item name="android:background">@drawable/custom_tab_indicator</item>
         <item name="android:textColor">#FF555555</item>
-        <item name="android:textSize">18sp</item>
+        <!-- <item name="android:textSize">18sp</item> -->
     </style>
     
 

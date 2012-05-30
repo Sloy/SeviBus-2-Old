@@ -60,18 +60,35 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
+			case R.id.menu_actualizar:
+				actualizarTodo();
+				return true;
+			case R.id.menu_navegador_tussam:
+				abrirNavegador("tussamsevilla");
+				return true;
+			case R.id.menu_navegador_twitter:
+				abrirNavegador("SeviBus");
+				return true;
 			case android.R.id.home:
 				startActivity(new Intent(this, HomeActivity.class));
 				return true;
 			default:
-				return false;
+					return false;
 		}
 	}
 
+	private void abrirNavegador(String string) {
+	}
+
+	private void actualizarTodo() {
+
+	}
+
 	private class NovedadesAdapter extends FragmentPagerAdapter {
-		
-		private final String[] titles = new String[]{"@TussamSevilla", "@SeviBus"}; 
-		
+
+		private final String[] titles = new String[]{"@TussamSevilla", "@SeviBus"};
+		private Fragment[] fragments = new Fragment[2];
+
 		@Override
 		public CharSequence getPageTitle(int position) {
 			return titles[position];
@@ -79,6 +96,8 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 
 		public NovedadesAdapter(FragmentManager fm) {
 			super(fm);
+			fragments[0] = TussamFragment.instantiate(NovedadesActivity.this, "com.sloy.sevibus.ui.fragments.TussamFragment");
+			fragments[1] = TwitterFragment.instantiate(NovedadesActivity.this, "com.sloy.sevibus.ui.fragments.TwitterFragment");
 		}
 
 		@Override
@@ -88,15 +107,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			switch (position){
-				case 0:
-					return TussamFragment.instantiate(NovedadesActivity.this, "com.sloy.sevibus.ui.fragments.TussamFragment");
-				case 1:
-					return TwitterFragment.instantiate(NovedadesActivity.this, "com.sloy.sevibus.ui.fragments.TwitterFragment");
-
-				default:
-					return null;
-			}
+			return fragments[position];
 		}
 	}
 
