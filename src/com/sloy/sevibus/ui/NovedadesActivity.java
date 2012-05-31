@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -23,6 +24,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 
 	private NovedadesAdapter mAdapter;
 	private ViewPager mViewPager;
+	private Boolean[] mLoaders = new Boolean[2];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,22 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 		mAdapter.getItem(0).actualizar();
 		mAdapter.getItem(1).actualizar();
 
+	}
+	
+	public void comenzarCarga(int i){
+		Log.d("sevibus", "Comienza carga "+i);
+		mLoaders[i] = true;
+		actualizarLoaders();
+	}
+	
+	public void detenerCarga(int i){
+		Log.d("sevibus", "Finaliza carga "+i);
+		mLoaders[i] = false;
+		actualizarLoaders();
+	}
+	
+	private void actualizarLoaders(){
+		setSupportProgressBarIndeterminateVisibility(mLoaders[0] || mLoaders[1]);
 	}
 
 	private class NovedadesAdapter extends FragmentPagerAdapter {

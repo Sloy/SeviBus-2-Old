@@ -16,11 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.ui.NovedadesActivity;
 import com.sloy.sevibus.utils.TweetHolder;
 import com.sloy.sevibus.utils.Utils;
 
@@ -33,7 +33,7 @@ public class TussamFragment extends NewsFragment {
 
 	private List<TweetHolder> mListTweets;
 	private TwitterAdapter mAdapter;
-	private SherlockFragmentActivity mCtx;
+	private NovedadesActivity mCtx;
 	private boolean running = false;
 
 	private Handler handler = new Handler();
@@ -102,7 +102,7 @@ public class TussamFragment extends NewsFragment {
 		public void run() {
 			empty.setVisibility(View.GONE);
 			list.setVisibility(View.VISIBLE);
-			mCtx.setSupportProgressBarIndeterminateVisibility(false);
+			mCtx.detenerCarga(0);
 			mAdapter.notifyDataSetChanged();
 			running = false;
 		}
@@ -118,7 +118,7 @@ public class TussamFragment extends NewsFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mCtx = getSherlockActivity();
+		mCtx = (NovedadesActivity)getSherlockActivity();
 		
 		// Carga los tweets guardados actualmente
 		mListTweets = cargarCache();
@@ -179,16 +179,12 @@ public class TussamFragment extends NewsFragment {
 	public void actualizar() {
 		if(!running){
 			if(Utils.isNetworkAvailable(mCtx)){
-				mCtx.setSupportProgressBarIndeterminateVisibility(true);
+				mCtx.comenzarCarga(0);
 				new Thread(downloadTweets).start();
 			}else{
 				Toast.makeText(mCtx, "Necesitas conexión a Internet", Toast.LENGTH_SHORT).show();
 			}
 		}
-	}
-
-	private void abrirNavegador() {
-		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/tussamsevilla")));
 	}
 
 	private void guardarCache(List<TweetHolder> tweets) {
