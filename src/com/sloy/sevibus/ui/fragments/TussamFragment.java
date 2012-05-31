@@ -16,15 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
-import com.sloy.sevibus.ui.HomeActivity;
 import com.sloy.sevibus.utils.TweetHolder;
 import com.sloy.sevibus.utils.Utils;
 
@@ -33,7 +29,7 @@ import twitter4j.TwitterException;
 import java.util.Date;
 import java.util.List;
 
-public class TussamFragment extends SherlockFragment {
+public class TussamFragment extends NewsFragment {
 
 	private List<TweetHolder> mListTweets;
 	private TwitterAdapter mAdapter;
@@ -179,7 +175,8 @@ public class TussamFragment extends SherlockFragment {
 		return res;
 	}
 
-	private void actualizar() {
+	@Override
+	public void actualizar() {
 		if(!running){
 			if(Utils.isNetworkAvailable(mCtx)){
 				mCtx.setSupportProgressBarIndeterminateVisibility(true);
@@ -192,30 +189,6 @@ public class TussamFragment extends SherlockFragment {
 
 	private void abrirNavegador() {
 		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/tussamsevilla")));
-	}
-
-	//TODO corregir
-	public boolean onCreateOptionsMenu(Menu menu) {
-		/*MenuInflater inflater = getSherlock().getMenuInflater();
-		inflater.inflate(R.menu.novedades, menu);*/
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()){
-			case R.id.menu_actualizar:
-				actualizar();
-				return true;
-			case R.id.menu_navegador:
-				abrirNavegador();
-				return true;
-			case android.R.id.home:
-				startActivity(new Intent(mCtx, HomeActivity.class));
-				return true;
-			default:
-				return false;
-		}
 	}
 
 	private void guardarCache(List<TweetHolder> tweets) {

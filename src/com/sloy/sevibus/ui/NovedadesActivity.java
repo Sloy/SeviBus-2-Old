@@ -2,7 +2,6 @@ package com.sloy.sevibus.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -14,6 +13,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.flurry.android.FlurryAgent;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.ui.fragments.NewsFragment;
 import com.sloy.sevibus.ui.fragments.TussamFragment;
 import com.sloy.sevibus.ui.fragments.TwitterFragment;
 import com.sloy.sevibus.utils.Datos;
@@ -81,13 +81,15 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 	}
 
 	private void actualizarTodo() {
+		mAdapter.getItem(0).actualizar();
+		mAdapter.getItem(1).actualizar();
 
 	}
 
 	private class NovedadesAdapter extends FragmentPagerAdapter {
 
 		private final String[] titles = new String[]{"@TussamSevilla", "@SeviBus"};
-		private Fragment[] fragments = new Fragment[2];
+		private NewsFragment[] fragments = new NewsFragment[2];
 
 		@Override
 		public CharSequence getPageTitle(int position) {
@@ -96,8 +98,8 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 
 		public NovedadesAdapter(FragmentManager fm) {
 			super(fm);
-			fragments[0] = TussamFragment.instantiate(NovedadesActivity.this, "com.sloy.sevibus.ui.fragments.TussamFragment");
-			fragments[1] = TwitterFragment.instantiate(NovedadesActivity.this, "com.sloy.sevibus.ui.fragments.TwitterFragment");
+			fragments[0] = (NewsFragment)TussamFragment.instantiate(NovedadesActivity.this, "com.sloy.sevibus.ui.fragments.TussamFragment");
+			fragments[1] = (NewsFragment)TwitterFragment.instantiate(NovedadesActivity.this, "com.sloy.sevibus.ui.fragments.TwitterFragment");
 		}
 
 		@Override
@@ -106,7 +108,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 		}
 
 		@Override
-		public Fragment getItem(int position) {
+		public NewsFragment getItem(int position) {
 			return fragments[position];
 		}
 	}
