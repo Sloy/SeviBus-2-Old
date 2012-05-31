@@ -44,6 +44,11 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 
 		TabPageIndicator tabIndicator = (TabPageIndicator)findViewById(R.id.titles);
 		tabIndicator.setViewPager(mViewPager);
+		
+		String def = getIntent().getExtras().getString("default");
+		if(def.equals("twitter")){
+			mViewPager.setCurrentItem(1);
+		}
 	}
 
 	@Override

@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="vertical" >
-
+
     <RelativeLayout
         android:id="@+id/home_notification"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#F5DD7D"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical"
+        android:visibility="gone" >
 
         <Button
             android:id="@+id/notification_text"
