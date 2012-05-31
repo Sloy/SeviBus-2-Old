@@ -26,7 +26,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 
 	private NovedadesAdapter mAdapter;
 	private ViewPager mViewPager;
-	private Boolean[] mLoaders = new Boolean[2];
+	private Boolean[] mLoaders = new Boolean[]{false,false};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 		SharedPreferences prefs = Datos.getPrefs();
 		if(prefs.getBoolean("novedadesPrimeraVez", true)){
 			Toast.makeText(this, "Puedes abrir los perfiles de Twitter desde el botón de arriba", Toast.LENGTH_LONG).show();
-			prefs.edit().putBoolean("novedadesPrimeraVez", true).commit();
+			prefs.edit().putBoolean("novedadesPrimeraVez", false).commit();
 		}
 		
 	}
@@ -100,8 +100,8 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 	}
 
 	private void actualizarTodo() {
-		mAdapter.getItem(0).actualizar();
-		mAdapter.getItem(1).actualizar();
+		mAdapter.getItem(0).actualizar(false);
+		mAdapter.getItem(1).actualizar(false);
 
 	}
 	

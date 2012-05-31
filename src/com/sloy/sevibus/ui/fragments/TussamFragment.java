@@ -39,7 +39,7 @@ public class TussamFragment extends NewsFragment {
 	private Handler handler = new Handler();
 	private ListView list;
 	private View empty;
-	
+
 	private Runnable downloadTweets = new Runnable() {
 		@Override
 		public void run() {
@@ -107,9 +107,10 @@ public class TussamFragment extends NewsFragment {
 			running = false;
 		}
 	};
-	
-	public TussamFragment(){};
-	
+
+	public TussamFragment() {
+	};
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_tussam, container, false);
@@ -119,7 +120,7 @@ public class TussamFragment extends NewsFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mCtx = (NovedadesActivity)getSherlockActivity();
-		
+
 		// Carga los tweets guardados actualmente
 		mListTweets = cargarCache();
 		// Asigna el adapter al listview
@@ -135,7 +136,7 @@ public class TussamFragment extends NewsFragment {
 		((Button)empty.findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				actualizar();
+				actualizar(true);
 			}
 		});
 		mAdapter = new TwitterAdapter();
@@ -148,7 +149,7 @@ public class TussamFragment extends NewsFragment {
 		}else{
 			empty.setVisibility(View.GONE);
 			// Carga los nuevos
-			actualizar();
+			actualizar(false);
 		}
 	}
 
@@ -159,12 +160,13 @@ public class TussamFragment extends NewsFragment {
 			db = DataFramework.getInstance();
 			db.open(mCtx, mCtx.getPackageName());
 			// tareas de limpieza, por favor
-			for(Entity e:db.getEntityList("tweets", "date < "+(new Date().getTime()-604800000))){
-				//elimina los tweets con más de 1 semana
-//			for(Entity e:db.getEntityList("tweets", "date < "+(new Date().getTime()-86400000))){
+			for(Entity e : db.getEntityList("tweets", "date < " + (new Date().getTime() - 604800000))){
+				// elimina los tweets con más de 1 semana
+				// for(Entity e:db.getEntityList("tweets", "date < "+(new
+				// Date().getTime()-86400000))){
 				e.delete();
 			}
-			
+
 			for(Entity e : db.getEntityList("tweets", null, "date desc")){
 				res.add(new TweetHolder(e));
 			}
@@ -176,13 +178,15 @@ public class TussamFragment extends NewsFragment {
 	}
 
 	@Override
-	public void actualizar() {
-		if(!running){
-			if(Utils.isNetworkAvailable(mCtx)){
-				mCtx.comenzarCarga(0);
-				new Thread(downloadTweets).start();
-			}else{
-				Toast.makeText(mCtx, "Necesitas conexión a Internet", Toast.LENGTH_SHORT).show();
+	public void actualizar(boolean forzar) {
+		if(!mListTweets.isEmpty() || forzar){
+			if(!running){
+				if(Utils.isNetworkAvailable(mCtx)){
+					mCtx.comenzarCarga(0);
+					new Thread(downloadTweets).start();
+				}else{
+					Toast.makeText(mCtx, "Necesitas conexión a Internet", Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}
@@ -192,7 +196,7 @@ public class TussamFragment extends NewsFragment {
 		try{
 			db = DataFramework.getInstance();
 			db.open(mCtx, mCtx.getPackageName());
-			
+
 			Entity e;
 			for(TweetHolder th : tweets){
 				e = new Entity("tweets");
@@ -253,7 +257,5 @@ public class TussamFragment extends NewsFragment {
 		}
 
 	}
-	
-	
-	
+
 }

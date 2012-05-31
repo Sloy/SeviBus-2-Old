@@ -39,7 +39,7 @@ public class TwitterFragment extends NewsFragment {
 	private Handler handler = new Handler();
 	private ListView list;
 	private View empty;
-	
+
 	private Runnable downloadTweets = new Runnable() {
 		@Override
 		public void run() {
@@ -107,9 +107,10 @@ public class TwitterFragment extends NewsFragment {
 			running = false;
 		}
 	};
-	
-	public TwitterFragment(){};
-	
+
+	public TwitterFragment() {
+	};
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_twitter, container, false);
@@ -119,7 +120,7 @@ public class TwitterFragment extends NewsFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mCtx = (NovedadesActivity)getSherlockActivity();
-		
+
 		// Carga los tweets guardados actualmente
 		mListTweets = cargarCache();
 		// Asigna el adapter al listview
@@ -135,7 +136,7 @@ public class TwitterFragment extends NewsFragment {
 		((Button)empty.findViewById(R.id.button)).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				actualizar();
+				actualizar(true);
 			}
 		});
 		mAdapter = new TwitterAdapter();
@@ -148,7 +149,7 @@ public class TwitterFragment extends NewsFragment {
 		}else{
 			empty.setVisibility(View.GONE);
 			// Carga los nuevos
-			actualizar();
+			actualizar(false);
 		}
 	}
 
@@ -196,13 +197,15 @@ public class TwitterFragment extends NewsFragment {
 	}
 
 	@Override
-	public void actualizar() {
-		if(!running){
-			if(Utils.isNetworkAvailable(mCtx)){
-				mCtx.comenzarCarga(1);
-				new Thread(downloadTweets).start();
-			}else{
-				Toast.makeText(mCtx, "Necesitas conexión a Internet", Toast.LENGTH_SHORT).show();
+	public void actualizar(boolean forzar) {
+		if(!mListTweets.isEmpty() || forzar){
+			if(!running){
+				if(Utils.isNetworkAvailable(mCtx)){
+					mCtx.comenzarCarga(1);
+					new Thread(downloadTweets).start();
+				}else{
+					Toast.makeText(mCtx, "Necesitas conexión a Internet", Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}
@@ -253,7 +256,5 @@ public class TwitterFragment extends NewsFragment {
 		}
 
 	}
-	
-	
-	
+
 }

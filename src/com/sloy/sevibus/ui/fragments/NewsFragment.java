@@ -4,5 +4,5 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public abstract class NewsFragment extends SherlockFragment {
 
-	abstract public void actualizar();
+	abstract public void actualizar(boolean forzar);
 }
