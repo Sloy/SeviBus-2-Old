@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_actualizar"
-        android:icon="@drawable/ic_menu_refresh"
+        android:icon="@drawable/ic_refresh_inverse"
         android:showAsAction="always"
         android:title="Actualizar"/>
     
