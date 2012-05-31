@@ -1,11 +1,13 @@
 package com.sloy.sevibus.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -45,10 +47,20 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 		TabPageIndicator tabIndicator = (TabPageIndicator)findViewById(R.id.titles);
 		tabIndicator.setViewPager(mViewPager);
 		
-		String def = getIntent().getExtras().getString("default");
-		if(def.equals("twitter")){
-			mViewPager.setCurrentItem(1);
+		Bundle extras = getIntent().getExtras();
+		if(extras!=null){
+			String def = extras.getString("default");
+			if(def!=null && def.equals("twitter")){
+				mViewPager.setCurrentItem(1);
+			}
 		}
+		
+		SharedPreferences prefs = Datos.getPrefs();
+		if(prefs.getBoolean("novedadesPrimeraVez", true)){
+			Toast.makeText(this, "Puedes abrir los perfiles de Twitter desde el botón de arriba", Toast.LENGTH_LONG).show();
+			prefs.edit().putBoolean("novedadesPrimeraVez", true).commit();
+		}
+		
 	}
 
 	@Override
