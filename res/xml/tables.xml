@@ -38,4 +38,9 @@
 		<field name="text" type="text" obligatory="true" />
 	</table>
 
+	<table name="tweetsSevibus">
+		<field name="id" type="long" obligatory="true" />
+		<field name="date" type="long" obligatory="true" />
+		<field name="text" type="text" obligatory="true" />
+	</table>
 </database>

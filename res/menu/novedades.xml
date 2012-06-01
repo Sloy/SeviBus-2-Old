@@ -3,13 +3,18 @@
 
     <item
         android:id="@+id/menu_actualizar"
-        android:icon="@drawable/ic_menu_refresh"
+        android:icon="@drawable/ic_refresh_inverse"
         android:showAsAction="always"
         android:title="Actualizar"/>
+    
     <item
-        android:id="@+id/menu_navegador"
-        android:icon="@drawable/ic_action_globe"
-        android:showAsAction="always"
-        android:title="Ver en navegador"/>
+        android:id="@+id/menu_navegador_twitter"
+        android:showAsAction="never"
+        android:title="Ver perfil @SeviBus"/>
+    
+    <item
+        android:id="@+id/menu_navegador_tussam"
+        android:showAsAction="never"
+        android:title="Ver perfil @TussamSevilla"/>
 
 </menu>
