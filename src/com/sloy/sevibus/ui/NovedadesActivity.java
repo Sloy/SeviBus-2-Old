@@ -2,6 +2,7 @@ package com.sloy.sevibus.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -97,6 +98,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 	}
 
 	private void abrirNavegador(String string) {
+		startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://twitter.com/"+string)));
 	}
 
 	private void actualizarTodo() {

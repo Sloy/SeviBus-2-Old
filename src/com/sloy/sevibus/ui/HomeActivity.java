@@ -29,6 +29,7 @@ public class HomeActivity extends SherlockActivity  {
 	private ImageButton mBtNotificacionCerrar;
 	private View mNotificacion;
 	private Intent mNotificationAction;
+	private String mNotificationCode;
 	
 
 	@Override
@@ -121,8 +122,8 @@ public class HomeActivity extends SherlockActivity  {
 		if(prefs.getBoolean("twitter", true)){
 			Intent i = new Intent(this, NovedadesActivity.class);
 			i.putExtra("default", "twitter");
-			showNotification("¡@SeviBus ahora está en Twitter! ¿No lo has visto? Pulsa aquí.", i);
-			prefs.edit().putBoolean("twitter", false).commit();
+			showNotification("¡@SeviBus ahora está en Twitter! ¿No lo has visto? Pulsa aquí.", i, "twitter");
+			
 		}
 	}
 
@@ -166,10 +167,11 @@ public class HomeActivity extends SherlockActivity  {
 		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
 	
-	private void showNotification(String text, Intent action){
+	private void showNotification(String text, Intent action, String code){
 		mNotificacion.setVisibility(View.VISIBLE);
 		mNotificationAction=action;
 		mBtNotificacionAbrir.setText(text);
+		mNotificationCode=code;
 	}
 	
 	private void openNotification(){
@@ -181,6 +183,7 @@ public class HomeActivity extends SherlockActivity  {
 	
 	private void dismissNotification(){
 		mNotificacion.setVisibility(View.GONE);
+		prefs.edit().putBoolean(mNotificationCode, false).commit();
 	}
 
 	private void donar() {
