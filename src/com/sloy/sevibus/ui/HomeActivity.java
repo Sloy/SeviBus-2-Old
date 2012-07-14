@@ -119,12 +119,12 @@ public class HomeActivity extends SherlockActivity  {
 	
 		
 		// Muestra notificacion de twitter
-		if(prefs.getBoolean("twitter", true)){
+		/*if(prefs.getBoolean("twitter", true)){
 			Intent i = new Intent(this, NovedadesActivity.class);
 			i.putExtra("default", "twitter");
 			showNotification("¡@SeviBus ahora está en Twitter! ¿No lo has visto? Pulsa aquí.", i, "twitter");
 			
-		}
+		}*/
 	}
 
 	@Override
