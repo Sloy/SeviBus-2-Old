@@ -1,5 +1,10 @@
 package com.sloy.sevibus.ui.fragments;
 
+import java.util.Date;
+import java.util.List;
+
+import twitter4j.Tweet;
+import twitter4j.TwitterException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,11 +29,6 @@ import com.sloy.sevibus.ui.NovedadesActivity;
 import com.sloy.sevibus.utils.TweetHolder;
 import com.sloy.sevibus.utils.Utils;
 
-import twitter4j.TwitterException;
-
-import java.util.Date;
-import java.util.List;
-
 public class TussamFragment extends NewsFragment {
 
 	private List<TweetHolder> mListTweets;
@@ -51,9 +51,9 @@ public class TussamFragment extends NewsFragment {
 				 */
 				List<TweetHolder> newReceived = Lists.newArrayList();
 				// Obtiene la lista de tweets recientes
-				List<twitter4j.Status> stlist = Utils.getTussamNews();
+				List<Tweet> stlist = Utils.getTussamNews();
 				// Los pasa a tipo tweetholder
-				for(twitter4j.Status s : stlist){
+				for(Tweet s : stlist){
 					newReceived.add(new TweetHolder(s).setNuevo(true));
 				}
 				// Coge la lista de tweets guardados anteriormente

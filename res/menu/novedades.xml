@@ -15,6 +15,6 @@
     <item
         android:id="@+id/menu_navegador_tussam"
         android:showAsAction="never"
-        android:title="Ver perfil @TussamSevilla"/>
+        android:title="Ver perfil @Ayto_Sevilla"/>
 
 </menu>

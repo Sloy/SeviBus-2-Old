@@ -84,7 +84,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 				actualizarTodo();
 				return true;
 			case R.id.menu_navegador_tussam:
-				abrirNavegador("tussamsevilla");
+				abrirNavegador("ayto_sevilla");
 				return true;
 			case R.id.menu_navegador_twitter:
 				abrirNavegador("SeviBus");
@@ -125,7 +125,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 
 	private class NovedadesAdapter extends FragmentPagerAdapter {
 
-		private final String[] titles = new String[]{"@TussamSevilla", "@SeviBus"};
+		private final String[] titles = new String[]{"@Ayto_Sevilla", "@SeviBus"};
 		private NewsFragment[] fragments = new NewsFragment[2];
 
 		@Override

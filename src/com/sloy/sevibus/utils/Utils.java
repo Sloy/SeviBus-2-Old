@@ -1,29 +1,5 @@
 package com.sloy.sevibus.utils;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.util.Log;
-
-import com.android.dataframework.DataFramework;
-import com.android.dataframework.Entity;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,11 +12,39 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.Tweet;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.Twt;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
+
+import com.android.dataframework.DataFramework;
+import com.android.dataframework.Entity;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 
 public class Utils {
 
@@ -150,22 +154,23 @@ public class Utils {
 
 	}
 	
-	private static Predicate<Status> isReply = new Predicate<Status>() {
+	private static Predicate<Twt> isReply = new Predicate<Twt>() {
 		@Override
-		public boolean apply(Status status) {
+		public boolean apply(Twt status) {
 			return !status.getText().startsWith("@");
 		}
 	};
 	
 	
 	
-	public static List<Status> getTussamNews() throws TwitterException{
+	public static ArrayList<Tweet> getTussamNews() throws TwitterException{
 		Twitter tw = TwitterFactory.getSingleton();
-		List<Status> statuses = tw.getUserTimeline("tussamsevilla");
+		QueryResult res = tw.search(new Query("from:ayto_sevilla tussam"));
+		List<Tweet> statuses =res.getTweets(); 
 		return Lists.newArrayList(Collections2.filter(statuses, isReply));
 	}
 	
-	public static List<Status> getSevibusNews() throws TwitterException{
+	public static ArrayList<Status> getSevibusNews() throws TwitterException{
 		Twitter tw = TwitterFactory.getSingleton();
 		List<Status> statuses = tw.getUserTimeline("SeviBus");
 		return Lists.newArrayList(Collections2.filter(statuses, isReply));

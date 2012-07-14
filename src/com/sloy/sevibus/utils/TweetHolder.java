@@ -1,10 +1,10 @@
 package com.sloy.sevibus.utils;
 
-import com.android.dataframework.Entity;
-
-import twitter4j.Status;
-
 import java.util.Date;
+
+import twitter4j.Twt;
+
+import com.android.dataframework.Entity;
 
 public class TweetHolder implements Comparable<TweetHolder> {
 	private Long databaseId = null;
@@ -29,7 +29,7 @@ public class TweetHolder implements Comparable<TweetHolder> {
 		databaseId = e.getId();
 	}
 	
-	public TweetHolder(Status s){
+	public TweetHolder(Twt s){
 		this(s.getId(),s.getText(),s.getCreatedAt());
 	}
 

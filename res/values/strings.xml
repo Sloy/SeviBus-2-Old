@@ -58,11 +58,11 @@
 
     <string name="l_neas_">"Líneas: "</string>
 
-    <string name="novedades_tussam_warning">En esta página puedes ver los últimos avisos comunicados a través de la cuenta de Twitter oficial de Tussam (@TussamSevilla). 
+    <string name="novedades_tussam_warning">En esta página puedes ver los últimos avisos de Tussam comunicados a través de la cuenta de Twitter oficial del ayuntamiento (@Ayto_Sevilla). 
         \n
         \nComo tal yo no tengo ninguna potestad ni control sobre lo que aparecerá, recuerdo que SeviBus no tiene ninguna relación directa con Tussam por lo que no me responsabilizo de la información mostrada. 
         \n
-        \nPodéis ver su perfil completo y seguirlos pulsando el globo de arriba.</string>
+        \nPodéis ver su perfil completo y seguirlos en las opciones.</string>
         
         
     <string name="novedades_twitter_warning">En esta página puedes ver los últimos avisos comunicados a través de la cuenta de Twitter de la aplicación (@SeviBus). 
