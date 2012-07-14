@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.3.5</string>
-    <string name="app_date">2 de junio de 2012</string>
-    <string name="novedades">Ésta un una actualización rápida y ligera, incorpora en novedades la recién estrenada cuenta de Twitter de @SeviBus.
+    <string name="app_version">2.3.6</string>
+    <string name="app_date">14 de julio de 2012</string>
+    <string name="novedades">La cuenta de Twitter de @TussamSevilla se ha fusionado en la de @Ayto_Sevilla. 
+        \nHe cambiado la pestaña correspondiente por los tweets de dicha cuenta referentes a Tussam.
         \n
-        \nDe esta forma espero estar en contacto más directo con los usuarios, iré publicando información relacionada con la aplicación. Podéis usarla para preguntarme o decirme lo que sea.
+        \nSi te interesa la programación debes saber que el código de SeviBus está liberado en http://sloy.github.com/SeviBus, puedes consultarlo y colaborar si quieres.
         \n
-        \nCambios más importantes y nuevas funciones llegarán después de los exámenes ;) </string>
+        \nHay más cambios pendientes, pero aún no está claro cómo evolucionará la aplicación. Cualquier cosa la avisaré por la cuenta de @SeviBus. </string>
 
 </resources>
