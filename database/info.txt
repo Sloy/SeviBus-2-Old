@@ -1,0 +1,6 @@
+El archivo sevibus.sql contiene el código SQL para crear la base de datos de la aplicación,
+conteniendo las paradas, líneas y relaciones entre ellas.
+
+Cuando el proyecto pase a producción seguramente monte un sistema para automatizar un mysqldump 
+y que la base de datos se mantenga sincronizada con el repositorio, pero por ahora 
+este sistema manual valdrá.

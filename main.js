@@ -1,13 +1,15 @@
 $(document).bind('pageinit',function(){
+	// Listeners
 	$("#search-parada-button").click(function(){
 		buscarParada($("#search-parada").val());
 	})
 });
 
+/** Hace una búsqueda de paradas vía ajax y muestra los resultados en la página */
 function buscarParada(query){
 	//Hace la búsqueda con la API
 	$.ajax({
-		url:"http://192.168.1.12/SeviBusWeb/api/paradas/buscar/"+query,
+		url:"./api/paradas/buscar/"+query,
 		type:"GET",
 		dataType: "json",
 		success: function(json){
@@ -20,6 +22,7 @@ function buscarParada(query){
 	});
 }
 
+/** Muestra los resultados de la búsqueda en una lista */
 function muestraResultados(res){
 	var lista = $("#lista-resultados");
 	lista.empty();
@@ -31,6 +34,8 @@ function muestraResultados(res){
 
 }
 
+/* 	Código copiado y pegado de la documentación de jQueryMobile.
+	Necesita refactorizar */
 // Listen for any attempts to call changePage().
 $(document).bind( "pagebeforechange", function( e, data ) {
 
@@ -58,7 +63,8 @@ $(document).bind( "pagebeforechange", function( e, data ) {
 	}
 });
 
-
+/* 	Código copiado y pegado de la documentación de jQueryMobile.
+	Necesita refactorizar */
 // Load the data for a specific category, based on
 // the URL passed in. Generate markup for the items in the
 // category, inject it into an embedded page, and then make
@@ -80,7 +86,7 @@ function showParada( urlObj, options )
 
 
 	$.ajax({
-		url:"http://192.168.1.12/SeviBusWeb/api/paradas/"+categoryName,
+		url:"./api/paradas/"+categoryName,
 		type:"GET",
 		dataType: "json",
 		success: function(json){
