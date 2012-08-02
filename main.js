@@ -103,7 +103,7 @@ function showParada( urlObj, options )
 				$header.find("h1").html("Parada "+json.numero);
 
 			// Inject the category items markup into the content element.
-			$content.html("<p>Éste es el contenido de la parada número "+json.numero+", "+json.nombre+"</p1>");
+//			$content.html("<p>Éste es el contenido de la parada número "+json.numero+", "+json.nombre+"</p1>");
 
 			// Pages are lazily enhanced. We call page() on the page
 			// element to make sure it is always enhanced before we
