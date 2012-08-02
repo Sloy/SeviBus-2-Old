@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>Page Title</title> 
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+	<script src="./main.js" ></script>
+</head> 
+<body> 
+
+<div id="home" data-role="page">
+
+	<div data-role="header">
+		<h1>SeviBus Web</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		<p>Busca una parada para ver los tiempos de llegada:</p>
+		<input id="search-parada" name="search-parada" placeholder="Número, nombre o dirección" value="" type="search" /> 
+		<input id="search-parada-button" type="button" data-role="button" data-theme="b" value="Buscar" />
+	</div><!-- /content -->
+
+	<ul id="lista-resultados" data-role="listview" data-divider-theme="d" data-inset="true" class="ui-listview-inset">
+		<!-- <li data-role="list-divider" role="heading">Resultados</li>
+		<li><a href="#parada">Parada 1</a></li>
+		<li><a href="#parada">Parada 2</a></li>
+		<li><a href="#parada">Parada n</a></li> -->
+	</ul>
+
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+<div id="parada" data-role="page">
+	<div data-role="header">
+		<h1>Parada</h1>
+	</div>
+
+	<div data-role="content">
+
+	</div>
+
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div>
+</body>
+</html>
