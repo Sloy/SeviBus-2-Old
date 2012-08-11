@@ -8,6 +8,8 @@ Class Parada{
 	var $latitud;
 	var $longitud;
 
+	var $lineas; //opcional
+
 	function __construct($atributos){
 		if($atributos!=null){
 			extract($atributos);

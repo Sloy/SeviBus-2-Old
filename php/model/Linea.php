@@ -10,7 +10,7 @@ Class Linea{
 	function __construct($atributos){
 		if($atributos != null){
 			extract($atributos);
-			$this->id = $id;
+			$this->id = $_id;
 			$this->nombre = $nombre;
 			$this->trayecto = $trayecto;
 			$this->color = $color;
