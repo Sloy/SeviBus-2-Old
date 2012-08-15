@@ -24,13 +24,13 @@ function buscarParada(query){
 
 /** Muestra los resultados de la búsqueda en una lista */
 function muestraResultados(res){
-	var lista = $("#lista-resultados");
-	lista.empty();
-	lista.append('<li data-role="list-divider" role="heading">Resultados</li>')
+	var $lista = $("#lista-resultados");
+	$lista.empty();
+	$lista.append('<li data-role="list-divider" role="heading">Resultados</li>')
 	$.each(res.resultados,function(){
-		lista.append('<li><a href="#parada?n='+this.numero+'"> Parada nº'+this.numero+'</a></li>')
+		$lista.append('<li><a href="#parada?n='+this.numero+'"> Parada nº'+this.numero+'</a></li>')
 	});
-	lista.listview("refresh");
+	$lista.listview("refresh");
 
 }
 
@@ -63,44 +63,54 @@ $(document).bind( "pagebeforechange", function( e, data ) {
 	}
 });
 
-/* 	Código copiado y pegado de la documentación de jQueryMobile.
-	Necesita refactorizar */
-// Load the data for a specific category, based on
-// the URL passed in. Generate markup for the items in the
-// category, inject it into an embedded page, and then make
-// that page the current active page.
+/* Código baado en la documentación de jQueryMobile */
+
+// Carga el código de una parada concreta, basado en
+// la URL pasada. Lo inyecta en una página embebida, y hace
+// dicha página la página actual.
 function showParada( urlObj, options )
 {
-	var categoryName = urlObj.hash.replace( /.*n=/, "" ),
+	var numeroParada = urlObj.hash.replace( /.*n=/, "" ),
 
-		// The pages we use to display our content are already in
-		// the DOM. The id of the page we are going to write our
-		// content into is specified in the hash before the '?'.
+		// Las páginas que usamos para mostrar nuestro contenido están ya
+		// En el DOM. El id de la página en la que vamos a escribir contenido
+		// está especificado en la almohadilla antes del '?'.
 		pageSelector = urlObj.hash.replace( /\?.*$/, "" );
 
-	// Get the object that represents the category we
-	// are interested in. Note, that at this point we could
-	// instead fire off an ajax request to fetch the data, but
-	// for the purposes of this sample, it's already in memory.
-	// var category = categoryData[ categoryName ],
-
-
+	// Obtiene el objeto que representa la parada en
+	// que estamos interesados. Lanzamos una petición AJAX.
 	$.ajax({
-		url:"./api/paradas/"+categoryName,
+		url:"./api/paradas/"+numeroParada,
 		type:"GET",
 		dataType: "json",
 		success: function(json){
 			//Una vez cargada la parada...
 			var $page = $(pageSelector),
-				// Get the header for the page.
+				// Obtiene la cabecera de la página
 				$header = $page.children( ":jqmData(role=header)" ),
-				// Get the content area element for the page.
-				$content = $page.children( ":jqmData(role=content)" );
+				// Obtiene el área del contenido de la página
+				//$content = $page.children( ":jqmData(role=content)" );
 
+				// Obtiene la lista donde van las líneas
+				$lista = $("#parada-lista-lineas");
 
-				// Find the h1 element in our header and inject the name of
-				// the category into it.
+				// Busca el elemento h1 en el header e inyecta en él el
+				// número de la parada.
 				$header.find("h1").html("Parada "+json.numero);
+
+			// Inyecta las líneas en el listview
+			//Vacía la lista
+			$lista.empty();
+			//Pone el 'header' de la lista
+			$lista.append('<li data-role="list-divider" role="heading">Tiempos de llegada</li>');
+			//Y al lío
+			$.each(json.lineas,function(){
+				//Por defecto muestra un mensaje de cargando
+				$lista.append(' <li class="llegada" id="llegada-'+this.nombre+'" data-theme="c">'+this.nombre+': Cargando...</li>')
+			});
+
+			// Lanza un chorro de peticiones AJAX para obtener el tiempo de cada línea
+			obtenerTiempos(json.lineas, json.numero);
 
 			// Inject the category items markup into the content element.
 //			$content.html("<p>Éste es el contenido de la parada número "+json.numero+", "+json.nombre+"</p1>");
@@ -127,4 +137,29 @@ function showParada( urlObj, options )
 			alert("erró: " + errorThrown);
 		}
 	});	
+}
+
+function obtenerTiempos(lineas, parada){
+
+	// Lanza una petición por cada línea cargada
+	$.each(lineas,function(){
+		// Pide el tiempo de llegada para esta parada y esta línea
+		$.ajax({
+			url:"./api/tiempo/"+parada+"/"+this.nombre,
+			type:"GET",
+			dataType: "json",
+			success: function(json){
+				// Comprueba que esté bien
+				if(!json.error){
+					// Coloca el tiempo en su lugar correspondiente 
+					$("#llegada-"+json.linea).html(json.linea+": "+json.bus1.tiempo+" minutos | "+json.bus2.tiempo+" minutos");
+				}else{
+					$("#llegada-"+json.linea).html(json.linea+": "+json.error);
+				}
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+				alert("erró: " + errorThrown);
+			}
+		});	
+	});//each
 }
