@@ -12,10 +12,19 @@
 <body> 
 
 <!-- Página de inicio. Contiene el buscador de paradas y la lista de resultados -->
-<div id="home" data-role="page">
+<div id="home-paradas" data-role="page">
 
 	<div data-role="header">
 		<h1>SeviBus Web</h1>
+		<a href="#acerca" data-icon="info">Acerca de</a>
+		<a href="#donar" >Donar</a>
+		<div data-role="navbar" style="padding:0px">
+		<ul>
+			<li><a href="#home-paradas" class="ui-btn-active">Paradas</a></li>
+			<li><a href="home-lineas">Líneas</a></li>
+			<li><a href="home-mapa">Mapa</a></li>
+		</ul>
+	</div>
 	</div><!-- /header -->
 
 	<div data-role="content">	
