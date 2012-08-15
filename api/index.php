@@ -59,20 +59,24 @@ $app->get('/tiempo/:parada/:linea',function($parada, $linea){
 	// Obtiene el 'PasoParada', que contiene las llegadas de los 2 buses
 	$PasoParada = $envelope->Body->GetPasoParadaResponse->GetPasoParadaResult->PasoParada;
 
-	// Crea el primer bus, tiempo y distancia
-	// Casting para que devuelva el texto y no un objeto SimpleXMLElement
-	$e1 = $PasoParada->e1;
-	$bus1 = new Bus((string)$e1->minutos,(string) $e1->metros);
+	if(is_object($PasoParada)){ // OK
+		// Crea el primer bus, tiempo y distancia
+		// Casting para que devuelva el texto y no un objeto SimpleXMLElement
+		$e1 = $PasoParada->e1;
+		$bus1 = new Bus((string)$e1->minutos,(string) $e1->metros);
 
-	// Lo mismo con el segundo
-	$e2 = $PasoParada->e2;
-	$bus2 = new Bus((string)$e2->minutos, (string)$e2->metros);
+		// Lo mismo con el segundo
+		$e2 = $PasoParada->e2;
+		$bus2 = new Bus((string)$e2->minutos, (string)$e2->metros);
 
-	// Constuye el objeto llegada, fasi fasi
-	$llegada = new Llegada((string)$PasoParada->linea, (string)$PasoParada->parada, $bus1, $bus2);
+		// Constuye el objeto llegada, fasi fasi
+		$llegada = new Llegada((string)$PasoParada->linea, (string)$PasoParada->parada, $bus1, $bus2);
 
-	// Listo, muestra la llegada
-	echo json_encode($llegada);
+		// Listo, muestra la llegada
+		echo json_encode($llegada);
+	}else{ // ERROR
+		echo '{"error":"Error desconocido", "linea":"'.$linea.'", "parada":"'.$parada.'"}';
+	}
 
 });
 
