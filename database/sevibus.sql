@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `lineas` (
 --
 
 INSERT INTO `lineas` (`_id`, `nombre`, `trayecto`, `color`, `circular`) VALUES
-(1, '1', 'San Lazaro,av. (doctor Morote) - Plus Ultra,gta.(frt.est.b.villamarin)', 16073258, 0),
+(1, '01', 'San Lazaro,av. (doctor Morote) - Plus Ultra,gta.(frt.est.b.villamarin)', 16073258, 0),
 (2, '10', 'Ponce De León,plaza(isleta 2) - Medina Y Galnares (cataluña)', 8548, 0),
 (3, '11', 'Ponce De León,plaza(isleta 1, Ext.,det.) - Comunidad Extremeña', 8548, 0),
 (4, '12', 'Ponce De León,plaza (isleta 1,interior) - Sembradores (parque Bomberos)', 8548, 0),
@@ -48,7 +48,7 @@ INSERT INTO `lineas` (`_id`, `nombre`, `trayecto`, `color`, `circular`) VALUES
 (6, '14', 'Duque,plaza (jardines,del.) - Dr. Jaime Marcos (dr.fedriani)', 8548, 0),
 (7, '15', 'Jeronimo De Cordoba (jauregui, Del) - Asoc.de Vecinos,av. (mujer Trabajadora)', 8548, 0),
 (8, '16', 'Jerónimo De Córdoba,p. (supermercado) - Halcón (terminal)', 8548, 0),
-(9, '2', 'Barqueta (resolana,del.) - A.f.parias Merry,gta (bar Parada)', 16073258, 0),
+(9, '02', 'Barqueta (resolana,del.) - A.f.parias Merry,gta (bar Parada)', 16073258, 0),
 (10, '20', 'Jeronimo De Cordoba (jauregui, Det) - Pedro Romero,av. (antioquia)', 13158, 0),
 (11, '21', 'Menendez Pelayo,av. (2ª Juzgados,det.) - Pedro Romero,av. (antioquia)', 13158, 0),
 (12, '22', 'Carlos V,av. (5ª,dir. Pasarela) - Emilio Lemos, Avda. (vietnam)', 13158, 0),
@@ -69,9 +69,9 @@ INSERT INTO `lineas` (`_id`, `nombre`, `trayecto`, `color`, `circular`) VALUES
 (28, '40', 'Magdalena,plaza (esq. O''donnell) - Alvar Nuñez (ruben Dario)', 13158, 0),
 (29, '41', 'Roma,av. (hotel Alfonso Xiii,1ª) - Garcia Morato,av. (instituto)', 13158, 0),
 (30, '43', 'Magdalena,plaza (juanita Reina Puerto) - Coria,av. (ambulatorio)', 13158, 0),
-(31, '5', 'Gonzalo J.de Quesada (pta.triana) - Andalucia,av. (gral.l.alarc.lastra)', 16073258, 0),
+(31, '05', 'Gonzalo J.de Quesada (pta.triana) - Andalucia,av. (gral.l.alarc.lastra)', 16073258, 0),
 (32, '52', 'Gran Plaza (edif.g.plaza,del.) - Honestidad (confianza)', 7547177, 0),
-(33, '6', 'Juvent. Musicales,aux (gta. San Lázaro) - Reina Mercedes,av. (gta.alc.f.p.merry)', 16073258, 0),
+(33, '06', 'Juvent. Musicales,aux (gta. San Lázaro) - Reina Mercedes,av. (gta.alc.f.p.merry)', 16073258, 0),
 (34, '90', 'Deposito Puerta - Depo2', 0, 0),
 (35, 'A1', 'Carlos V,av. (8ª,dir. Pasarela) - Sembradores (parque Bomberos)', 0, 0),
 (36, 'A2', 'Carlos V,av. (6ª,dir. Pasarela) - Medina Y Galnares (cataluña)', 0, 0),
