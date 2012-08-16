@@ -1,67 +1,6 @@
-$(document).bind('pageinit',function(){
-	// Listeners
-	$("#search-parada-button").click(function(){
-		buscarParada($("#search-parada").val());
-	})
-});
-
-/** Hace una búsqueda de paradas vía ajax y muestra los resultados en la página */
-function buscarParada(query){
-	//Hace la búsqueda con la API
-	$.ajax({
-		url:"./api/paradas/buscar/"+query,
-		type:"GET",
-		dataType: "json",
-		success: function(json){
-			//TODO: respuesta válida
-			muestraResultados(json);
-		},
-		error: function(XMLHttpRequest, textStatus, errorThrown){
-			alert("erró: " + errorThrown);
-		}
-	});
-}
-
-/** Muestra los resultados de la búsqueda en una lista */
-function muestraResultados(res){
-	var $lista = $("#lista-resultados");
-	$lista.empty();
-	$lista.append('<li data-role="list-divider" role="heading">Resultados</li>')
-	$.each(res.resultados,function(){
-		$lista.append('<li><a href="#parada?n='+this.numero+'"> Parada nº'+this.numero+'</a></li>')
-	});
-	$lista.listview("refresh");
-
-}
-
-/* 	Código copiado y pegado de la documentación de jQueryMobile.
-	Necesita refactorizar */
-// Listen for any attempts to call changePage().
-$(document).bind( "pagebeforechange", function( e, data ) {
-
-	// We only want to handle changePage() calls where the caller is
-	// asking us to load a page by URL.
-	if ( typeof data.toPage === "string" ) {
-
-		// We are being asked to load a page by URL, but we only
-		// want to handle URLs that request the data for a specific
-		// category.
-		var u = $.mobile.path.parseUrl( data.toPage ),
-			re = /^#parada/;
-
-		if ( u.hash.search(re) !== -1 ) {
-
-			// We're being asked to display the items for a specific category.
-			// Call our internal method that builds the content for the category
-			// on the fly based on our in-memory category data structure.
-			showParada( u, data.options );
-
-			// Make sure to tell changePage() we've handled this call so it doesn't
-			// have to do anything.
-			e.preventDefault();
-		}
-	}
-});
+/**
+ * En este archivo va el código JavaScript específico de la página 'parada'
+ */
 
 /* Código baado en la documentación de jQueryMobile */
 
@@ -140,7 +79,6 @@ function showParada( urlObj, options )
 }
 
 function obtenerTiempos(lineas, parada){
-
 	// Lanza una petición por cada línea cargada
 	$.each(lineas,function(){
 		// Pide el tiempo de llegada para esta parada y esta línea
