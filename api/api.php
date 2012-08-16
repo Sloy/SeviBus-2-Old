@@ -41,14 +41,15 @@ $app->get('/tiempo/:parada/:linea',function($parada, $linea){
 
 	// Construye la petición según mandaría SOAP
 	$soap_str = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetPasoParada xmlns=\"http://tempuri.org/\"><linea>$linea</linea><parada>$parada</parada><status>1</status></GetPasoParada></soap:Body></soap:Envelope>";
-	$r = new HttpRequest("http://www.infobustussam.com:9001/services/dinamica.asmx",HttpRequest::METH_POST);
-	$r->addHeaders(array(
-		'Content-Type' => 'text/xml'
-	));
-	$r->setBody($soap_str);
+	$ch = curl_init("http://www.infobustussam.com:9001/services/dinamica.asmx");
+	curl_setopt ($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $soap_str); 
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
 
 	// Y la ejecuta. Fire!
-	$res= $r->send()->getBody();
+	$res = curl_exec ($ch);
+	curl_close ($ch);
 
 
 	// Transforma la respuesta para evitar problemas de incompatibilidad
