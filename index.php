@@ -7,14 +7,8 @@
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
 	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
-	<script type="text/javascript" >
-		<?php
-		// Incluye todos los JS
-		include './js/main.js';
-		include './js/parada.js';
-		include './js/home_paradas.js';
-		?>
-	</script>
+	<script src="./js_code.php"></script>
+
 </head> 
 <body>
 	<?php 
