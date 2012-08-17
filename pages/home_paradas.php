@@ -4,7 +4,7 @@
 	<div data-role="header">
 		<h1>SeviBus Web (alfa)</h1>
 		<a href="#acerca" data-icon="info">Acerca de</a>
-		<a href="#donar" >Donar</a>
+		<a href="#contribuir" data-rel="dialog">Contribuye</a>
 		<div data-role="navbar" style="padding:0px">
 		<ul>
 			<li><a href="#home-paradas" class="ui-btn-active">Paradas</a></li>

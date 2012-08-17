@@ -22,6 +22,7 @@
 	include './pages/home_paradas.php' ;
 	include './pages/parada.php' ;
 	include './pages/acerca.php' ;
+	include './pages/contribuir.php' ;
 
 	?>
 </body>
