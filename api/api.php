@@ -11,25 +11,33 @@ $app = new Slim();
 
 
 // 3. Define routes
-$app->get('/hello/:name',function($name){
+// Con PHP<5.3 hay que crear la función aparte y pasar su nombre al método, no se pueden crear funciones anónimas
+function hello($name){
 	echo "Hola, ".$name;
-});
+}
+$app->get('/hello/:name','hello');
 
-$app->get('/paradas//',function(){
+
+function paradas(){
 	$dao = new DAO();
 	echo json_encode($dao->getTodasParadas());
-});
+}
+$app->get('/paradas//','paradas');
 
-$app->get('/paradas/:numero',function($numero){
+
+function paradas_numero($numero){
 	$dao = new DAO();
 	echo json_encode($dao->getParada($numero));
-});
+}
+$app->get('/paradas/:numero','paradas_numero');
 
 
-$app->get('/paradas/buscar/:query',function($query){
+function paradas_buscar_query($query){
 	$dao = new DAO();
 	echo '{"resultados":'.json_encode($dao->buscarParadas($query))."}";
-});
+}
+$app->get('/paradas/buscar/:query','paradas_buscar_query');
+
 
 /**
  * --- Hace la petición de tiempo al servidor de Tussam ---
@@ -37,8 +45,7 @@ $app->get('/paradas/buscar/:query',function($query){
  * 
  * TODO: Control de errores!! Madre del amó hermozo... -.-'
  */
-$app->get('/tiempo/:parada/:linea',function($parada, $linea){
-
+function tiempo_parada_linea($parada, $linea){
 	// Construye la petición según mandaría SOAP
 	$soap_str = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetPasoParada xmlns=\"http://tempuri.org/\"><linea>$linea</linea><parada>$parada</parada><status>1</status></GetPasoParada></soap:Body></soap:Envelope>";
 	$ch = curl_init("http://www.infobustussam.com:9001/services/dinamica.asmx");
@@ -78,8 +85,8 @@ $app->get('/tiempo/:parada/:linea',function($parada, $linea){
 	}else{ // ERROR
 		echo '{"error":"Error desconocido", "linea":"'.$linea.'", "parada":"'.$parada.'"}';
 	}
-
-});
+}
+$app->get('/tiempo/:parada/:linea','tiempo_parada_linea');
 
 // 4. Run!
 $app->run();
