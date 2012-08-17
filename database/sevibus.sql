@@ -2949,29 +2949,3 @@ INSERT INTO `relaciones` (`_id`, `parada_id`, `linea_id`) VALUES
 (1908, 504, 32);
 
 -- --------------------------------------------------------
-
---
--- Estructura Stand-in para la vista `vlineasconparadas`
---
-CREATE TABLE IF NOT EXISTS `vlineasconparadas` (
-`linea_id` int(11)
-,`linea_nombre` text
-,`_id` int(11)
-,`numero` int(11)
-,`nombre` text
-,`direccion` text
-,`latitud` double
-,`longitud` double
-);
--- --------------------------------------------------------
-
---
--- Estructura para la vista `vlineasconparadas`
---
-DROP TABLE IF EXISTS `vlineasconparadas`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vlineasconparadas` AS select `l`.`_id` AS `linea_id`,`l`.`nombre` AS `linea_nombre`,`p`.`_id` AS `_id`,`p`.`numero` AS `numero`,`p`.`nombre` AS `nombre`,`p`.`direccion` AS `direccion`,`p`.`latitud` AS `latitud`,`p`.`longitud` AS `longitud` from ((`paradas` `p` join `relaciones` `r` on((`p`.`_id` = `r`.`parada_id`))) join `lineas` `l` on((`r`.`linea_id` = `l`.`_id`)));
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
