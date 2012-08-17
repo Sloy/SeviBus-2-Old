@@ -36,13 +36,20 @@ function showParada( urlObj, options )
 				// Busca el elemento h1 en el header e inyecta en él el
 				// número de la parada.
 				$header.find("h1").html("Parada "+json.numero);
+				// Obtiene los elementos de nombre y dirección
+				$nombre = $("#parada-nombre");
+				$direccion = $("#parada-direccion");
 
 			// Inyecta las líneas en el listview
 			//Vacía la lista
 			$lista.empty();
 			//Pone el 'header' de la lista
 			$lista.append('<li data-role="list-divider" role="heading">Tiempos de llegada</li>');
-			//Y al lío
+			// Muestra los datos de la parada
+			$nombre.html(json.nombre);
+			$direccion.html(json.direccion);
+
+			//Y al lío con los tiempos
 			$.each(json.lineas,function(){
 				//Por defecto muestra un mensaje de cargando
 				$lista.append(' <li class="llegada" id="llegada-'+this.nombre+'" data-theme="c">'+this.nombre+': Cargando...</li>')

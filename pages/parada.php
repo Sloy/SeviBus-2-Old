@@ -1,14 +1,15 @@
 <div id="parada" data-role="page">
 	<div data-role="header">
+        <a href="#home-paradas" data-rel="back" data-icon="back" data-iconpos="notext">Atrás</a>
 		<h1>Parada ##</h1>
 	</div>
 
 	<div data-role="content" style="padding: 15px">
-		<h2 style="text-align: center">
-            Cruz Roja,av (clínica)
+		<h2 id="parada-nombre" style="text-align: center">
+            - Nombre de la parada -
         </h2>
-        <h5 style="text-align: center">
-            Av de la Cruz Roja, 3
+        <h5 id="parada-direccion" style="text-align: center">
+            - dirección de la parada -
         </h5>
         <!-- Elemento para colocar el mapa desplegable con la dirección 
         <div data-role="collapsible-set" data-theme="e" data-content-theme="">
@@ -30,7 +31,4 @@
             </li> -->
         </ul>
 	</div>
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
 </div>
