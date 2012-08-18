@@ -3,6 +3,14 @@
  */
 
 
+ $(document).bind('pageinit',function(){
+	// Listeners de búsqueda
+	$("#search-parada-button").click(function(){
+		buscarParada($("#search-parada").val());
+	})
+});
+
+
  /** 
  * Hace una búsqueda de paradas vía ajax y muestra los resultados en la página 
  */
@@ -19,7 +27,7 @@ function buscarParada(query){
 			$lista.empty();
 			$lista.append('<li data-role="list-divider" role="heading">Resultados</li>')
 			$.each(res.resultados,function(){
-				$lista.append('<li><a href="#parada?n='+this.numero+'"> Parada nº'+this.numero+'</a></li>')
+				$lista.append('<li><a href="parada.php?n='+this.numero+'"> Parada nº'+this.numero+'</a></li>')
 			});
 			$lista.listview("refresh");
 		},
