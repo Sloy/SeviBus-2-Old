@@ -91,6 +91,31 @@ class DAO{
 		}
 	}
 
+	function getLineas($manageConexion = true){
+		try{
+			$res = array();
+			if($manageConexion){
+				$this->conexion = conectar();
+			}
+			$query = "select * from lineas order by nombre";
+
+			$stmt = $this->conexion->prepare($query);
+			$stmt->execute();
+
+			while($row = $stmt->fetch()){
+				$res[] = new Linea($row);
+			}
+
+			if($manageConexion){
+				desconectar($this->conexion);
+			}
+
+			return $res;
+		}catch(PDOException $e){
+			echo $e;
+		}
+	}
+
 
 	function buscarParadas($busca, $limit = 20, $manageConexion = true){
 		$qWild = '%'.$busca.'%';

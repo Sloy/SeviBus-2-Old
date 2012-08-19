@@ -32,6 +32,13 @@ function paradas_numero($numero){
 $app->get('/paradas/:numero','paradas_numero');
 
 
+function lineas(){
+	$dao = new DAO();
+	echo json_encode($dao->getLineas());
+}
+$app->get('/lineas//','lineas');
+
+
 function paradas_buscar_query($query){
 	$dao = new DAO();
 	echo '{"resultados":'.json_encode($dao->buscarParadas($query))."}";
