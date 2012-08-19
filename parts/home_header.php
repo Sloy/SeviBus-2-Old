@@ -15,9 +15,9 @@
 
 	<div data-role="navbar" style="padding:0px">
 		<ul>
-			<li><a href="home_paradas.php" class="ui-btn-active">Paradas</a></li>
-			<li><a href="home_lineas.php">Líneas</a></li>
-			<li><a href="home_mapa.php">Mapa</a></li>
+			<li><a href="home_paradas.php" <? if($tab==1){ ?> class="ui-btn-active ui-state-persist" <? } ?>>Paradas</a></li>
+			<li><a href="home_lineas.php" <? if($tab==2){ ?> class="ui-btn-active ui-state-persist" <? } ?>>Líneas</a></li>
+			<li><a href="home_mapa.php" <? if($tab==3){ ?> class="ui-btn-active ui-state-persist" <? } ?>>Mapa</a></li>
 		</ul>
 	</div>
 	

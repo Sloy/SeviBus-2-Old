@@ -1,5 +1,5 @@
 <?
-$tab = 1;
+$tab = 2;
 ?>
 <!DOCTYPE html> 
 <html> 
@@ -16,15 +16,10 @@ $tab = 1;
 		<?php include './parts/home_header.php'; ?>
 
 		<div data-role="content">	
-			<p>Busca una parada para ver los tiempos de llegada:</p>
-			<input id="search-parada" name="search-parada" placeholder="Número, nombre o dirección" value="" type="search" /> 
-			<a id="search-parada-button" href="#" data-role="button" data-theme="b" data-icon="search" >Buscar</a>
-			<ul id="lista-resultados" data-role="listview" data-divider-theme="d" data-inset="true" class="ui-listview-inset">
-				<!-- Aquí van los resultados de la búsqueda. Vacío por defecto -->		
-				<!-- <li data-role="list-divider" role="heading">Resultados</li>
+			<ul data-role="listview" class="ui-listview-inset">
 				<li><a href="#parada">Parada 1</a></li>
 				<li><a href="#parada">Parada 2</a></li>
-				<li><a href="#parada">Parada n</a></li> -->
+				<li><a href="#parada">Parada n</a></li> 
 			</ul>
 		</div><!-- /content -->
 
