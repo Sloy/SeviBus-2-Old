@@ -1,5 +1,12 @@
 <?
+require_once './php/DAO.php';
+require_once './php/BDConexion.php';
+require_once './php/model/Linea.php';
+
 $tab = 2;
+
+$dao = new DAO();
+$lineas = $dao->getLineas();
 ?>
 <!DOCTYPE html> 
 <html> 
@@ -17,9 +24,11 @@ $tab = 2;
 
 		<div data-role="content">	
 			<ul data-role="listview" class="ui-listview-inset">
-				<li><a href="#parada">Parada 1</a></li>
-				<li><a href="#parada">Parada 2</a></li>
-				<li><a href="#parada">Parada n</a></li> 
+				<?
+				foreach($lineas as $linea){
+					echo '<li><a href="linea.php?n='.$linea->nombre.'">'.$linea->nombre.' | '.$linea->trayecto.'</a></li>';
+				}
+				?>
 			</ul>
 		</div><!-- /content -->
 
