@@ -11,13 +11,14 @@
 		</div><!-- /header -->
 
 		<div data-role="content">	
-			<p>Qué buena gente ere, <strike>coño</strike></p>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed egestas fermentum tortor vel lobortis. Donec eget ligula sem. Nulla dictum volutpat ante, sed bibendum enim lacinia et. Morbi vestibulum nisi nec purus hendrerit sit amet ultrices mi tincidunt. Curabitur condimentum neque sit amet ligula lobortis porta. Nulla suscipit nisl ligula, id porta quam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam justo elit, fermentum fermentum pellentesque nec, aliquet eu ante. Vivamus lacinia sem vitae leo porta vitae auctor neque fermentum.
-
-	Nam eget nisl dolor. Mauris faucibus elit in purus ornare sit amet facilisis sapien porttitor. Quisque malesuada luctus bibendum. Nullam pharetra, purus vel ultrices pulvinar, lectus purus pellentesque velit, sit amet iaculis mauris quam ut felis. Pellentesque id tellus in nunc euismod ornare eget ut dui. Ut imperdiet tincidunt mauris, luctus mollis purus laoreet nec. Quisque aliquet accumsan odio vel feugiat. Ut fringilla convallis mauris non vestibulum.
+			<p>
+				SeviBus es un proyecto iniciado por un estudiante, sin ayuda ni financiación externa, tanto la aplicación para Android como la versión web. Programar y mantener una aplicación así lleva mucho tiempo y esfuerzo. Si quieres apoyar al desarrollador o agradecerle por la aplicación, más abajo tienes un botón para donar una cantidad a tu elección.
 			</p>
-			<a id="contribuir-donar" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=TA2XH2L4B7MAW&lc=ES&item_name=SeviBusWeb&item_number=sevibus&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" data-role="button" data-theme="b" data-icon="search" >Donar</a>
-			<a id="contribuir-repositorio" href="#" data-role="button" data-theme="b" data-icon="search" >Proyecto en GitHub</a>
+			<p>
+				Además, SeviBus es de código abierto. Si tienes conocimientos puedes colaborar, con la versión Android o Web mediante el repositorio público en GitHub.
+			</p>
+			<a id="contribuir-donar" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=TA2XH2L4B7MAW&lc=ES&item_name=SeviBusWeb&item_number=sevibus&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" data-role="button" data-theme="e" >Donar</a>
+			<a id="contribuir-repositorio" href="http://sloy.github.com/SeviBus/" data-role="button" data-theme="d">Proyecto en GitHub</a>
 		</div><!-- /content -->
 
 	</div>
