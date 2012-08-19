@@ -20,15 +20,10 @@
     </head> 
     <body>
         <div id="parada" data-role="page">
-            <script src="./js/parada.js"></script>
             <script type="text/javascript">
-                var paradaJson = <?= $json ?>;
-
-                $(document).bind('pageinit',function(){
-                   // Obtenemos los tiempos de cada línea
-                   obtenerTiempos(paradaJson);
-                });            
+                var paradaJson = <?= $json ?>;        
             </script>
+            <script src="./js/parada.js"></script>
             <div data-role="header">
                 <a href="#home-paradas" data-rel="back" data-icon="back" data-iconpos="notext">Atrás</a>
                 <h1>Parada <?= $parada->numero ?></h1>

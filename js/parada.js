@@ -2,6 +2,13 @@
  * En este archivo va el código JavaScript específico de la página 'parada'
  */
 
+ $(document).bind('pageinit',function(event){
+    // Obtenemos los tiempos de cada línea
+    if(event.target.id == "parada"){
+        obtenerTiempos(paradaJson);
+    }
+}); 
+
 function obtenerTiempos(parada){
 	var lineas = parada.lineas;
 	// Lanza una petición por cada línea cargada
