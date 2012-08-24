@@ -40,7 +40,7 @@
                     </li>
                     <?
                     foreach($paradas as $parada){
-                    echo '<li><a href="parada.php?n='.$parada->numero.'">Parada nº '.$parada->numero.'</a></li>';
+                        echo '<li><a href="parada.php?n='.$parada->numero.'"><h1>Parada nº '.$parada->numero.'</h1><p>'.$parada->nombre.'</p></a></li>';
                 }
                     ?>
                 </ul>

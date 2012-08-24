@@ -27,7 +27,7 @@ function buscarParada(query){
 			$lista.empty();
 			$lista.append('<li data-role="list-divider" role="heading">Resultados</li>')
 			$.each(res.resultados,function(){
-				$lista.append('<li><a href="parada.php?n='+this.numero+'"> Parada nº'+this.numero+'</a></li>')
+				$lista.append('<li><a href="parada.php?n='+this.numero+'"><h1>Parada nº '+this.numero+'</h1><p>'+this.nombre+'</p></a></li>')
 			});
 			$lista.listview("refresh");
 		},
