@@ -60,6 +60,37 @@ class DAO{
 		}
 	}
 
+	function getParadasFromLinea($linea, $manageConexion = true){
+		try{
+			$res = array();
+			if($manageConexion){
+				$this->conexion = conectar();
+			}
+			$query = "select p.* from 
+				(
+					(paradas p join relaciones r on p._id = r.parada_id) 
+					join lineas l on r.linea_id = l._id
+				)
+				where l.nombre = :nom";
+
+			$stmt = $this->conexion->prepare($query);
+			$stmt->bindValue(":nom",$linea);
+			$stmt->execute();
+
+			while($row = $stmt->fetch()){
+				$res[] = new Parada($row);
+			}
+
+			if($manageConexion){
+				desconectar($this->conexion);
+			}
+
+			return $res;
+		}catch(PDOException $e){
+			echo $e;
+		}
+	}
+
 	function getLineasFromParada($numero, $manageConexion = true){
 		try{
 			$res = array();
