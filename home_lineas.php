@@ -23,7 +23,7 @@ $lineas = $dao->getLineas();
 		<?php include './parts/home_header.php'; ?>
 
 		<div data-role="content">	
-			<ul data-role="listview" class="ui-listview-inset">
+			<ul data-role="listview" data-inset="true">
 				<?
 				foreach($lineas as $linea){
 					echo '<li><a href="linea.php?n='.$linea->nombre.'">'.$linea->nombre.' | '.$linea->trayecto.'</a></li>';
