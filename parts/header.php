@@ -5,3 +5,8 @@
     <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
     <script src="./js/main.js"></script>
+    <style type="text/css">
+    	.ui-page{
+    		background: transparent url(background.png) 0 0;
+    	}
+    </style>
