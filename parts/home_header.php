@@ -4,7 +4,8 @@
 	<a href="contribuir.php" data-rel="dialog" data-transition="slidedown">Contribuye</a>
 	
 	<?php 
-	if(strstr($_SERVER['HTTP_USER_AGENT'], 'Android')){
+	//XXX: false for debug
+	if(false && strstr($_SERVER['HTTP_USER_AGENT'], 'Android')){
 		?>
 		<div class="ui-bar ui-bar-c">
 			<h3>Aplicación para Android <a href="https://play.google.com/store/apps/details?id=com.sloy.sevibus" data-role="button">Descargar</a></h3>
