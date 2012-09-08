@@ -1,5 +1,7 @@
 package com.sloy.sevibus.utils;
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
@@ -9,9 +11,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.google.common.collect.Lists;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
-import com.sloy.sevibus.R;
-
-import java.util.List;
 
 public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
@@ -33,8 +32,8 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	}
 
 	public void addParada(Entity parada) {
-		int lat = (int)(parada.getDouble("latitud") * 1E6);
-		int lon = (int)(parada.getDouble("longitud") * 1E6);
+		int lat = (int) (parada.getDouble("latitud") * 1E6);
+		int lon = (int) (parada.getDouble("longitud") * 1E6);
 		GeoPoint point = new GeoPoint(lat, lon);
 		String numero = parada.getString("numero");
 		String nombre = parada.getString("nombre");
@@ -44,7 +43,7 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	}
 
 	public void addAllParadas(List<Entity> paradas) {
-		for(Entity e : paradas){
+		for (Entity e : paradas) {
 			addParada(e);
 		}
 	}
@@ -86,4 +85,5 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 	public void hideBalloon() {
 		super.hideBalloon();
 	}
+
 }
