@@ -7,15 +7,5 @@
         android:showAsAction="always"
         android:title="Mostrar cercanas a un punto">
     </item>
-    <item
-        android:id="@+id/menu_zoom_in"
-        android:icon="@drawable/ic_action_zoom_in"
-        android:showAsAction="always"
-        android:title="Acercar"/>
-    <item
-        android:id="@+id/menu_zoom_out"
-        android:icon="@drawable/ic_action_zoom_out"
-        android:showAsAction="always"
-        android:title="Alejar"/>
 
 </menu>
