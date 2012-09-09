@@ -108,9 +108,6 @@ public class ParadasActivity extends SherlockActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
-			case R.id.menu_reportar:
-				reportar();
-				return true;
 			case R.id.menu_mapa:
 				startActivity(new IntentMapa(this).setLinea(mLineaID));
 				return true;
@@ -120,14 +117,5 @@ public class ParadasActivity extends SherlockActivity {
 			default:
 				return false;
 		}
-	}
-
-	private void reportar() {
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, String.format(getString(R.string.email_text_paradas), mLinea));
-		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
 }

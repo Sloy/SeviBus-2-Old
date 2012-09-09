@@ -159,12 +159,7 @@ public class HomeActivity extends SherlockActivity  {
 	}
 
 	private void reportar() {
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_general));
-		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
+		startActivity(new Intent(this, ReporteActivity.class));
 	}
 	
 	private void showNotification(String text, Intent action, String code){

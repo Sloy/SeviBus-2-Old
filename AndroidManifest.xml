@@ -49,6 +49,7 @@
         </activity>
         <activity android:name=".ui.ParadasBusquedaActivity" />
         <activity android:name=".ui.NovedadesActivity" />
+        <activity android:name=".ui.ReporteActivity" />
     </application>
 
 </manifest>

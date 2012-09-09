@@ -122,24 +122,12 @@ public class LineasActivity extends SherlockActivity  {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
-			case R.id.menu_reportar:
-				reportar();
-				return true;
 			case android.R.id.home:
 				startActivity(new Intent(this, HomeActivity.class));
 				return true;
 			default:
 				return false;
 		}
-	}
-	
-	private void reportar(){
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_lineas));
-		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
 
 }

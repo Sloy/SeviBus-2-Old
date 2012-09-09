@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="reporte_asuntos">
+        <item>Problemas con la aplicación</item>
+        <item>Líneas o paradas incorrectas</item>
+        <item>Sugerencias</item>
+        <item>Comentarios sobre la aplicación</item>
+        <item>Otro...</item>
+    </string-array>
+
+</resources>
