@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
+import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -27,7 +28,6 @@ import com.readystatesoftware.maps.TapControlledMapView;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.MyItemizedOverlay;
-import com.sloy.sevibus.utils.SherlockMapActivity;
 
 public class MapaActivity extends SherlockMapActivity implements OnNavigationListener {
 
@@ -103,7 +103,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 
 		List<String> nombres = Lists.newArrayList();
 		if (mParadaUnica == null) {
-			nombres.add("- Selecciona -");
+			nombres.add("- Selecciona línea -");
 		} else {
 			nombres.add("Parada " + mParadaUnica.getString("numero"));
 		}
