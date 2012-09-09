@@ -157,7 +157,8 @@ public class Utils {
 	private static Predicate<Twt> isReply = new Predicate<Twt>() {
 		@Override
 		public boolean apply(Twt status) {
-			return !status.getText().startsWith("@");
+			// Excluye replys y retweets
+			return !status.getText().startsWith("@") || !status.getText().startsWith("RT ");
 		}
 	};
 	
