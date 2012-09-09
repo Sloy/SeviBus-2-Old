@@ -3,6 +3,7 @@ package com.sloy.sevibus.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -18,6 +19,7 @@ public class ReporteActivity extends SherlockActivity {
 
 	private Spinner mAsunto;
 	private EditText mTexto;
+	private CheckBox mDeviceInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class ReporteActivity extends SherlockActivity {
 
 		mAsunto = (Spinner) findViewById(R.id.reporte_asunto);
 		mTexto = (EditText) findViewById(R.id.reporte_texto);
+		mDeviceInfo = (CheckBox) findViewById(R.id.reporte_device_info);
 	}
 
 	@Override
@@ -56,17 +59,32 @@ public class ReporteActivity extends SherlockActivity {
 
 	private void enviar() {
 		// Validar
-		if(TextUtils.isEmpty(mTexto.getText().toString())){
+		String texto = mTexto.getText().toString();
+		if (TextUtils.isEmpty(texto)) {
 			mTexto.setError("Un reporte vacío no sirve de nada");
-		}else{
+		} else {
+			// Información extra?
+			if(mDeviceInfo.isChecked()){
+				texto+= "\n\n----------: "+android.os.Build.DEVICE;
+				texto+= "\nBrand: "+android.os.Build.BRAND;
+				texto+= "\nDevice: "+android.os.Build.DEVICE;
+				texto+= "\nDisplay: "+android.os.Build.DISPLAY;
+				texto+= "\nHardware: "+android.os.Build.HARDWARE;
+				texto+= "\nManufacturer: "+android.os.Build.MANUFACTURER;
+				texto+= "\nModel: "+android.os.Build.MODEL;
+				texto+= "\nProduct: "+android.os.Build.PRODUCT;
+			}
 			mTexto.setError(null);
 			Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 			emailIntent.setType("plain/text");
 			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { getString(R.string.email_address) });
-			emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject)+" - "+getResources().getStringArray(R.array.reporte_asuntos)[mAsunto.getSelectedItemPosition()]);
-			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, mTexto.getText().toString());
+			emailIntent.putExtra(
+					android.content.Intent.EXTRA_SUBJECT,
+					getString(R.string.email_subject) + " - "
+							+ getResources().getStringArray(R.array.reporte_asuntos)[mAsunto.getSelectedItemPosition()]);
+			emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, texto);
 			startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 		}
-		
+
 	}
 }

@@ -83,6 +83,10 @@
 
                 <requestFocus />
             </EditText>
+
+            <CheckBox
+                android:id="@+id/reporte_device_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Incluir información sobre el teléfono"/>
+
         </LinearLayout>
     </LinearLayout>
 
