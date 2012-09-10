@@ -49,8 +49,9 @@ import com.google.common.collect.Lists;
 public class Utils {
 
 	public static String URL_XML = "http://www.infobustussam.com:9005/tussamGO/Resultados?op=ep&ls=%s&st=%d"; // 1.linea
-	private static final String URL_SOAP = "http://www.infobustussam.com:9001/services/dinamica.asmx";
-	private static final String BODY_SOAP = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetPasoParada xmlns=\"http://tempuri.org/\"><linea>%1s</linea><parada>%2s</parada><status>1</status></GetPasoParada></soap:Body></soap:Envelope>"; // 2.parada
+	private static final String URL_SOAP_DINAMICA = "http://www.infobustussam.com:9001/services/dinamica.asmx";
+	private static final String BODY_SOAP_TIEMPOS = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetPasoParada xmlns=\"http://tempuri.org/\"><linea>%1s</linea><parada>%2s</parada><status>1</status></GetPasoParada></soap:Body></soap:Envelope>"; // 2.parada
+	private static final String BODY_SOAP_BUSES = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetVehiculos xmlns=\"http://tempuri.org/\"><linea>%1s</linea></GetVehiculos></soap:Body></soap:Envelope>";
 
 	public static String suputamadre(URL url) throws IOException {
 		HttpURLConnection c = (HttpURLConnection)url.openConnection();
@@ -114,7 +115,7 @@ public class Utils {
 		try{
 			SAXParser parser = factory.newSAXParser();
 			TiemposHandler handler = new TiemposHandler();
-			InputStream is = getInputStream(linea.getString("nombre"), parada.toString());
+			InputStream is = getTiemposInputStream(linea.getString("nombre"), parada.toString());
 			parser.parse(is, handler);
 			handler.configurarLlegada(res);
 		}catch(IllegalArgumentException e){
@@ -125,11 +126,31 @@ public class Utils {
 		}
 		return res;
 	}
+	
+	public static List<BusLocation> getBuses(String linea) throws ServerErrorException{
+		List<BusLocation> res = null;
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		try{
+			SAXParser parser = factory.newSAXParser();
+			BusesHandler handler = new BusesHandler();
+			InputStream is = getBusesInputStream(linea);
+			parser.parse(is, handler);
+			res = handler.getBuses();
+		}catch(IllegalArgumentException e){
+			Log.e("sevibus", "Error con el InputStream", e);
+			throw new ServerErrorException();
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+		
+		return res;
+		
+	}
 
-	private static InputStream getInputStream(String linea, String parada) {
+	private static InputStream getTiemposInputStream(String linea, String parada) {
 		InputStream res = null;
 		try{
-			URL url = new URL(URL_SOAP);
+			URL url = new URL(URL_SOAP_DINAMICA);
 			HttpURLConnection c = (HttpURLConnection)url.openConnection();
 			c.setRequestMethod("POST");
 			c.setReadTimeout(15 * 1000);
@@ -140,7 +161,7 @@ public class Utils {
 			c.connect();
 
 			OutputStreamWriter wr = new OutputStreamWriter(c.getOutputStream());
-			String data = String.format(BODY_SOAP, linea, parada);
+			String data = String.format(BODY_SOAP_TIEMPOS, linea, parada);
 			wr.write(data);
 			wr.flush();
 
@@ -149,6 +170,34 @@ public class Utils {
 			Log.e("sevibus", "Error al obtener la fuente de los tiempos", e);
 		}catch(IOException e){
 			Log.e("sevibus", "Error al obtener la fuente de los tiempos", e);
+		}
+		return res;
+
+	}
+	
+	private static InputStream getBusesInputStream(String linea) {
+		InputStream res = null;
+		try{
+			URL url = new URL(URL_SOAP_DINAMICA);
+			HttpURLConnection c = (HttpURLConnection)url.openConnection();
+			c.setRequestMethod("POST");
+			c.setReadTimeout(15 * 1000);
+			c.setDoOutput(true);
+			// c.setFixedLengthStreamingMode(contentLength)
+			c.setUseCaches(false);
+			c.setRequestProperty("Content-Type", "text/xml");
+			c.connect();
+
+			OutputStreamWriter wr = new OutputStreamWriter(c.getOutputStream());
+			String data = String.format(BODY_SOAP_BUSES, linea);
+			wr.write(data);
+			wr.flush();
+
+			res = c.getInputStream();
+		}catch(MalformedURLException e){
+			Log.e("sevibus", "Error al obtener la fuente de los autobuses", e);
+		}catch(IOException e){
+			Log.e("sevibus", "Error al obtener la fuente de los autobuses", e);
 		}
 		return res;
 
