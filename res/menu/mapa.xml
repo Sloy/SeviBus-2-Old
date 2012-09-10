@@ -2,10 +2,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/menu_posicion"
+        android:icon="@drawable/ic_action_position"
+        android:showAsAction="always"
+        android:title="Zoom en mi posición">
+    </item>
+    <item
+        android:id="@+id/menu_buses"
+        android:icon="@drawable/ic_action_bus"
+        android:showAsAction="always"
+        android:title="Ver buses">
+    </item>
+    <item
         android:id="@+id/menu_cercanas"
         android:icon="@drawable/ic_action_cercanas"
         android:showAsAction="always"
-        android:title="Mostrar cercanas a un punto">
+        android:title="Cercanas a un punto">
+    </item>
+    <item
+        android:id="@+id/menu_mapa"
+        android:icon="@drawable/ic_action_mapa_menu"
+        android:showAsAction="always"
+        android:title="Tipo de mapa">
+        <menu>
+            <item
+                android:id="@+id/menu_mapa_callejero"
+                android:title="Callejero">
+            </item>
+            <item
+                android:id="@+id/menu_mapa_satelite"
+                android:title="Satélite">
+            </item>
+        </menu>
     </item>
 
 </menu>

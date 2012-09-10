@@ -27,18 +27,19 @@ import com.readystatesoftware.maps.OnSingleTapListener;
 import com.readystatesoftware.maps.TapControlledMapView;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
-import com.sloy.sevibus.utils.MyItemizedOverlay;
+import com.sloy.sevibus.utils.ParadasOverlay;
 
 public class MapaActivity extends SherlockMapActivity implements OnNavigationListener {
 
 	private TapControlledMapView mapView;
 	private MapController myMapController;
 	private MyLocationOverlay mOverlayLocation;
-	private MyItemizedOverlay mOverlayCercanas;
+	private ParadasOverlay mOverlayCercanas;
 	private List<Overlay> mOverlays;
 	private List<Entity> mLineas;
 	private Entity mParadaUnica;
 	private boolean esperandoPunto = false;
+	private Toast myToast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,13 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		
+		myToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
 		mapView = (TapControlledMapView) findViewById(R.id.mapa_mapview);
 		myMapController = mapView.getController();
 		mOverlays = mapView.getOverlays();
+		
 
 		mapView.setTraffic(true);
 		mapView.setBuiltInZoomControls(true);
@@ -67,7 +71,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		mOverlayLocation.enableCompass();
 		mOverlays.add(mOverlayLocation);
 
-		mOverlayCercanas = new MyItemizedOverlay(getResources().getDrawable(R.drawable.marker2), mapView, this);
+		mOverlayCercanas = new ParadasOverlay(getResources().getDrawable(R.drawable.marker2), mapView, this);
 		mOverlayCercanas.setEnabled(false);
 
 		mapView.setOnSingleTapListener(new OnSingleTapListener() {
@@ -141,18 +145,18 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	}
 
 	private void loadMap(Entity paradaUnica) {
-		MyItemizedOverlay marker = new MyItemizedOverlay(getResources().getDrawable(R.drawable.marker), mapView, this);
+		ParadasOverlay marker = new ParadasOverlay(getResources().getDrawable(R.drawable.marker), mapView, this);
 		marker.addParada(paradaUnica);
 		loadMap(marker);
 	}
 
 	private void loadMap(List<Entity> paradas) {
-		MyItemizedOverlay markers = new MyItemizedOverlay(getResources().getDrawable(R.drawable.marker), mapView, this);
+		ParadasOverlay markers = new ParadasOverlay(getResources().getDrawable(R.drawable.marker), mapView, this);
 		markers.addAllParadas(paradas);
 		loadMap(markers);
 	}
 
-	private void loadMap(MyItemizedOverlay markers) {
+	private void loadMap(ParadasOverlay markers) {
 		clearMap();
 		mOverlays.add(markers);
 		mapView.postInvalidate();
@@ -196,9 +200,9 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		// Oculta si hay algún globo abierto
 		for (Overlay o : mOverlays) {
-			if (o instanceof MyItemizedOverlay) {
+			if (o instanceof ParadasOverlay) {
 				// Es uno de los nuestros
-				MyItemizedOverlay io = (MyItemizedOverlay) o;
+				ParadasOverlay io = (ParadasOverlay) o;
 				io.hideBalloon();
 			}
 		}
@@ -242,6 +246,21 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		switch (item.getItemId()) {
 		case R.id.menu_cercanas:
 			startCercanas();
+			return true;
+		case R.id.menu_mapa_callejero:
+			mapView.setSatellite(false);
+			return true;
+		case R.id.menu_mapa_satelite:
+			mapView.setSatellite(true);
+			return true;
+		case R.id.menu_posicion:
+			GeoPoint aquiestausted = mOverlayLocation.getMyLocation();
+			myMapController.animateTo(aquiestausted);
+			myMapController.setZoom(19);
+			mostrarCercanas(aquiestausted.getLatitudeE6()/1E6, aquiestausted.getLongitudeE6()/1E6);
+			return true;
+		case R.id.menu_buses:
+			Toast.makeText(this, "Quieto lucas", Toast.LENGTH_SHORT).show();
 			return true;
 		case android.R.id.home:
 			startActivity(new Intent(this, HomeActivity.class));
@@ -314,12 +333,21 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		} finally {
 			db.close();
 		}
-
-		// Carga la lista en el overlay de cercanas, no en el principal
-		mOverlayCercanas.clear();
-		mOverlayCercanas.addAllParadas(paradas);
-		mOverlays.add(0,mOverlayCercanas);
-		mapView.postInvalidate();
+		
+		// Si muestra el Overlay vacío la lía parda
+		if(!paradas.isEmpty()){
+			// Carga la lista en el overlay de cercanas, no en el principal
+			mOverlayCercanas.clear();
+			mOverlayCercanas.addAllParadas(paradas);
+			mOverlays.add(mOverlayCercanas);
+			mapView.postInvalidate();
+		}else{
+			mOverlayCercanas.clear();
+			mOverlays.remove(mOverlayCercanas);
+			mapView.postInvalidate();
+			Toast.makeText(this, "No se encontraron paradas cercanas a esa posición", Toast.LENGTH_SHORT).show();
+		}
+		
 		
 	}
 

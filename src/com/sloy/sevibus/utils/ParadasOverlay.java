@@ -3,6 +3,7 @@ package com.sloy.sevibus.utils;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -19,20 +20,20 @@ import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 import com.readystatesoftware.mapviewballoons.BalloonOverlayView;
 import com.readystatesoftware.mapviewballoons.R;
 
-public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
+public class ParadasOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 	private List<Entity> mParadas;
 	private List<OverlayItem> mOverlays;
 	private boolean enabled = true;
 	private Context mContext;
 
-	public MyItemizedOverlay(Drawable defaultMarker, MapView mapView, Context context) {
+	public ParadasOverlay(Drawable defaultMarker, MapView mapView, Context context) {
 		super(boundCenter(defaultMarker), mapView);
 
 		mParadas = Lists.newArrayList();
 		mOverlays = Lists.newArrayList();
 		mContext = context;
-		
+
 		this.setShowClose(false);
 	}
 
@@ -105,11 +106,11 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 
 		private TextView title;
 		private TextView snippet;
-		
+
 		public CustomBalloonOverlayView(Context context, int balloonBottomOffset) {
 			super(context, balloonBottomOffset);
 		}
-		
+
 		@Override
 		protected void setupView(Context context, final ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context
@@ -117,7 +118,7 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 			View v = inflater.inflate(R.layout.balloon_overlay, parent);
 			title = (TextView) v.findViewById(R.id.balloon_item_title);
 			snippet = (TextView) v.findViewById(R.id.balloon_item_snippet);
-			
+
 			title.setTextColor(0xFF990000);
 			title.setTypeface(null, Typeface.BOLD);
 
@@ -148,7 +149,11 @@ public class MyItemizedOverlay extends BalloonItemizedOverlay<OverlayItem> {
 		hideAllBalloons();
 		return super.onTap(arg0, arg1);
 	}
-	
-	
+
+	@Override
+	public void draw(Canvas arg0, MapView arg1, boolean arg2) {
+		// Elimina la sombra
+		super.draw(arg0, arg1, false);
+	}
 
 }
