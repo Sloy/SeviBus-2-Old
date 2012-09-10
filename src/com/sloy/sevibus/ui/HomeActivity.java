@@ -1,5 +1,7 @@
 package com.sloy.sevibus.ui;
 
+import java.util.Calendar;
+import java.util.Random;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,10 +9,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -21,16 +30,17 @@ import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.IntentMapa;
 
-public class HomeActivity extends SherlockActivity  {
+public class HomeActivity extends SherlockActivity {
 
 	private Context mContext = this;
 	private SharedPreferences prefs;
-	private Button mBtCercanas, mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtAcerca, mBtNovedades,mBtNotificacionAbrir;
+	private Button mBtCercanas, mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtAcerca, mBtNovedades, mBtNotificacionAbrir;
 	private ImageButton mBtNotificacionCerrar;
 	private View mNotificacion;
 	private Intent mNotificationAction;
 	private String mNotificationCode;
-	
+
+	private MenuItem mDonarItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +51,26 @@ public class HomeActivity extends SherlockActivity  {
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setDisplayUseLogoEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
-		
+
 		prefs = Datos.getPrefs();
 
 		// mBtCercanas = (ImageButton) findViewById(R.id.main_cercanas_button);
-		mBtFavoritas = (Button)findViewById(R.id.main_favoritas_button);
-		mBtLineas = (Button)findViewById(R.id.main_lineas_button);
-		mBtParadas = (Button)findViewById(R.id.main_paradas_button);
-		mBtMapa = (Button)findViewById(R.id.main_mapa_button);
-		mBtAcerca = (Button)findViewById(R.id.main_acerca_button);
-		mBtNovedades = (Button)findViewById(R.id.main_novedades_button);
-		
+		mBtFavoritas = (Button) findViewById(R.id.main_favoritas_button);
+		mBtLineas = (Button) findViewById(R.id.main_lineas_button);
+		mBtParadas = (Button) findViewById(R.id.main_paradas_button);
+		mBtMapa = (Button) findViewById(R.id.main_mapa_button);
+		mBtAcerca = (Button) findViewById(R.id.main_acerca_button);
+		mBtNovedades = (Button) findViewById(R.id.main_novedades_button);
+
 		mNotificacion = findViewById(R.id.home_notification);
-		mBtNotificacionAbrir = (Button)findViewById(R.id.notification_text);
-		mBtNotificacionCerrar = (ImageButton)findViewById(R.id.notification_dismiss);
+		mBtNotificacionAbrir = (Button) findViewById(R.id.notification_text);
+		mBtNotificacionCerrar = (ImageButton) findViewById(R.id.notification_dismiss);
 
 		/* Establece los listeners */
 		/*
 		 * mBtCercanas.setOnClickListener(new View.OnClickListener() {
-		 * @Override
-		 * public void onClick(View v) {
-		 * }
-		 * });
+		 * 
+		 * @Override public void onClick(View v) { } });
 		 */
 		mBtFavoritas.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -103,7 +111,7 @@ public class HomeActivity extends SherlockActivity  {
 				startActivity(new Intent(mContext, AcercadeActivity.class));
 			}
 		});
-		
+
 		mBtNotificacionAbrir.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -116,15 +124,17 @@ public class HomeActivity extends SherlockActivity  {
 				dismissNotification();
 			}
 		});
-	
-		
+
 		// Muestra notificacion de twitter
-		/*if(prefs.getBoolean("twitter", true)){
-			Intent i = new Intent(this, NovedadesActivity.class);
-			i.putExtra("default", "twitter");
-			showNotification("¡@SeviBus ahora está en Twitter! ¿No lo has visto? Pulsa aquí.", i, "twitter");
-			
-		}*/
+		/*
+		 * if(prefs.getBoolean("twitter", true)){ Intent i = new Intent(this,
+		 * NovedadesActivity.class); i.putExtra("default", "twitter");
+		 * showNotification
+		 * ("¡@SeviBus ahora está en Twitter! ¿No lo has visto? Pulsa aquí.", i,
+		 * "twitter");
+		 * 
+		 * }
+		 */
 	}
 
 	@Override
@@ -132,28 +142,30 @@ public class HomeActivity extends SherlockActivity  {
 		super.onStop();
 		FlurryAgent.onEndSession(this);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getSherlock().getMenuInflater();
 		inflater.inflate(R.menu.home, menu);
+		mDonarItem = menu.findItem(R.id.menu_donar);
+		new Navidad().execute();
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()){
-			case android.R.id.home:
-				startActivity(new Intent(mContext, AcercadeActivity.class));
-				break;
-			case R.id.menu_reportar:
-				reportar();
-				break;
-			case R.id.menu_donar:
-				donar();
-				break;
-			default:
-				break;
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			startActivity(new Intent(mContext, AcercadeActivity.class));
+			break;
+		case R.id.menu_reportar:
+			reportar();
+			break;
+		case R.id.menu_donar:
+			donar();
+			break;
+		default:
+			break;
 		}
 		return true;
 	}
@@ -161,24 +173,86 @@ public class HomeActivity extends SherlockActivity  {
 	private void reportar() {
 		startActivity(new Intent(this, ReporteActivity.class));
 	}
-	
-	private void showNotification(String text, Intent action, String code){
+
+	private void showNotification(String text, Intent action, String code) {
 		mNotificacion.setVisibility(View.VISIBLE);
-		mNotificationAction=action;
+		mNotificationAction = action;
 		mBtNotificacionAbrir.setText(text);
-		mNotificationCode=code;
+		mNotificationCode = code;
 	}
-	
-	private void openNotification(){
-		if(mNotificationAction!=null){
+
+	private void openNotification() {
+		if (mNotificationAction != null) {
 			startActivity(mNotificationAction);
 		}
 		dismissNotification();
 	}
-	
-	private void dismissNotification(){
+
+	private void dismissNotification() {
 		mNotificacion.setVisibility(View.GONE);
 		prefs.edit().putBoolean(mNotificationCode, false).commit();
+	}
+	
+
+	private class Navidad extends AsyncTask<Void, Void, Integer>{
+		//0,1,2,3
+		@Override
+		protected Integer doInBackground(Void... params) {
+			int res = 0;
+			Random rand = new Random();
+			int seed = rand.nextInt(8);
+			if(seed==0){
+				res+=1;
+			}
+			Calendar rightNow = Calendar.getInstance();
+			if(rightNow.get(Calendar.MONTH)==Calendar.SEPTEMBER && rightNow.get(Calendar.DAY_OF_MONTH) == 25){
+				res+=2;
+			}
+			return res;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result==1 || result==3){
+				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				ImageView iv = (ImageView) inflater.inflate(R.layout.donar_action_view, null);
+				Animation rotation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.destacar_donar);
+				rotation.setAnimationListener(new AnimationListener() {
+					@Override
+					public void onAnimationStart(Animation animation) {}
+					@Override
+					public void onAnimationRepeat(Animation animation) {}
+			
+					@Override
+					public void onAnimationEnd(Animation animation) {
+						mDonarItem.setActionView(null);
+					}
+				});
+				iv.startAnimation(rotation);
+				mDonarItem.setActionView(iv);
+			}
+			if(result>1){
+				new AlertDialog.Builder(HomeActivity.this)
+				.setTitle("¡Feliz cumpleaños, SeviBus!")
+				.setMessage("Hoy mismo se cumplen 2 años desde que la primera versión de SeviBus apareció en el Android Market. Ha sido mucho trabajo, muchas actualizaciones (29) y muchos usuarios contentos. Es una buena oportunidad para donar y apoyar la continuidad del proyecto si aún no lo has hecho. \n\nGracias por usar SeviBus :)")
+				.setPositiveButton("Donar", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri
+								.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=TA2XH2L4B7MAW&lc=ES&item_name=SeviBus&item_number=sevibus&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted")));
+					}
+				}).setNegativeButton("Meh, paso", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(HomeActivity.this, ":'(", Toast.LENGTH_LONG).show();
+						dialog.dismiss();
+					}
+				})
+				.create().show();
+			}
+			super.onPostExecute(result);
+		}
+		
 	}
 
 	private void donar() {
