@@ -51,13 +51,12 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
-		
+
 		myToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
 		mapView = (TapControlledMapView) findViewById(R.id.mapa_mapview);
 		myMapController = mapView.getController();
 		mOverlays = mapView.getOverlays();
-		
 
 		mapView.setTraffic(true);
 		mapView.setBuiltInZoomControls(true);
@@ -257,10 +256,11 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 			GeoPoint aquiestausted = mOverlayLocation.getMyLocation();
 			myMapController.animateTo(aquiestausted);
 			myMapController.setZoom(19);
-			mostrarCercanas(aquiestausted.getLatitudeE6()/1E6, aquiestausted.getLongitudeE6()/1E6);
+			mostrarCercanas(aquiestausted.getLatitudeE6() / 1E6, aquiestausted.getLongitudeE6() / 1E6);
 			return true;
 		case R.id.menu_buses:
-			Toast.makeText(this, "Quieto lucas", Toast.LENGTH_SHORT).show();
+			myToast.setText("Quieto lucas");
+			myToast.show();
 			return true;
 		case android.R.id.home:
 			startActivity(new Intent(this, HomeActivity.class));
@@ -273,9 +273,9 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem item = menu.findItem(R.id.menu_cercanas);
-		if(esperandoPunto){
+		if (esperandoPunto) {
 			item.setEnabled(false);
-		}else{
+		} else {
 			item.setEnabled(true);
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -284,7 +284,8 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	private void startCercanas() {
 		esperandoPunto = true;
 		invalidateOptionsMenu();
-		Toast.makeText(this, "Pulsa en un punto del mapa para mostrar las paradas cercanas", Toast.LENGTH_SHORT).show();
+		myToast.setText("Pulsa en un punto del mapa para mostrar las paradas cercanas");
+		myToast.show();
 	}
 
 	private void mostrarCercanas(double refLatitud, double refLongitud) {
@@ -301,30 +302,6 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 			double maxLongitud = refLongitud + margen;
 			double minLongitud = refLongitud - margen;
 
-			/*
-			 * Entity eP = new Entity("paradas"); eP.setValue("nombre", "P");
-			 * eP.setValue("latitud", refLatitud); eP.setValue("longitud",
-			 * refLongitud);
-			 * 
-			 * Entity eA = new Entity("paradas"); eA.setValue("nombre", "A");
-			 * eA.setValue("latitud", maxLatitud); eA.setValue("longitud",
-			 * minLongitud);
-			 * 
-			 * Entity eB = new Entity("paradas"); eB.setValue("nombre", "B");
-			 * eB.setValue("latitud", maxLatitud); eB.setValue("longitud",
-			 * maxLongitud);
-			 * 
-			 * Entity eC = new Entity("paradas"); eC.setValue("nombre", "C");
-			 * eC.setValue("latitud", minLatitud); eC.setValue("longitud",
-			 * maxLongitud);
-			 * 
-			 * Entity eD = new Entity("paradas"); eD.setValue("nombre", "D");
-			 * eD.setValue("latitud", minLatitud); eD.setValue("longitud",
-			 * minLongitud);
-			 * 
-			 * paradas.add(eA); paradas.add(eB); paradas.add(eC);
-			 * paradas.add(eD); paradas.add(eP);
-			 */
 			paradas = db.getEntityList("paradas", "latitud < " + maxLatitud + " and latitud > " + minLatitud + " and longitud < " + maxLongitud
 					+ " and longitud > " + minLongitud);
 
@@ -333,22 +310,22 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		} finally {
 			db.close();
 		}
-		
+
 		// Si muestra el Overlay vacío la lía parda
-		if(!paradas.isEmpty()){
+		if (!paradas.isEmpty()) {
 			// Carga la lista en el overlay de cercanas, no en el principal
 			mOverlayCercanas.clear();
 			mOverlayCercanas.addAllParadas(paradas);
 			mOverlays.add(mOverlayCercanas);
 			mapView.postInvalidate();
-		}else{
+		} else {
 			mOverlayCercanas.clear();
 			mOverlays.remove(mOverlayCercanas);
 			mapView.postInvalidate();
-			Toast.makeText(this, "No se encontraron paradas cercanas a esa posición", Toast.LENGTH_SHORT).show();
+			myToast.setText("No se encontraron paradas cercanas a esa posición");
+			myToast.show();
 		}
-		
-		
+
 	}
 
 }
