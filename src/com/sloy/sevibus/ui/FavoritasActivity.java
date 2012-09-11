@@ -61,11 +61,10 @@ public class FavoritasActivity extends SherlockActivity {
 
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
 				if(mActionMode == null){
 					Intent intent = new IntentParada(FavoritasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mFavoritas.get(pos).getLong(
 							"linea_id"));
-					View v = mList.getChildAt(pos);
 					ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(v, v.getWidth()/2, v.getHeight()/2, v.getWidth() ,v.getHeight());
 					ActivityCompat2.startActivity(FavoritasActivity.this, intent, options.toBundle());
 				}else{

@@ -59,9 +59,8 @@ public class ParadasActivity extends SherlockActivity {
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
 				Intent intent = new IntentParada(ParadasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mLineaID);
-				View v = mList.getChildAt(pos);
 				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(v, v.getWidth()/2, v.getHeight()/2, v.getWidth() ,v.getHeight());
 				ActivityCompat2.startActivity(ParadasActivity.this, intent, options.toBundle());
 			}

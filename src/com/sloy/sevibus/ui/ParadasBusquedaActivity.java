@@ -82,10 +82,9 @@ public class ParadasBusquedaActivity extends SherlockActivity {
 
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
 				long parada = mAdapter.getItemId(pos);			
 				Intent intent = new IntentParada(ParadasBusquedaActivity.this, parada);
-				View v = mList.getChildAt(pos);
 				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(v, v.getWidth()/2, v.getHeight()/2, v.getWidth() ,v.getHeight());
 				ActivityCompat2.startActivity(ParadasBusquedaActivity.this, intent, options.toBundle());
 
