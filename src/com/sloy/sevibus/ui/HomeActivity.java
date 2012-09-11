@@ -3,6 +3,7 @@ package com.sloy.sevibus.ui;
 import java.util.Calendar;
 import java.util.Random;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,13 +27,15 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.flurry.android.FlurryAgent;
+import com.jakewharton.activitycompat2.ActivityCompat2;
+import com.jakewharton.activitycompat2.ActivityOptionsCompat2;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.IntentMapa;
 
 public class HomeActivity extends SherlockActivity {
 
-	private Context mContext = this;
+	private Activity mContext = this;
 	private SharedPreferences prefs;
 	private Button mBtCercanas, mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtAcerca, mBtNovedades, mBtNotificacionAbrir;
 	private ImageButton mBtNotificacionCerrar;
@@ -75,40 +78,61 @@ public class HomeActivity extends SherlockActivity {
 		mBtFavoritas.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(mContext, FavoritasActivity.class));
+				Intent intent = new Intent(mContext, FavoritasActivity.class);
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(mBtFavoritas, mBtFavoritas.getWidth() / 2,
+						mBtFavoritas.getHeight() / 2, mBtFavoritas.getWidth(), mBtFavoritas.getHeight());
+				ActivityCompat2.startActivity(mContext, intent, options.toBundle());
 			}
 		});
 		mBtLineas.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(mContext, LineasActivity.class));
-
+				Intent intent = new Intent(mContext, LineasActivity.class);
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(mBtLineas, mBtLineas.getWidth() / 2,
+						mBtLineas.getHeight() / 2, mBtLineas.getWidth(),
+						mBtLineas.getHeight());
+				ActivityCompat2.startActivity(mContext, intent, options.toBundle());
 			}
 		});
 
 		mBtParadas.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(mContext, ParadasBusquedaActivity.class));
+				Intent intent = new Intent(mContext, ParadasBusquedaActivity.class);
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(mBtParadas, mBtParadas.getWidth() / 2,
+						mBtParadas.getHeight() / 2, mBtParadas.getWidth(),
+						mBtParadas.getHeight());
+				ActivityCompat2.startActivity(mContext, intent, options.toBundle());
 			}
 		});
 
 		mBtMapa.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new IntentMapa(mContext));
+				Intent intent = new IntentMapa(mContext);
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(mBtMapa, mBtMapa.getWidth() / 2,
+						mBtMapa.getHeight() / 2, mBtMapa.getWidth(), mBtMapa.getHeight());
+				ActivityCompat2.startActivity(mContext, intent, options.toBundle());
 			}
 		});
 		mBtNovedades.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(mContext, NovedadesActivity.class));
+				Intent intent = new Intent(mContext, NovedadesActivity.class);
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(mBtNovedades, mBtNovedades.getWidth() / 2,
+						mBtNovedades.getHeight() / 2, mBtNovedades.getWidth(),
+						mBtNovedades.getHeight());
+				ActivityCompat2.startActivity(mContext, intent, options.toBundle());
 			}
 		});
 		mBtAcerca.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(mContext, AcercadeActivity.class));
+				Intent intent = new Intent(mContext, AcercadeActivity.class);
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(mBtAcerca, mBtAcerca.getWidth() / 2,
+						mBtAcerca.getHeight() / 2, mBtAcerca.getWidth(),
+						mBtAcerca.getHeight());
+				ActivityCompat2.startActivity(mContext, intent, options.toBundle());
 			}
 		});
 
@@ -192,37 +216,39 @@ public class HomeActivity extends SherlockActivity {
 		mNotificacion.setVisibility(View.GONE);
 		prefs.edit().putBoolean(mNotificationCode, false).commit();
 	}
-	
 
-	private class Navidad extends AsyncTask<Void, Void, Integer>{
-		//0,1,2,3
+	private class Navidad extends AsyncTask<Void, Void, Integer> {
+		// 0,1,2,3
 		@Override
 		protected Integer doInBackground(Void... params) {
 			int res = 0;
 			Random rand = new Random();
 			int seed = rand.nextInt(8);
-			if(seed==0){
-				res+=1;
+			if (seed == 0) {
+				res += 1;
 			}
 			Calendar rightNow = Calendar.getInstance();
-			if(rightNow.get(Calendar.MONTH)==Calendar.SEPTEMBER && rightNow.get(Calendar.DAY_OF_MONTH) == 25){
-				res+=2;
+			if (rightNow.get(Calendar.MONTH) == Calendar.SEPTEMBER && rightNow.get(Calendar.DAY_OF_MONTH) == 25) {
+				res += 2;
 			}
 			return res;
 		}
 
 		@Override
 		protected void onPostExecute(Integer result) {
-			if(result==1 || result==3){
+			if (result == 1 || result == 3) {
 				LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				ImageView iv = (ImageView) inflater.inflate(R.layout.donar_action_view, null);
 				Animation rotation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.destacar_donar);
 				rotation.setAnimationListener(new AnimationListener() {
 					@Override
-					public void onAnimationStart(Animation animation) {}
+					public void onAnimationStart(Animation animation) {
+					}
+
 					@Override
-					public void onAnimationRepeat(Animation animation) {}
-			
+					public void onAnimationRepeat(Animation animation) {
+					}
+
 					@Override
 					public void onAnimationEnd(Animation animation) {
 						mDonarItem.setActionView(null);
@@ -231,28 +257,29 @@ public class HomeActivity extends SherlockActivity {
 				iv.startAnimation(rotation);
 				mDonarItem.setActionView(iv);
 			}
-			if(result>1){
+			if (result > 1) {
 				new AlertDialog.Builder(HomeActivity.this)
-				.setTitle("¡Feliz cumpleaños, SeviBus!")
-				.setMessage("Hoy mismo se cumplen 2 años desde que la primera versión de SeviBus apareció en el Android Market. Ha sido mucho trabajo, muchas actualizaciones (29) y muchos usuarios contentos. Es una buena oportunidad para donar y apoyar la continuidad del proyecto si aún no lo has hecho. \n\nGracias por usar SeviBus :)")
-				.setPositiveButton("Donar", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri
-								.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=TA2XH2L4B7MAW&lc=ES&item_name=SeviBus&item_number=sevibus&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted")));
-					}
-				}).setNegativeButton("Meh, paso", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(HomeActivity.this, ":'(", Toast.LENGTH_LONG).show();
-						dialog.dismiss();
-					}
-				})
-				.create().show();
+						.setTitle("¡Feliz cumpleaños, SeviBus!")
+						.setMessage(
+								"Hoy mismo se cumplen 2 años desde que la primera versión de SeviBus apareció en el Android Market. Ha sido mucho trabajo, muchas actualizaciones (29) y muchos usuarios contentos. Es una buena oportunidad para donar y apoyar la continuidad del proyecto si aún no lo has hecho. \n\nGracias por usar SeviBus :)")
+						.setPositiveButton("Donar", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri
+										.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=TA2XH2L4B7MAW&lc=ES&item_name=SeviBus&item_number=sevibus&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted")));
+							}
+						}).setNegativeButton("Meh, paso", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								Toast.makeText(HomeActivity.this, ":'(", Toast.LENGTH_LONG).show();
+								dialog.dismiss();
+							}
+						})
+						.create().show();
 			}
 			super.onPostExecute(result);
 		}
-		
+
 	}
 
 	private void donar() {

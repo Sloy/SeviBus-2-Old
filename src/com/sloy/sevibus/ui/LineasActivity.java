@@ -19,8 +19,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.flurry.android.FlurryAgent;
+import com.jakewharton.activitycompat2.ActivityCompat2;
+import com.jakewharton.activitycompat2.ActivityOptionsCompat2;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
+import com.sloy.sevibus.utils.IntentParada;
 
 import java.util.List;
 
@@ -43,10 +46,13 @@ public class LineasActivity extends SherlockActivity  {
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Intent i = new Intent(LineasActivity.this,ParadasActivity.class);
-				i.putExtra("linea", mAdapter.getItemId(pos));
-				i.putExtra("nombre", mAdapter.getItem(pos).getString("nombre"));
-				startActivity(i);
+				Intent intent = new Intent(LineasActivity.this,ParadasActivity.class);
+				intent.putExtra("linea", mAdapter.getItemId(pos));
+				intent.putExtra("nombre", mAdapter.getItem(pos).getString("nombre"));
+				
+				View v = mList.getChildAt(pos);
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(v, v.getWidth()/2, v.getHeight()/2, v.getWidth() ,v.getHeight());
+				ActivityCompat2.startActivity(LineasActivity.this, intent, options.toBundle());
 			}
 		});
 		DataFramework db = null;
