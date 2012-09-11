@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.SeviBus" parent="@style/Theme.Sherlock.Light.ForceOverflow">
-        <item name="android:windowBackground">@drawable/background_noise</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
 		
 		<item name="actionBarItemBackground">@drawable/selectable_background_sevibus</item>
