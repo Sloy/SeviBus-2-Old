@@ -3,7 +3,7 @@
 
     <string name="app_name">SeviBus</string>
 
-    <string name="dedicatoria">Aplicación dedicada a esa persona que deseo tanto que se pase a visitarnos por Sevilla ;) </string>
+    <string name="dedicatoria">Dedicada a esa persona que tanto deseo que se pase a visitarnos por Sevilla ;) </string>
     <string name="email_address">rafa.vazsan+sevibus@gmail.com</string>
     <string name="email_subject">Reporte de SeviBus</string>
     <string name="email_intent">Enviar vía email…</string>

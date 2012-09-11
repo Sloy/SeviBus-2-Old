@@ -65,7 +65,7 @@ public class ReporteActivity extends SherlockActivity {
 		} else {
 			// Información extra?
 			if(mDeviceInfo.isChecked()){
-				texto+= "\n\n----------: "+android.os.Build.DEVICE;
+				texto+= "\n\n----------: ";
 				texto+= "\nBrand: "+android.os.Build.BRAND;
 				texto+= "\nDevice: "+android.os.Build.DEVICE;
 				texto+= "\nDisplay: "+android.os.Build.DISPLAY;

@@ -88,6 +88,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
+		setSupportProgressBarIndeterminateVisibility(false);
 
 		myToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 		mTimer = new Timer("ActualizaBuses");
@@ -155,7 +156,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		}
 		ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.sherlock_spinner_item, nombres);
 
-		aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		aa.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 
 		getSupportActionBar().setListNavigationCallbacks(aa, this);
 
@@ -256,7 +257,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		} else {
 			Entity linea = mLineas.get(itemPosition - 1);
 			mLineaSeleccionada = linea.getString("nombre");
-			if(siguiendoAutobuses){
+			if (siguiendoAutobuses) {
 				// Reinicia el timer
 				detieneSeguimientoBuses();
 				comienzaSeguimientoBuses();
@@ -271,7 +272,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	protected void onPause() {
 		mOverlayLocation.disableMyLocation();
 		mOverlayLocation.disableCompass();
-		if(siguiendoAutobuses){
+		if (siguiendoAutobuses) {
 			detieneSeguimientoBuses();
 		}
 		super.onPause();
@@ -281,7 +282,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	protected void onResume() {
 		mOverlayLocation.enableMyLocation();
 		mOverlayLocation.enableCompass();
-		if(siguiendoAutobuses){
+		if (siguiendoAutobuses) {
 			comienzaSeguimientoBuses();
 		}
 		super.onResume();
@@ -308,9 +309,14 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 			return true;
 		case R.id.menu_posicion:
 			GeoPoint aquiestausted = mOverlayLocation.getMyLocation();
-			myMapController.animateTo(aquiestausted);
-			myMapController.setZoom(19);
-			mostrarCercanas(aquiestausted.getLatitudeE6() / 1E6, aquiestausted.getLongitudeE6() / 1E6);
+			if (aquiestausted != null) {
+				myMapController.animateTo(aquiestausted);
+				myMapController.setZoom(19);
+				mostrarCercanas(aquiestausted.getLatitudeE6() / 1E6, aquiestausted.getLongitudeE6() / 1E6);
+			} else {
+				myToast.setText("No se pudo obtener tu localización :(");
+				myToast.show();
+			}
 			return true;
 		case R.id.menu_buses:
 			if (!siguiendoAutobuses) {
@@ -433,7 +439,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 
 		@Override
 		protected void onPostExecute(List<BusLocation> result) {
-			Log.d("SeviBus","GO!");
+			Log.d("SeviBus", "GO!");
 			setSupportProgressBarIndeterminateVisibility(false);
 			if (result != null) {
 				busesOvarlay.clear();
