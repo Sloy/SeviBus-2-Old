@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.sloy.sevibus.utils.ParadasOverlay;
 import com.sloy.sevibus.utils.ServerErrorException;
 import com.sloy.sevibus.utils.Utils;
 
+@SuppressLint("NewApi")
 public class MapaActivity extends SherlockMapActivity implements OnNavigationListener {
 
 	private TapControlledMapView mapView;
@@ -77,6 +79,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		}
 	};
 
+	@SuppressLint("ShowToast")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -116,6 +119,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 
 		mapView.setOnSingleTapListener(new OnSingleTapListener() {
 
+			@SuppressLint("NewApi")
 			@Override
 			public boolean onSingleTap(MotionEvent e) {
 				if (esperandoPunto) {
@@ -237,6 +241,7 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 	}
 
 	@Override
+	@SuppressLint("NewApi")
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		// Oculta si hay algún globo abierto
 		for (Overlay o : mOverlays) {
@@ -362,12 +367,14 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		return super.onPrepareOptionsMenu(menu);
 	}
 
+	@SuppressLint("NewApi")
 	private void comienzaSeguimientoBuses() {
 		invalidateOptionsMenu();
 		mTimerTask = new ActualizaBusesTimerTask();
 		mTimer.schedule(mTimerTask, 0, 10000);
 	}
-
+	
+	@SuppressLint("NewApi")
 	private void detieneSeguimientoBuses() {
 		invalidateOptionsMenu();
 		if (mTimerTask != null) {
@@ -376,7 +383,8 @@ public class MapaActivity extends SherlockMapActivity implements OnNavigationLis
 		mTimerTask = null;
 		mTimer.purge();
 	}
-
+	
+	@SuppressLint("NewApi")
 	private void startCercanas() {
 		esperandoPunto = true;
 		invalidateOptionsMenu();

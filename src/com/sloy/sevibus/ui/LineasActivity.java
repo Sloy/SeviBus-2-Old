@@ -1,6 +1,8 @@
 package com.sloy.sevibus.ui;
 
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,9 +25,6 @@ import com.jakewharton.activitycompat2.ActivityCompat2;
 import com.jakewharton.activitycompat2.ActivityOptionsCompat2;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
-import com.sloy.sevibus.utils.IntentParada;
-
-import java.util.List;
 
 public class LineasActivity extends SherlockActivity  {
 

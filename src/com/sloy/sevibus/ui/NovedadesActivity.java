@@ -56,7 +56,7 @@ public class NovedadesActivity extends SherlockFragmentActivity {
 			}
 		}
 		
-		SharedPreferences prefs = Datos.getPrefs();
+		SharedPreferences prefs = Datos.getPrefs(this);
 		if(prefs.getBoolean("novedadesPrimeraVez", true)){
 			Toast.makeText(this, "Puedes abrir los perfiles de Twitter desde el botón de arriba", Toast.LENGTH_LONG).show();
 			prefs.edit().putBoolean("novedadesPrimeraVez", false).commit();

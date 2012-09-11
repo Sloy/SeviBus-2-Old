@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -18,7 +17,6 @@ public class BusesOverlay extends ItemizedOverlay<OverlayItem> {
 	public static final String LAT_ZONE = "N";
 
 	private List<OverlayItem> mOverlays;
-	private Context mContext;
 
 	public BusesOverlay(Drawable defaultMarker, MapView mapView, Context context) {
 		super(boundCenter(defaultMarker));

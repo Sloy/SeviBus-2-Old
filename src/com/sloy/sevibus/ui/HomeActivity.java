@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -36,12 +34,7 @@ import com.sloy.sevibus.utils.IntentMapa;
 public class HomeActivity extends SherlockActivity {
 
 	private Activity mContext = this;
-	private SharedPreferences prefs;
-	private Button mBtCercanas, mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtAcerca, mBtNovedades, mBtNotificacionAbrir;
-	private ImageButton mBtNotificacionCerrar;
-	private View mNotificacion;
-	private Intent mNotificationAction;
-	private String mNotificationCode;
+	private Button mBtFavoritas, mBtLineas, mBtParadas, mBtMapa, mBtAcerca, mBtNovedades;
 
 	private MenuItem mDonarItem;
 
@@ -55,9 +48,6 @@ public class HomeActivity extends SherlockActivity {
 		getSupportActionBar().setDisplayUseLogoEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
 
-		prefs = Datos.getPrefs();
-
-		// mBtCercanas = (ImageButton) findViewById(R.id.main_cercanas_button);
 		mBtFavoritas = (Button) findViewById(R.id.main_favoritas_button);
 		mBtLineas = (Button) findViewById(R.id.main_lineas_button);
 		mBtParadas = (Button) findViewById(R.id.main_paradas_button);
@@ -65,16 +55,7 @@ public class HomeActivity extends SherlockActivity {
 		mBtAcerca = (Button) findViewById(R.id.main_acerca_button);
 		mBtNovedades = (Button) findViewById(R.id.main_novedades_button);
 
-		mNotificacion = findViewById(R.id.home_notification);
-		mBtNotificacionAbrir = (Button) findViewById(R.id.notification_text);
-		mBtNotificacionCerrar = (ImageButton) findViewById(R.id.notification_dismiss);
-
 		/* Establece los listeners */
-		/*
-		 * mBtCercanas.setOnClickListener(new View.OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { } });
-		 */
 		mBtFavoritas.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -135,30 +116,6 @@ public class HomeActivity extends SherlockActivity {
 				ActivityCompat2.startActivity(mContext, intent, options.toBundle());
 			}
 		});
-
-		mBtNotificacionAbrir.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				openNotification();
-			}
-		});
-		mBtNotificacionCerrar.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismissNotification();
-			}
-		});
-
-		// Muestra notificacion de twitter
-		/*
-		 * if(prefs.getBoolean("twitter", true)){ Intent i = new Intent(this,
-		 * NovedadesActivity.class); i.putExtra("default", "twitter");
-		 * showNotification
-		 * ("¡@SeviBus ahora está en Twitter! ¿No lo has visto? Pulsa aquí.", i,
-		 * "twitter");
-		 * 
-		 * }
-		 */
 	}
 
 	@Override
@@ -189,32 +146,13 @@ public class HomeActivity extends SherlockActivity {
 			donar();
 			break;
 		default:
-			break;
+			return false;
 		}
 		return true;
 	}
 
 	private void reportar() {
 		startActivity(new Intent(this, ReporteActivity.class));
-	}
-
-	private void showNotification(String text, Intent action, String code) {
-		mNotificacion.setVisibility(View.VISIBLE);
-		mNotificationAction = action;
-		mBtNotificacionAbrir.setText(text);
-		mNotificationCode = code;
-	}
-
-	private void openNotification() {
-		if (mNotificationAction != null) {
-			startActivity(mNotificationAction);
-		}
-		dismissNotification();
-	}
-
-	private void dismissNotification() {
-		mNotificacion.setVisibility(View.GONE);
-		prefs.edit().putBoolean(mNotificationCode, false).commit();
 	}
 
 	private class Navidad extends AsyncTask<Void, Void, Integer> {

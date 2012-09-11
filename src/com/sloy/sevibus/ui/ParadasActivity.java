@@ -82,7 +82,7 @@ public class ParadasActivity extends SherlockActivity {
 			Collections.sort(paradas, new Comparator<Entity>() {
 				@Override
 				public int compare(Entity lhs, Entity rhs) {
-					return new Integer(lhs.getString("numero")).compareTo(new Integer(rhs.getString("numero")));
+					return Integer.valueOf((lhs.getString("numero"))).compareTo(Integer.valueOf(rhs.getString("numero")));
 				}
 			});
 			mAdapter = new ParadasAdapter(this, paradas);
