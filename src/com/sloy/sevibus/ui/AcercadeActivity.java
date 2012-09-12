@@ -2,13 +2,19 @@ package com.sloy.sevibus.ui;
 
 
 
+import java.lang.reflect.Method;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.MeasureSpec;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -18,9 +24,9 @@ import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.ExpandAnimation;
 
-import java.lang.reflect.Method;
-
 public class AcercadeActivity extends SherlockActivity  {
+	
+	private int i = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,21 @@ public class AcercadeActivity extends SherlockActivity  {
 				TextView textNovedades = (TextView)findViewById(R.id.acercade_novedades_contenido_text);
 				int collapsedHeight = getResources().getDimensionPixelSize(R.dimen.collapsed_text_height);
 				expandOrCollapse(novedadesLayout, textNovedades, collapsedHeight, button);
+			}
+		});
+		((Button)findViewById(R.id.dedicatoria)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				i++;
+				if(i==10){
+					i=0;
+					ImageView img = new ImageView(AcercadeActivity.this);
+					img.setImageResource(R.drawable.itsasecret);					
+					Toast toast = new Toast(AcercadeActivity.this);
+					toast.setView(img);
+					toast.show();
+				}
 			}
 		});
 	}

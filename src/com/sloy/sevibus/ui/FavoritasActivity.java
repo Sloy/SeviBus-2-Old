@@ -23,6 +23,8 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.flurry.android.FlurryAgent;
 import com.google.common.collect.Lists;
+import com.jakewharton.activitycompat2.ActivityCompat2;
+import com.jakewharton.activitycompat2.ActivityOptionsCompat2;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.IntentEditarFavorita;
@@ -59,10 +61,12 @@ public class FavoritasActivity extends SherlockActivity {
 
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
 				if(mActionMode == null){
-					startActivity(new IntentParada(FavoritasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mFavoritas.get(pos).getLong(
-							"linea_id")));
+					Intent intent = new IntentParada(FavoritasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mFavoritas.get(pos).getLong(
+							"linea_id"));
+					ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(v, v.getWidth()/2, v.getHeight()/2, v.getWidth() ,v.getHeight());
+					ActivityCompat2.startActivity(FavoritasActivity.this, intent, options.toBundle());
 				}else{
 					selectedItem = pos;
 					mAdapter.notifyDataSetChanged();

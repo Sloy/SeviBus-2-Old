@@ -3,16 +3,10 @@
 
     <string name="app_name">SeviBus</string>
 
-    <string name="dedicatoria">Aplicación dedicada a esa persona que deseo tanto que se pase a visitarnos por Sevilla ;) </string>
+    <string name="dedicatoria">Dedicada a esa persona que tanto deseo que se pase a visitarnos por Sevilla ;) </string>
     <string name="email_address">rafa.vazsan+sevibus@gmail.com</string>
     <string name="email_subject">Reporte de SeviBus</string>
     <string name="email_intent">Enviar vía email…</string>
-    <string name="email_text_general">Escribe aquí lo que quieras. Intentaré responderte lo antes posible.\n</string>
-    <string name="email_text_parada">Parada %s\nEscribe aquí lo que quieras\n</string>
-    <string name="email_text_favoritas">Favoritas\nEscribe aquí lo que quieras\n</string>
-    <string name="email_text_lineas">Lineas\nEscribe aquí lo que quieras\n</string>
-    <string name="email_text_paradas">Paradas de la línea %s\nEscribe aquí lo que quieras\n</string>
-    <string name="email_text_mapa">Mapa\nEscribe aquí lo que quieras\n</string>
 
     <string name="aviso">Sobre la fiabilidad de los datos. Debo advertir que SeviBus no hace los cálulos, los obtiene directamente desde Tussam. Si en algún momento no son demasiado exactos o directamente no están disponibles no es culpa de la aplicación sino de la propia Tussam.
 \n
@@ -72,4 +66,6 @@
         \nSi necesitas contactar conmigo puedes hacerlo desde Twitter a través de dicha cuenta, o mediante correo electrónico (en la pantalla principal o en la del Play Store).
         \n
         \nPodéis ver el perfil completo de la cuenta y seguirlo pulsando el globo de arriba.</string>
+        
+    <string name="reporte_info">Rellena el formulario a continuación y pulsa el botón de arriba para enviar el reporte a través de tu aplicación de correo. Te responderé lo antes posible.</string>
 </resources>

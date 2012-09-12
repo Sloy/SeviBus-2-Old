@@ -4,14 +4,13 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="5dip" >
+    android:padding="10dip" >
 
     <TextView
         android:id="@+id/item_linea_nombre"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="5dip"
-        android:layout_weight="5"
+        android:layout_marginRight="10dip"
         android:gravity="center_horizontal"
         android:textColor="#990000"
         android:textSize="17sp"
@@ -25,10 +24,9 @@
 
     <TextView
         android:id="@+id/item_linea_trayecto"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dip"
-        android:layout_weight="1"
         android:textSize="16sp" />
 
 </LinearLayout>

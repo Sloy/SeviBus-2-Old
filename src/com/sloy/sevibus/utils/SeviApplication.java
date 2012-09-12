@@ -18,9 +18,8 @@ public class SeviApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-		Datos.initialize(this);
-		int lastVersion = Datos.getPrefs().getInt(Datos.DB_VERSION, 0);
-		int currentVersion = Datos.getAppVersion();
+		int lastVersion = Datos.getPrefs(this).getInt(Datos.DB_VERSION, 0);
+		int currentVersion = Datos.getAppVersion(this);
 		/* DB stuff */
 
 		// Si no hay base de datos, la crea
@@ -49,7 +48,7 @@ public class SeviApplication extends Application {
 				List<FavoritosHelper> favoritos = Lists.newArrayList();
 				// antes de la versión 13 las favoritas tenían menos columnas,
 				// cuidado
-				if(Datos.getPrefs().getInt(Datos.DB_VERSION, 0) < 14){
+				if(Datos.getPrefs(this).getInt(Datos.DB_VERSION, 0) < 14){
 					db.getDB().execSQL("ALTER TABLE favoritas ADD linea_id INTEGER");
 					db.getDB().execSQL("ALTER TABLE favoritas ADD orden INTEGER");
 					db.getDB().execSQL("ALTER TABLE favoritas ADD usada INTEGER");
@@ -104,7 +103,7 @@ public class SeviApplication extends Application {
 				}
 
 				// Actualizamos la versión
-				Datos.getPrefs().edit().putInt(Datos.DB_VERSION, Datos.getAppVersion()).commit();
+				Datos.getPrefs(this).edit().putInt(Datos.DB_VERSION, Datos.getAppVersion(this)).commit();
 
 			}catch(Exception e){
 				Log.e("sevibus", "Error actualizando la base de datos", e);

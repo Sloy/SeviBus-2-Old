@@ -1,6 +1,8 @@
 package com.sloy.sevibus.ui;
 
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +21,10 @@ import com.actionbarsherlock.view.MenuItem;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.flurry.android.FlurryAgent;
+import com.jakewharton.activitycompat2.ActivityCompat2;
+import com.jakewharton.activitycompat2.ActivityOptionsCompat2;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
-
-import java.util.List;
 
 public class LineasActivity extends SherlockActivity  {
 
@@ -42,11 +44,12 @@ public class LineasActivity extends SherlockActivity  {
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				Intent i = new Intent(LineasActivity.this,ParadasActivity.class);
-				i.putExtra("linea", mAdapter.getItemId(pos));
-				i.putExtra("nombre", mAdapter.getItem(pos).getString("nombre"));
-				startActivity(i);
+			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
+				Intent intent = new Intent(LineasActivity.this,ParadasActivity.class);
+				intent.putExtra("linea", mAdapter.getItemId(pos));
+				intent.putExtra("nombre", mAdapter.getItem(pos).getString("nombre"));
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(v, v.getWidth()/2, v.getHeight()/2, v.getWidth() ,v.getHeight());
+				ActivityCompat2.startActivity(LineasActivity.this, intent, options.toBundle());
 			}
 		});
 		DataFramework db = null;
@@ -122,24 +125,12 @@ public class LineasActivity extends SherlockActivity  {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
-			case R.id.menu_reportar:
-				reportar();
-				return true;
 			case android.R.id.home:
 				startActivity(new Intent(this, HomeActivity.class));
 				return true;
 			default:
 				return false;
 		}
-	}
-	
-	private void reportar(){
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.email_text_lineas));
-		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
 
 }

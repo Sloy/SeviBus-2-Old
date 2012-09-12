@@ -5,10 +5,10 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 >
-	<com.google.android.maps.MapView
+	<com.readystatesoftware.maps.TapControlledMapView
 		android:id="@+id/mapa_mapview"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:clickable="true"
-		android:apiKey="0Q4fhT640X3ZvVVSHnfDtfEu6swwevsX7e14XGQ" />
+		android:apiKey="0Q4fhT640X3Z54IjqZ_7hMnXX_VEFWKzQkkQdmg" />
 </LinearLayout>

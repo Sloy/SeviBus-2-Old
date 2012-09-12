@@ -13,15 +13,11 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -40,7 +36,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -49,26 +44,9 @@ import com.google.common.collect.Lists;
 public class Utils {
 
 	public static String URL_XML = "http://www.infobustussam.com:9005/tussamGO/Resultados?op=ep&ls=%s&st=%d"; // 1.linea
-	private static final String URL_SOAP = "http://www.infobustussam.com:9001/services/dinamica.asmx";
-	private static final String BODY_SOAP = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetPasoParada xmlns=\"http://tempuri.org/\"><linea>%1s</linea><parada>%2s</parada><status>1</status></GetPasoParada></soap:Body></soap:Envelope>"; // 2.parada
-
-	public static String suputamadre(URL url) throws IOException {
-		HttpURLConnection c = (HttpURLConnection)url.openConnection();
-		c.setRequestMethod("GET");
-		c.setReadTimeout(15 * 1000);
-		// c.setRequestProperty("Authorization", "Basic " + authStringEnc);
-		c.setUseCaches(false);
-		c.connect();
-		// read the output from the server
-		BufferedReader reader = new BufferedReader(new InputStreamReader(c.getInputStream()));
-		StringBuilder stringBuilder = new StringBuilder();
-		String line = null;
-		while((line = reader.readLine()) != null){
-			stringBuilder.append(line + "\n");
-		}
-		String fuck = stringBuilder.toString();
-		return fuck;
-	}
+	private static final String URL_SOAP_DINAMICA = "http://www.infobustussam.com:9001/services/dinamica.asmx";
+	private static final String BODY_SOAP_TIEMPOS = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetPasoParada xmlns=\"http://tempuri.org/\"><linea>%1s</linea><parada>%2s</parada><status>1</status></GetPasoParada></soap:Body></soap:Envelope>"; // 2.parada
+	private static final String BODY_SOAP_BUSES = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetVehiculos xmlns=\"http://tempuri.org/\"><linea>%1s</linea></GetVehiculos></soap:Body></soap:Envelope>";
 
 	public static Integer[][] getTiemposXml(String linea, int parada) {
 		Integer[][] res = null;
@@ -114,7 +92,7 @@ public class Utils {
 		try{
 			SAXParser parser = factory.newSAXParser();
 			TiemposHandler handler = new TiemposHandler();
-			InputStream is = getInputStream(linea.getString("nombre"), parada.toString());
+			InputStream is = getTiemposInputStream(linea.getString("nombre"), parada.toString());
 			parser.parse(is, handler);
 			handler.configurarLlegada(res);
 		}catch(IllegalArgumentException e){
@@ -125,11 +103,31 @@ public class Utils {
 		}
 		return res;
 	}
+	
+	public static List<BusLocation> getBuses(String linea) throws ServerErrorException{
+		List<BusLocation> res = null;
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		try{
+			SAXParser parser = factory.newSAXParser();
+			BusesHandler handler = new BusesHandler();
+			InputStream is = getBusesInputStream(linea);
+			parser.parse(is, handler);
+			res = handler.getBuses();
+		}catch(IllegalArgumentException e){
+			Log.e("sevibus", "Error con el InputStream", e);
+			throw new ServerErrorException();
+		}catch(Exception e){
+			throw new RuntimeException(e);
+		}
+		
+		return res;
+		
+	}
 
-	private static InputStream getInputStream(String linea, String parada) {
+	private static InputStream getTiemposInputStream(String linea, String parada) {
 		InputStream res = null;
 		try{
-			URL url = new URL(URL_SOAP);
+			URL url = new URL(URL_SOAP_DINAMICA);
 			HttpURLConnection c = (HttpURLConnection)url.openConnection();
 			c.setRequestMethod("POST");
 			c.setReadTimeout(15 * 1000);
@@ -140,7 +138,7 @@ public class Utils {
 			c.connect();
 
 			OutputStreamWriter wr = new OutputStreamWriter(c.getOutputStream());
-			String data = String.format(BODY_SOAP, linea, parada);
+			String data = String.format(BODY_SOAP_TIEMPOS, linea, parada);
 			wr.write(data);
 			wr.flush();
 
@@ -154,10 +152,39 @@ public class Utils {
 
 	}
 	
+	private static InputStream getBusesInputStream(String linea) {
+		InputStream res = null;
+		try{
+			URL url = new URL(URL_SOAP_DINAMICA);
+			HttpURLConnection c = (HttpURLConnection)url.openConnection();
+			c.setRequestMethod("POST");
+			c.setReadTimeout(15 * 1000);
+			c.setDoOutput(true);
+			// c.setFixedLengthStreamingMode(contentLength)
+			c.setUseCaches(false);
+			c.setRequestProperty("Content-Type", "text/xml");
+			c.connect();
+
+			OutputStreamWriter wr = new OutputStreamWriter(c.getOutputStream());
+			String data = String.format(BODY_SOAP_BUSES, linea);
+			wr.write(data);
+			wr.flush();
+
+			res = c.getInputStream();
+		}catch(MalformedURLException e){
+			Log.e("sevibus", "Error al obtener la fuente de los autobuses", e);
+		}catch(IOException e){
+			Log.e("sevibus", "Error al obtener la fuente de los autobuses", e);
+		}
+		return res;
+
+	}
+	
 	private static Predicate<Twt> isReply = new Predicate<Twt>() {
 		@Override
 		public boolean apply(Twt status) {
-			return !status.getText().startsWith("@");
+			// Excluye replys y retweets
+			return !status.getText().startsWith("@") && !status.getText().startsWith("RT ");
 		}
 	};
 	
@@ -176,102 +203,6 @@ public class Utils {
 		return Lists.newArrayList(Collections2.filter(statuses, isReply));
 	}
 
-	public static void descargarRelaciones(DataFramework db) throws MalformedURLException, IOException, JSONException {
-		String jsonAPelo = Utils.suputamadre(new URL("http://sevibus.appspot.com/getinfo?objeto=linea"));
-		JSONArray array = new JSONArray(jsonAPelo); // array con todas las
-													// líneas en formato json
-		for(int i = 0; i < array.length(); i++){
-			JSONObject linea = array.getJSONObject(i); // para cada línea
-														// individual
-			String nombre = linea.getString("nombre"); // saco el nombre
-			Entity lineaEntity = db.getTopEntity("lineas", "nombre = '" + nombre + "'", null); // saco
-																								// la
-																								// entidad
-																								// de
-																								// la
-																								// línea
-			if(lineaEntity == null){// la línea no existe (imposible, porque las
-									// estoy leyendo de la misma lista que
-									// guardé
-				Log.e("sevibus", "Error: no se encontró la línea " + nombre + ", pero se intentó crear una relación con ella");
-				continue;
-			}
-			JSONArray paradas = linea.getJSONArray("paradas"); // cojo el array
-																// de paradas en
-																// esta línea
-			List<Integer> paradasList = Lists.newArrayList();
-			for(int j = 0; j < paradas.length(); j++){
-				paradasList.add(paradas.getInt(j)); // Me creo una lista de
-													// integers que me gustan
-													// más
-			}
-			Collections.sort(paradasList); // me la ordena, que no quiero líos
-			for(Integer parada : paradasList){ // para cada parada de esta línea
-				Entity paradaEntity = db.getTopEntity("paradas", "numero = " + parada, null); // sacp
-																								// la
-																								// entidad
-																								// de
-																								// la
-																								// parada
-				if(paradaEntity == null){
-					Log.e("sevibus", "Error: no se encontró la parada " + parada + ", pero se intentó crear una relación con ella");
-					continue;
-				}
-				// busco si hay ya o no una relación con esta parada y esta
-				// línea
-				Entity relacion = db.getTopEntity("relaciones", "parada_id = " + paradaEntity.getId() + " AND linea_id = " + lineaEntity.getId(),
-						null);
-				if(relacion == null){
-					// no existe, la creo
-					relacion = new Entity("relaciones");
-					relacion.setValue("linea_id", lineaEntity.getId());
-					relacion.setValue("parada_id", paradaEntity.getId());
-					relacion.save();
-				}
-			}
-		}
-	}
-
-	public static void descargarParadas() throws MalformedURLException, IOException, JSONException {
-		String jsonAPelo = Utils.suputamadre(new URL("http://sevibus.appspot.com/getinfo?objeto=parada"));
-		JSONArray array = new JSONArray(jsonAPelo);
-		for(int i = 0; i < array.length(); i++){
-			JSONObject parada = array.getJSONObject(i);
-			int numero = parada.getInt("numero");
-			String nombre = parada.getString("nombre");
-			String direccion = parada.optString("direccion", "");
-			double latitud = parada.optDouble("latitud");
-			double longitud = parada.optDouble("longitud");
-
-			Entity e = new Entity("paradas");
-			e.setValue("numero", numero);
-			e.setValue("nombre", nombre);
-			e.setValue("direccion", direccion);
-			e.setValue("latitud", latitud);
-			e.setValue("longitud", longitud);
-			e.save();
-		}
-	}
-
-	private void descargarLineas() throws MalformedURLException, IOException, JSONException {
-		String jsonAPelo = Utils.suputamadre(new URL("http://sevibus.appspot.com/getinfo?objeto=linea"));
-		JSONArray array = new JSONArray(jsonAPelo);
-		for(int i = 0; i < array.length(); i++){
-			JSONObject linea = array.getJSONObject(i);
-			String nombre = linea.getString("nombre");
-			String trayecto = linea.getString("descripcion");
-			boolean circular = linea.optBoolean("circular", false);
-			int color = linea.optInt("color", 0);
-
-			Entity e = new Entity("lineas");
-			e.setValue("nombre", nombre);
-			e.setValue("trayecto", trayecto);
-			e.setValue("circular", circular);
-			e.setValue("color", color);
-			e.save();
-		}
-	}
-
 	private static String DB_PATH = "/data/data/com.sloy.sevibus/databases/";
 	private static String DB_NAME = "sevibus.db";
 
@@ -282,7 +213,7 @@ public class Utils {
 			try{
 				copyDataBase(context);
 				Log.i("sevibus", "Regenerada la base de datos");
-				Datos.getPrefs().edit().putInt(Datos.DB_VERSION, Datos.getAppVersion()).commit();
+				Datos.getPrefs(context).edit().putInt(Datos.DB_VERSION, Datos.getAppVersion(context)).commit();
 			}catch(IOException e){
 				throw new Error("Error copying database: " + e.getMessage());
 			}
@@ -303,7 +234,7 @@ public class Utils {
 			checkDB.close();
 		}
 
-		return checkDB != null ? true : false;
+		return checkDB != null;
 	}
 
 	static public void copyDataBase(Context context) throws IOException {

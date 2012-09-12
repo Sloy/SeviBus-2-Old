@@ -3,7 +3,6 @@ package com.sloy.sevibus.utils;
 import android.content.Context;
 import android.content.Intent;
 
-import com.sloy.sevibus.R;
 import com.sloy.sevibus.ui.ParadaInfoActivity;
 
 public class IntentParada extends Intent {

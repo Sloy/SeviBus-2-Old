@@ -5,37 +5,6 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="vertical" >
-
-    <RelativeLayout
-        android:id="@+id/home_notification"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#F5DD7D"
-        android:gravity="center_vertical"
-        android:visibility="gone" >
-
-        <Button
-            android:id="@+id/notification_text"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/notification_dismiss"
-            android:background="@drawable/button_trans"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dip"
-            android:text="¡@SeviBus ahora tiene Twitter! ¿No lo has visto? Pulsa aquí."
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <ImageButton
-            android:id="@+id/notification_dismiss"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/button_trans"
-            android:padding="5dip"
-            android:src="@drawable/ic_menu_close_clear_cancel" />
-    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/home_dashboard_row1"

@@ -16,6 +16,8 @@ import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.flurry.android.FlurryAgent;
 import com.google.common.collect.Lists;
+import com.jakewharton.activitycompat2.ActivityCompat2;
+import com.jakewharton.activitycompat2.ActivityOptionsCompat2;
 import com.sloy.sevibus.R;
 import com.sloy.sevibus.utils.Datos;
 import com.sloy.sevibus.utils.IntentMapa;
@@ -57,8 +59,10 @@ public class ParadasActivity extends SherlockActivity {
 		mList = (ListView)findViewById(android.R.id.list);
 		mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				startActivity(new IntentParada(ParadasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mLineaID));
+			public void onItemClick(AdapterView<?> arg0, View v, int pos, long arg3) {
+				Intent intent = new IntentParada(ParadasActivity.this, mAdapter.getItem(pos).getId()).setLinea(mLineaID);
+				ActivityOptionsCompat2 options = ActivityOptionsCompat2.makeScaleUpAnimation(v, v.getWidth()/2, v.getHeight()/2, v.getWidth() ,v.getHeight());
+				ActivityCompat2.startActivity(ParadasActivity.this, intent, options.toBundle());
 			}
 		});
 		DataFramework db = null;
@@ -77,7 +81,7 @@ public class ParadasActivity extends SherlockActivity {
 			Collections.sort(paradas, new Comparator<Entity>() {
 				@Override
 				public int compare(Entity lhs, Entity rhs) {
-					return new Integer(lhs.getString("numero")).compareTo(new Integer(rhs.getString("numero")));
+					return Integer.valueOf((lhs.getString("numero"))).compareTo(Integer.valueOf(rhs.getString("numero")));
 				}
 			});
 			mAdapter = new ParadasAdapter(this, paradas);
@@ -108,9 +112,6 @@ public class ParadasActivity extends SherlockActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
-			case R.id.menu_reportar:
-				reportar();
-				return true;
 			case R.id.menu_mapa:
 				startActivity(new IntentMapa(this).setLinea(mLineaID));
 				return true;
@@ -120,14 +121,5 @@ public class ParadasActivity extends SherlockActivity {
 			default:
 				return false;
 		}
-	}
-
-	private void reportar() {
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		emailIntent.setType("plain/text");
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{getString(R.string.email_address)});
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.email_subject));
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, String.format(getString(R.string.email_text_paradas), mLinea));
-		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
 	}
 }

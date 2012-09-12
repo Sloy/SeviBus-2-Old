@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:installLocation="preferExternal"
     package="com.sloy.sevibus"
-    android:versionCode="32"
+    android:installLocation="preferExternal"
+    android:versionCode="33"
     android:versionName="@string/app_version" >
 
     <uses-sdk
@@ -40,7 +40,9 @@
         </activity>
         <activity android:name=".ui.ParadaInfoActivity" >
         </activity>
-        <activity android:name=".ui.MapaActivity" >
+        <activity
+            android:name=".ui.MapaActivity"
+            android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
         <activity android:name=".ui.FavoritasActivity" >
         </activity>
@@ -49,6 +51,7 @@
         </activity>
         <activity android:name=".ui.ParadasBusquedaActivity" />
         <activity android:name=".ui.NovedadesActivity" />
+        <activity android:name=".ui.ReporteActivity" />
     </application>
 
 </manifest>
