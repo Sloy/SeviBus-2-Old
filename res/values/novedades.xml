@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.3.6</string>
-    <string name="app_date">14 de julio de 2012</string>
-    <string name="novedades">La cuenta de Twitter de @TussamSevilla se ha fusionado en la de @Ayto_Sevilla. 
-        \nHe cambiado la pestaña correspondiente por los tweets de dicha cuenta referentes a Tussam.
-        \n
-        \nSi te interesa la programación debes saber que el código de SeviBus está liberado en http://sloy.github.com/SeviBus, puedes consultarlo y colaborar si quieres.
-        \n
-        \nHay más cambios pendientes, pero aún no está claro cómo evolucionará la aplicación. Cualquier cosa la avisaré por la cuenta de @SeviBus. </string>
+    <string name="app_version">2.4</string>
+    <string name="app_date">12 de septiembre de 2012</string>
+    <string name="novedades">El fin del verano también trae cosas buenas, como otra actualización de SeviBus.
+        \n\nHe mejorado el mapa, añadiendo 2 funciones que muchos habéis pedido: paradas cercanas y posición en tiempo real de los autobuses. Sí sí, tal como lees. Pásate por el mapa y pruébalo.
+        \n\nAunque esos son los cambios más destacables, también hay otros como la nueva pantalla de Reporte (para intentar evitar tanta confusión), algunos ajustes a la interfaz (fondo blanco, ActionBar más al estilo Holo), nuevas animaciones para Jelly Bean, y algunas pequeñas correcciones.</string>
 
 </resources>
