@@ -184,7 +184,7 @@ public class Utils {
 		@Override
 		public boolean apply(Twt status) {
 			// Excluye replys y retweets
-			return !status.getText().startsWith("@") || !status.getText().startsWith("RT ");
+			return !status.getText().startsWith("@") && !status.getText().startsWith("RT ");
 		}
 	};
 	
