@@ -171,13 +171,14 @@
                 android:layout_marginBottom="10dip"
                 android:background="#8d545c" />
 
-            <TextView
+            <Button
                 android:id="@+id/dedicatoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
                 android:gravity="center_horizontal"
                 android:text="@string/dedicatoria"
+                android:background="@drawable/button_trans_normal"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </LinearLayout>
