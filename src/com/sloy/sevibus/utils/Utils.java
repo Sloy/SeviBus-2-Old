@@ -13,7 +13,9 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -36,6 +38,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -267,6 +270,48 @@ public class Utils {
 		myOutput.flush();
 		myOutput.close();
 		myInput.close();
+	}
+	
+	public static Map<Integer, String> getFavoritas(Context context){
+		Map<Integer,String> res = new HashMap<Integer,String>();
+		DataFramework db = null;
+		try{
+			db = DataFramework.getInstance();
+			db.open(context, context.getPackageName());
+			List<Entity> entities = db.getEntityList("favoritas");
+			for(Entity f: entities){
+				Entity p = db.getTopEntity("paradas", "_id = "+f.getInt("parada_id"), null);
+				res.put(p.getInt("numero"), f.getString("descripcion"));
+			}
+		}catch(Exception e){
+			Log.e("SeviBus", "Rayos! Problema al salvar las favoritas. Me parece que las vas a perder :(");
+		}
+		if(db!=null){
+			db.close();
+		}
+		return res;
+	}
+	
+	public static void saveFavoritas(Context context, Map<Integer,String> favoritas){
+		DataFramework db = null;
+		try{
+			db = DataFramework.getInstance();
+			db.open(context, context.getPackageName());
+			for(Integer i: favoritas.keySet()){
+				// Busca la parada correspondiente y guarda una nueva favorita
+				Entity p = db.getTopEntity("paradas", "numero = "+i, null);
+				Entity f = new Entity("favoritas");
+				int id = (int) p.getId();
+				f.setValue("parada_id", id);
+				f.setValue("descripcion", favoritas.get(i));
+				f.save();
+			}
+		}catch(Exception e){
+			Log.e("SeviBus", "Rayos! Problema al salvar las favoritas. Me parece que las vas a perder :(");
+		}
+		if(db!=null){
+			db.close();
+		}
 	}
 
 	public static boolean isNetworkAvailable(Context ctx) {
