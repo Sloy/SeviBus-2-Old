@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.4.1</string>
-    <string name="app_date">27 de septiembre de 2012</string>
-    <string name="novedades">El pasado lunes 24 de septiembre Tussam hizo efectivos varios cambios en sus líneas y paradas. Actualmente SeviBus lo lleva una persona sola (yo), y por suerte o por desgracia estoy de viaje en otro país sin mi ordenador y herramientas necesarias para actualizar la aplicación. \n\n Con la ayuda de mis amigos Sergio Rodriguez y @RedInput he podido sacar esta actualización. No ha sido probada tan a fondo como normalmente por los motivos anteriores, disculpad si algo no funciona bien, lo hago así porque son demasiados correos los que he recibido pidiendo los nuevos datos. \n\n Siento las posibles molestias, pronto volveré a la normalidad y seguiré trabajando en cosas nuevas para la aplicación.</string>
+    <string name="app_version">2.4.2</string>
+    <string name="app_date">2 de octubre de 2012</string>
+    <string name="novedades">[2.4.2] Corregidos Mapa y pantalla de Paradas. \n\n[2.4.1] El pasado lunes 24 de septiembre Tussam hizo efectivos varios cambios en sus líneas y paradas. Actualmente SeviBus lo lleva una persona sola (yo), y por suerte o por desgracia estoy de viaje en otro país sin mi ordenador y herramientas necesarias para actualizar la aplicación. \n\n Con la ayuda de mis amigos Sergio Rodriguez y @RedInput he podido sacar esta actualización. No ha sido probada tan a fondo como normalmente por los motivos anteriores, disculpad si algo no funciona bien, lo hago así porque son demasiados correos los que he recibido pidiendo los nuevos datos. \n\n Siento las posibles molestias, pronto volveré a la normalidad y seguiré trabajando en cosas nuevas para la aplicación.</string>
 
 </resources>
