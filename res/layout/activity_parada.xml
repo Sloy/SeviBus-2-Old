@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -46,7 +47,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
-            
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#990000"
             android:textSize="18sp" />
@@ -118,11 +118,22 @@
             style="@style/paradaListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:choiceMode="none" 
-            android:fadingEdge="none">
+            android:choiceMode="none"
+            android:fadingEdge="none" >
 
             <!-- Preview: listitem=@layout/item_list_llegada -->
         </ListView>
     </LinearLayout>
+
+    <com.google.ads.AdView
+        android:id="@+id/ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        ads:adSize="BANNER"
+        ads:adUnitId="a14cc96edfe9f6a"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="TEST_EMULATOR" />
 
 </LinearLayout>
