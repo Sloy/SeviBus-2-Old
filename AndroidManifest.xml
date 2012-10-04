@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sloy.sevibus"
     android:installLocation="preferExternal"
-    android:versionCode="37"
+    android:versionCode="38"
     android:versionName="@string/app_version" >
 
     <uses-sdk
