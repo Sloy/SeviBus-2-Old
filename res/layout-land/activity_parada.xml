@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:id="@+id/parada_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -76,6 +77,16 @@
                 android:text="@string/ver_en_el_mapa"
                 android:textSize="17dip" />
         </LinearLayout>
+        
+        <com.google.ads.AdView
+	        android:id="@+id/ad"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:gravity="bottom"
+	        ads:adSize="BANNER"
+	        ads:adUnitId="a14cc96edfe9f6a"
+	        ads:loadAdOnCreate="true"
+	        ads:testDevices="TEST_EMULATOR,9E0C7124F2AB397659D6DCBF2ED73B26" />
     </LinearLayout>
 
     <View

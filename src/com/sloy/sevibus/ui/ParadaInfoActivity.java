@@ -203,26 +203,28 @@ public class ParadaInfoActivity extends SherlockActivity {
 		if (Datos.getPrefs(this).getBoolean("mostrar_explicacion", true)){
 
 			mExplicacionAbrir = (Button) findViewById(R.id.parada_explicacion_abrir);
-
-			mExplicacionAbrir.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					new AlertDialog.Builder(ParadaInfoActivity.this)
-							.setTitle("¿¿Publicidad??")
-							.setMessage(R.string.explicacion_publi)
-							.setPositiveButton("Entendido!",
-									new DialogInterface.OnClickListener() {
-										@Override
-										public void onClick(
-												DialogInterface arg0, int arg1) {
-											ocultarExplicacion();
-										}
-									}).setNegativeButton("Leer luego", null)
-							.create().show();
-				}
-			});
-
-			mostrarExplicacion();
+			
+			// Condicional para evitar errores en la orientación horizontal, que no tiene el botón 
+			if(mExplicacionAbrir!=null){
+				mExplicacionAbrir.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						new AlertDialog.Builder(ParadaInfoActivity.this)
+								.setTitle("¿¿Publicidad??")
+								.setMessage(R.string.explicacion_publi)
+								.setPositiveButton("Entendido!",
+										new DialogInterface.OnClickListener() {
+											@Override
+											public void onClick(
+													DialogInterface arg0, int arg1) {
+												ocultarExplicacion();
+											}
+										}).setNegativeButton("Leer luego", null)
+								.create().show();
+					}
+				});
+				mostrarExplicacion();
+			}
 		}
 
 		mList.setChoiceMode(ListView.CHOICE_MODE_NONE);
