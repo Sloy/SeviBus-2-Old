@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.4</string>
-    <string name="app_date">12 de septiembre de 2012</string>
-    <string name="novedades">El fin del verano también trae cosas buenas, como otra actualización de SeviBus.
-        \n\nHe mejorado el mapa, añadiendo 2 funciones que muchos habéis pedido: paradas cercanas y posición en tiempo real de los autobuses. Sí sí, tal como lees. Pásate por el mapa y pruébalo.
-        \n\nAunque esos son los cambios más destacables, también hay otros como la nueva pantalla de Reporte (para intentar evitar tanta confusión), algunos ajustes a la interfaz (fondo blanco, ActionBar más al estilo Holo), nuevas animaciones para Jelly Bean, y algunas pequeñas correcciones.</string>
-
+    <string name="app_version">2.4.3</string>
+    <string name="app_date">4 de octubre de 2012</string>
+    <string name="novedades">Lo que más destacará de esta versión es la inclusión de anuncios. He puesto un botón sobre los anuncios para quien quiera conocer mis motivos, así que no comentaré nada más sobre eso aquí.
+        \n\nTambién he corregido la pantalla de paradas que a muchos le fallaba al intentar abrirla desde la última actualización, y lo mismo con el mapa. Si queréis saber a qué se han debido tantos problemas en estas semanas estad atentos a la cuenta de Twitter de @SeviBus porque dejaré ahí una explicación oficial.
+        \n\nQuizá pase un tiempo antes de volver a ver novedades en la aplicación, pues empezaré a trabajar en SeviBus 3.0 y llevará su tiempo. A menos que tenga que corregir algún otro fallo, hasta entonces.</string>
 </resources>

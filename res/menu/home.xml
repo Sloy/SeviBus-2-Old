@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
-        android:id="@+id/menu_donar"
-        android:icon="@drawable/ic_action_donate"
-        android:showAsAction="always|withText"
-        android:title="Donar"/>
+    
     <item
         android:id="@+id/menu_reportar"
         android:icon="@drawable/ic_action_reportar"
         android:showAsAction="always|withText"
         android:title="Reportar"/>
+    <item
+        android:id="@+id/menu_donar"
+        android:icon="@drawable/ic_action_donate"
+        android:showAsAction="never"
+        android:title="Invítame a un café"/>
     <!-- <item
         android:id="@+id/menu_opciones"
         android:icon="@drawable/ic_action_opciones"

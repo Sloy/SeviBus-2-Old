@@ -1,128 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/parada_seccion_nombre"
+    <com.sloy.sevibus.utils.CheckableLineaLayout
+        android:id="@+id/parada_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dip" >
+        android:layout_height="match_parent"
+        android:layout_above="@+id/parada_explicacion_abrir" >
 
-        <TextView
-            android:id="@+id/parada_nombre_numero"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#990000"
-            android:textSize="19sp" />
-
-        <View
-            android:id="@+id/view1"
+        <LinearLayout
+            android:id="@+id/parada_main"
             android:layout_width="match_parent"
-            android:layout_height="3dip"
-            android:background="#8d545c" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/parada_nombre_nombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/parada_seccion_direccion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dip" >
-
-        <TextView
-            android:id="@+id/parada_direccion_direccion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#990000"
-            android:textSize="18sp" />
-
-        <View
-            android:id="@+id/View01"
-            android:layout_width="match_parent"
-            android:layout_height="3dip"
-            android:background="#8d545c" />
-
-        <Button
-            android:id="@+id/parada_direccion_mapa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="20dip"
-            android:background="@drawable/button_trans"
-            android:drawableRight="@drawable/arrow"
-            android:padding="5dip"
-            android:text="@string/ver_en_el_mapa"
-            android:textSize="17dip" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/parada_seccion_llegadas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dip" >
-
-        <RelativeLayout
-            android:id="@+id/parada_llegadas_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip" >
-
-            <TextView
-                android:id="@+id/TextView03"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/parada_seccion_nombre"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_gravity="bottom"
-                android:layout_marginTop="18dp"
-                android:text="@string/tiempos_de_llegada"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#990000"
-                android:textSize="19sp" />
+                android:orientation="vertical"
+                android:padding="10dip" >
 
-            <ImageButton
-                android:id="@+id/parada_llegadas_actualizar"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/parada_nombre_numero"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#990000"
+                    android:textSize="19sp" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dip"
+                    android:background="#8d545c" />
+
+                <TextView
+                    android:id="@+id/parada_nombre_nombre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dip"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/parada_seccion_direccion"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/TextView03"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="bottom"
-                android:background="@drawable/button_trans"
-                android:padding="1dip"
-                android:src="@drawable/ic_menu_refresh" />
-        </RelativeLayout>
+                android:orientation="vertical"
+                android:padding="10dip" >
 
-        <View
-            android:id="@+id/View02"
-            android:layout_width="match_parent"
-            android:layout_height="3dip"
-            android:background="#8d545c" />
+                <TextView
+                    android:id="@+id/parada_direccion_direccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dip"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#990000"
+                    android:textSize="18sp" />
 
-        <ListView
-            android:id="@android:id/list"
-            style="@style/paradaListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:choiceMode="none" 
-            android:fadingEdge="none">
+                <View
+                    android:id="@+id/View01"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dip"
+                    android:background="#8d545c" />
 
-            <!-- Preview: listitem=@layout/item_list_llegada -->
-        </ListView>
-    </LinearLayout>
+                <Button
+                    android:id="@+id/parada_direccion_mapa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="20dip"
+                    android:background="@drawable/button_trans"
+                    android:drawableRight="@drawable/arrow"
+                    android:padding="5dip"
+                    android:text="@string/ver_en_el_mapa"
+                    android:textSize="17dip" />
+            </LinearLayout>
 
-</LinearLayout>
+            <LinearLayout
+                android:id="@+id/parada_seccion_llegadas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dip" >
+
+                <RelativeLayout
+                    android:id="@+id/parada_llegadas_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip" >
+
+                    <TextView
+                        android:id="@+id/TextView03"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/tiempos_de_llegada"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#990000"
+                        android:textSize="19sp" />
+
+                    <ImageButton
+                        android:id="@+id/parada_llegadas_actualizar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/TextView03"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/button_trans"
+                        android:padding="1dip"
+                        android:src="@drawable/ic_menu_refresh" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/View02"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dip"
+                    android:background="#8d545c" />
+
+                <ListView
+                    android:id="@android:id/list"
+                    style="@style/paradaListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:choiceMode="none"
+                    android:fadingEdge="none" >
+
+                    <!-- Preview: listitem=@layout/item_list_llegada -->
+                </ListView>
+            </LinearLayout>
+        </LinearLayout>
+    </com.sloy.sevibus.utils.CheckableLineaLayout>
+
+    <Button
+        android:id="@+id/parada_explicacion_abrir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ad"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/button_trans"
+        android:padding="10dip"
+        android:text="¿Por qué ahora me aparece publicidad?"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:visibility="gone" />
+
+    <com.google.ads.AdView
+        android:id="@+id/ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="a14cc96edfe9f6a"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="TEST_EMULATOR,9E0C7124F2AB397659D6DCBF2ED73B26" />
+
+</RelativeLayout>
