@@ -15,6 +15,7 @@
         android:gravity="center_horizontal"
         android:textColor="#990000"
         android:textSize="17sp"
+        android:text="01"
         android:textStyle="bold" />
 
     <View
@@ -29,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dip"
         android:layout_weight="1"
+        android:text="mir millone de año"
         android:textSize="16sp" />
 
 </LinearLayout>
