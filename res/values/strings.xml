@@ -42,7 +42,7 @@
 
     <string name="favoritas">Favoritas</string>
 
-    <string name="lineas">Lineas</string>
+    <string name="lineas">Líneas</string>
 
     <string name="acerca_de">Acerca de</string>
 
@@ -69,13 +69,12 @@
         
     <string name="reporte_info">Rellena el formulario a continuación y pulsa el botón de arriba para enviar el reporte a través de tu aplicación de correo. Te responderé lo antes posible.</string>
     
-    <string name="explicacion_publi">
-        Sí amigos, finalmente he decidido poner publicidad en la aplicación. Es la primera medida que tomo \'en contra\' de los usuarios, pero es necesaria y he escrito esto para quien quiera saber el motivo (si note interesa puedes cerrar el mensaje y seguir con tu vida).
-        \n
-        \nPor si no lo sabes aún SeviBus es una aplicación independiente de Tussam llevada por una sola persona, yo, estudiante sevillano. Mantenerla y añadir cosas nuevas es bastante costoso, y hasta el momento lo he hecho por puro altruismo (yo mismo casi no uso mi propia aplicación porque ya apenas cojo el bus), y pienso que tras 2 años ya toca intentar rentabilizar las horas y horas invertidas aquí.
-        \n\nSé que a muchos les molesta la publicidad. Al fin y al cabo, ¿quién quiere recibirla? ¡Nadie! Pero es la única forma de que ganemos todos. Los usuarios no tienen que pagar directamente por usar la aplicación, y el desarrollador no tiene que acabar abandonando el proyecto por tener que invertir más tiempo en otros que sí le den de comer.
-        \n\nDesde hace unos meses ha habido un método para realizar donaciones voluntarias. Algunos lo han usado, y os lo agradezco mucho. No he recibido una fortuna, pero sí me ha dado para tomar alguna copa a vuestra salud ;) Si donaste y quieres evitar la publicidad ponte en contacto conmigo con el mismo email desde el que hicísteis la donación y veremos qué podemos hacer.  
-        \n\nHay quien detesta lo suficiente la publicidad como para pagar por quitarla (el típico modelo aplicación gratuita + pago). Para vosotros más adelante intentaré buscar una solución, aunque no voy a darme mucha prisa en ello ya que quiero ver por un tiempo por dónde salen los resultados. A los que no quieren publicidad ni tampoco pagar... bueno, decirles que en la vida todo tiene un precio y el \'todo gratis\' no es justo. Si no estas de acuerdo lo único que te puedo recomendar es dejar de usar la aplicación, nadie te obliga.
-        \n\nSiento la parrafada, espero haber dejado claras mis ideas y que hayáis podido entender mis motivos. Nada más, buen viaje :)
+    <string name="explicacion_errores">
+        Últimamente recibo muchas quejas tanto por Twitter como por correo electrónico de que la aplicación falla al intentar mostrar los tiempos, y en parte es con razón. Como es agotador responder todos los días a la misma pregunta me veo obligado a explicarlo un poco más públicamente. 
+        \n\nHay muchos que no saben que SeviBus no es una aplicación oficial y no tiene nada que ver directamente con la empresa de autobuses Tussam, eso es lo primero. Lo segundo es que los tiempos de llegada no los calcula la aplicación, se toman de la web (pública) de Tussam que es la tiene los medios y el sistema para calcularlos. Esto quiere decir que, por muy independiente  que sea la aplicación, depende del servicio que presta Tussam.
+        \n\nPor desgracia el servidor web que provee estos tiempos no es muy estable por algún motivo. Quizás porque está preparado para un número mucho menor de consultas desde la web y no para los miles de usuarios que consultan los tiempos desde su teléfono a través de SeviBus. El caso es que desde siempre ha sufrido caídas puntuales, pero últimamente parece que se satura más en las horas puntas. 
+        \n\nComo podréis imaginar, esto no depende de mi. Lo único que podría hacer es limitar el uso de la aplicación para que el servidor no se sature, cosa que no haré. La solución pasa por que Tussam mejore sus servidores para que soporten más carga de trabajo sin caerse. Eso depende completamente de ellos. 
+        \nHace meses anunciaron que sacarían una aplicación oficial. Aunque ya pasó la fecha en que dijeron que la publicarían y no hay noticias al respecto, espero que sean conscientes de este problema y de que necesitan solucionarlo para dar un buen servicio.
+        \n\nSiento la parrafada, pero se hacía necesaria. Espero que haya aclarado un poco el por qué de tanto error, y calmado la furia de algunos usuarios al respecto. Si tienes alguna pregunta o quieres decirme algo puedes contactar conmigo sin problema.
     </string>
 </resources>
