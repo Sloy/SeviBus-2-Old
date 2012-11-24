@@ -110,7 +110,7 @@
         android:padding="10dip"
         android:text="¿Falla demasiado? Explicación aquí"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <com.google.ads.AdView
         android:id="@+id/ad"

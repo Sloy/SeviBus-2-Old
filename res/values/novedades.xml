@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.4.3</string>
-    <string name="app_date">4 de octubre de 2012</string>
-    <string name="novedades">Lo que más destacará de esta versión es la inclusión de anuncios. He puesto un botón sobre los anuncios para quien quiera conocer mis motivos, así que no comentaré nada más sobre eso aquí.
-        \n\nTambién he corregido la pantalla de paradas que a muchos le fallaba al intentar abrirla desde la última actualización, y lo mismo con el mapa. Si queréis saber a qué se han debido tantos problemas en estas semanas estad atentos a la cuenta de Twitter de @SeviBus porque dejaré ahí una explicación oficial.
-        \n\nQuizá pase un tiempo antes de volver a ver novedades en la aplicación, pues empezaré a trabajar en SeviBus 3.0 y llevará su tiempo. A menos que tenga que corregir algún otro fallo, hasta entonces.</string>
+    <string name="app_version">2.4.4</string>
+    <string name="app_date">24 de noviembre de 2012</string>
+    <string name="novedades">Actualizadas líneas y paradas según los itinerarios actuales de la web de Tussam.
+        \n\nCorregidos problemas con la pantalla de Información de Parada. Ahora todo el mundo debería poder verla y usarla sin problemas.
+        \n\nMientras tanto continúo trabajando en la próxima versión, a ritmo lento por la incertidumbre provocada por tantos problemas con el servidor de Tussam (tiempos). No sé si próximamente mejorará o seguirá tan mal como últimamente haciendo la aplicación inusable. Podéis estar informados vía Twitter de @SeviBus.</string>
 </resources>

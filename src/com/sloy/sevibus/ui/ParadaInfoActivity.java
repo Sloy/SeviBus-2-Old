@@ -83,8 +83,6 @@ public class ParadaInfoActivity extends SherlockActivity {
         public void run() {
             Entity linea = mCola.get(0);
             try {
-                if(true)
-                    throw new ServerErrorException();
                 // Comienza la descarga
                 Llegada tiempo = Utils.getTiempos(linea, mParada.getInt("numero"));
 
