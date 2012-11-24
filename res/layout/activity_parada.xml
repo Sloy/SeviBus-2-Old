@@ -7,7 +7,9 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:layout_above="@+id/parada_explicacion_abrir"
         android:id="@+id/parada_main"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
@@ -106,9 +108,9 @@
         android:layout_marginRight="10dip"
         android:background="@drawable/button_trans"
         android:padding="10dip"
-        android:text="¿Falla demasiado? Quizá tenga una explicación"
+        android:text="¿Falla demasiado? Explicación aquí"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <com.google.ads.AdView
         android:id="@+id/ad"
