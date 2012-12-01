@@ -60,28 +60,30 @@ public class ReporteActivity extends SherlockActivity {
 
     private void enviar() {
         // Validar
-        String texto = mTexto.getText().toString();
+        StringBuilder texto = new StringBuilder();
+        texto.append(mTexto.getText().toString());
         if (TextUtils.isEmpty(texto)) {
             mTexto.setError("Un reporte vacío no sirve de nada");
         } else {
             // Información extra?
+            texto.append( "\n\n=====================");
+            texto.append("\n Versión: "+getString(R.string.app_version));
             if (mDeviceInfo.isChecked()) {
-                texto += "\n\n========== ";
-                texto += "\nInformación del dispositivo";
-                texto += "\n---------- ";
-                texto += "\n- Release: " + android.os.Build.VERSION.RELEASE;
-                texto += "\n- SDK: " + android.os.Build.VERSION.SDK_INT;
-                texto += "\n- Codename: " + android.os.Build.VERSION.CODENAME;
-                texto += "\n- Incremental: " + android.os.Build.VERSION.INCREMENTAL;
-                texto += "\n- Brand: " + android.os.Build.BRAND;
-                texto += "\n- Device: " + android.os.Build.DEVICE;
-                texto += "\n- Display: " + android.os.Build.DISPLAY;
+                texto.append( "\n\nInformación del dispositivo");
+                texto.append( "\n---------- ");
+                texto.append( "\n- Release: " + android.os.Build.VERSION.RELEASE);
+                texto.append( "\n- SDK: " + android.os.Build.VERSION.SDK_INT);
+                texto.append( "\n- Codename: " + android.os.Build.VERSION.CODENAME);
+                texto.append( "\n- Incremental: " + android.os.Build.VERSION.INCREMENTAL);
+                texto.append( "\n- Brand: " + android.os.Build.BRAND);
+                texto.append( "\n- Device: " + android.os.Build.DEVICE);
+                texto.append( "\n- Display: " + android.os.Build.DISPLAY);
                 if (Build.VERSION.SDK_INT >= 8) {
-                    texto += "\n- Hardware: " + android.os.Build.HARDWARE;
+                    texto.append( "\n- Hardware: " + android.os.Build.HARDWARE);
                 }
-                texto += "\n- Manufacturer: " + android.os.Build.MANUFACTURER;
-                texto += "\n- Model: " + android.os.Build.MODEL;
-                texto += "\n- Product: " + android.os.Build.PRODUCT;
+                texto.append( "\n- Manufacturer: " + android.os.Build.MANUFACTURER);
+                texto.append( "\n- Model: " + android.os.Build.MODEL);
+                texto.append( "\n- Product: " + android.os.Build.PRODUCT);
             }
             mTexto.setError(null);
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
@@ -89,7 +91,7 @@ public class ReporteActivity extends SherlockActivity {
             emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { getString(R.string.email_address) });
             emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
                     getString(R.string.email_subject) + " - " + getResources().getStringArray(R.array.reporte_asuntos)[mAsunto.getSelectedItemPosition()]);
-            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, texto);
+            emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, texto.toString());
             startActivity(Intent.createChooser(emailIntent, getString(R.string.email_intent)));
         }
 
