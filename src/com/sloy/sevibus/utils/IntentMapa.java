@@ -3,12 +3,12 @@ package com.sloy.sevibus.utils;
 import android.content.Context;
 import android.content.Intent;
 
-import com.sloy.sevibus.ui.MapaActivity;
+import com.sloy.sevibus.ui.NewMapActivity;
 
 public class IntentMapa extends Intent {
 
 	public IntentMapa(Context context) {
-		super(context, MapaActivity.class);
+		super(context, NewMapActivity.class);
 	}
 
 	public IntentMapa setLinea(long lineaID) {
