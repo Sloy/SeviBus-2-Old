@@ -18,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -165,7 +166,7 @@ public class NewMapActivity extends SherlockActivity implements OnNavigationList
         public void addMarker(Entity p) {
             LatLng pos = new LatLng(p.getDouble("latitud"), p.getDouble("longitud"));
             
-            Marker marker = mMap.addMarker(new MarkerOptions().position(pos).title("Parada nº "+p.getString("numero")).snippet(p.getString("nombre")));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(pos).title("Parada nº "+p.getString("numero")).snippet(p.getString("nombre")).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
             markers.put(marker, p);
         }
         
