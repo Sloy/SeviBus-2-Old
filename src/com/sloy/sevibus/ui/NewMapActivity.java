@@ -1,20 +1,22 @@
 package com.sloy.sevibus.ui;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -22,6 +24,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.common.collect.Lists;
 import com.sloy.sevibus.R;
+import com.sloy.sevibus.utils.IntentParada;
 
 public class NewMapActivity extends SherlockActivity implements OnNavigationListener {
 
@@ -100,6 +103,13 @@ public class NewMapActivity extends SherlockActivity implements OnNavigationList
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 mMap.setMyLocationEnabled(true);
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(new LatLng(37.3808828009948, -5.986958742141724), 13)));
+                mMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+                    
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        startActivity(new IntentParada(NewMapActivity.this, singleLayer.getItem(marker).getId()));
+                    }
+                });
             } else {
                 // Tenemos un poblema gordo gordo...
             }
@@ -134,7 +144,7 @@ public class NewMapActivity extends SherlockActivity implements OnNavigationList
             }
 
             for (Entity p : paradas) {
-                singleLayer.addMarker(new LatLng(p.getDouble("latitud"), p.getDouble("longitud")), "Parada nº " + p.getString("numero"));
+                singleLayer.addMarker(p);
             }
             return true;
         } else {
@@ -144,24 +154,36 @@ public class NewMapActivity extends SherlockActivity implements OnNavigationList
 
     public class MarkerLayer {
 
-        private List<Marker> markers;
+        private Map<Marker, Entity> markers;
         private GoogleMap mMap;
 
         public MarkerLayer(GoogleMap map) {
             this.mMap = map;
-            markers = new ArrayList<Marker>();
+            markers = new HashMap<Marker, Entity>();
         }
 
-        public void addMarker(LatLng posicion, String title) {
-            Marker marker = mMap.addMarker(new MarkerOptions().position(posicion).title(title));
-            markers.add(marker);
+        public void addMarker(Entity p) {
+            LatLng pos = new LatLng(p.getDouble("latitud"), p.getDouble("longitud"));
+            
+            Marker marker = mMap.addMarker(new MarkerOptions().position(pos).title("Parada nº "+p.getString("numero")).snippet(p.getString("nombre")));
+            markers.put(marker, p);
+        }
+        
+        public Entity getItem(Marker marker){
+            if(markers.containsKey(marker)){
+                return markers.get(marker);
+            }else{
+                return null;
+            }
         }
 
         public void removeAll() {
-            for (Marker m : markers) {
+            for (Marker m : markers.keySet()) {
                 m.remove();
             }
         }
+        
+        
 
     }
 
