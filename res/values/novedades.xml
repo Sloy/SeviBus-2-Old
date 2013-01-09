@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_version">2.4.5</string>
-    <string name="app_date">1 de diciembre de 2012</string>
-    <string name="novedades">Actualizadas líneas y paradas según los itinerarios de la web de Tussam a 1 de diciembre.
-        \n\nMientras tanto continúo trabajando en la próxima versión, a ritmo lento por la incertidumbre provocada por tantos problemas con el servidor de Tussam (tiempos). No sé si próximamente mejorará o seguirá tan mal como últimamente haciendo la aplicación inusable. Podéis estar informados vía Twitter de @SeviBus.</string>
+    <string name="app_version">2.4.6</string>
+    <string name="app_date">9 de enero de 2013</string>
+    <string name="novedades">Actualizada la línea 3 según el nuevo itinerario del 8 de enero.
+        \n\nMientras tanto continúo trabajando en la próxima versión. Podéis estar informados vía Twitter de @SeviBus.</string>
 </resources>
